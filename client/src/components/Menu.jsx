@@ -1,12 +1,11 @@
 import {useEffect, useState} from "react";
 import { Experience } from "./Experience";
 import {
-    SocketManager,
+    Manager,
     itemsAtom,
     roomIDAtom,
-} from "./SocketManager";
+} from "./Manager";
 import { UI } from "./UI";
-import {Loader} from "./Loader";
 import {ScrollControls, useProgress} from "@react-three/drei";
 import {Canvas} from "@react-three/fiber";
 import {useAtom} from "jotai";
@@ -27,7 +26,7 @@ const Menu = () => {
 
     return (
         <>
-            <SocketManager />
+            <Manager />
             <Canvas
                 shadows
                 camera={{
@@ -35,12 +34,10 @@ const Menu = () => {
                     fov: 30,
                 }}
             >
-                <color attach="background" args={["#ffffff"]} />
                 <ScrollControls pages={roomID ? 4 : 0}>
                     <Experience loaded={loaded} />
                 </ScrollControls>
             </Canvas>
-            <Loader loaded={loaded} />
             {loaded && <UI />}
         </>
     );

@@ -35,10 +35,6 @@ export function LobbyAvatar({ ...props }) {
   const delayWave = (delay) => {
     setTimeout(() => {
       setAnimation("M_Standing_Expressions_001");
-      setTimeout(() => {
-        setAnimation("M_Standing_Idle_001");
-        delayWave(3000);
-      }, 6000);
     }, delay);
   };
 
