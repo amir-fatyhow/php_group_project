@@ -3,7 +3,7 @@ import $ from 'jquery'
 import './Authorization.css'
 import Request from "../../request";
 
-const Authorization = ({request, setPoints} : {request: Request, setPoints: (login: string) => void}) => {
+const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: string) => void}) => {
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
     const loginCreate = useRef<HTMLInputElement>(null);
@@ -15,7 +15,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                         server: Request,
                         login: string,
                         password: string,
-                        setPoints: (login: string) => void) {
+                        setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
             let users = await server.getUsers();
@@ -36,7 +36,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                     return;
                 }
                 await server.postUser(login, password);
-                //setPoints(login);
+                setMenu(login);
             }
             setError("login does not exist!");
             return;
@@ -48,7 +48,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                               server: Request,
                               login: string,
                               password: string,
-                              setPoints: (login: string) => void) {
+                              setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
             let users = await server.getUsers();
@@ -61,7 +61,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                 }
             }
             await server.postUser(login, password);
-            //setPoints(login);
+            setMenu(login);
         }
         setError("login or password is empty!");
     }
@@ -88,7 +88,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                                 request,
                                 loginSign.current === null ? '' : loginSign.current.value,
                                 passwordSign.current === null ? '' : passwordSign.current.value,
-                                setPoints)
+                                setMenu)
                         )
                         }>
                         create
@@ -112,7 +112,7 @@ const Authorization = ({request, setPoints} : {request: Request, setPoints: (log
                             request,
                             loginCreate.current === null ? '' : loginCreate.current.value,
                             passwordCreate.current === null ? '' : passwordCreate.current.value,
-                            setPoints
+                            setMenu
                         )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>
                 </form>

@@ -4,7 +4,6 @@ interface IObjectKeys {
 
 export default class Request {
     constructor() {
-
     }
 
     async send(params:IObjectKeys = {}) {

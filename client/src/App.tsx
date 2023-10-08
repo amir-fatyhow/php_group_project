@@ -1,32 +1,29 @@
-import React, {useRef, useState} from 'react';
-import Authorization from "./components/authorization/Authorization";
+import { useRef, useState} from "react";
 import Request from "./request";
-import './App.css'
+import Authorization from "./components/authorization/Authorization";
+import Menu from "./components/Menu";
 
 const server: Request = new Request();
 function App() {
-  let user = useRef("");
-  const [state, setState] = useState('authorization');
+    let user = useRef("");
+    const [state, setState] = useState('authorization');
 
-  function setPoints(login: string) {
-    user.current = login;
-    setState('points')
-  }
+    function setMenu(login: string) {
+        user.current = login;
+        console.log(login)
+        setState('menu')
+    }
 
-  function setSign() {
-    setState('authorization')
-  }
-
-  return (
+    return (
       <>
-        {
+          {
           state === 'authorization' ?
-              <Authorization request={server} setPoints={setPoints}/> :
-              <div></div>
-        }
+              <Authorization request={server} setMenu={setMenu}/> :
+              state === 'menu' ? <Menu/>
+               : <></>
+          }
       </>
-  );
+    );
 }
 
 export default App;
-
