@@ -1,11 +1,9 @@
-import { AccumulativeShadows, Html, RandomizedLight, useFont } from "@react-three/drei";
+import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { useAtom } from "jotai";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useRef } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
 import { roomsAtom } from "./Manager";
-import { Tablet } from "./Tablet";
-
 
 /**
  *
@@ -36,7 +34,6 @@ export const Lobby = () => {
           delay: 0.5,
         }}
       >
-        <Tablet />
         <Html
           position={[0, 0.17, 0.11]}
           transform
@@ -47,10 +44,8 @@ export const Lobby = () => {
             className={`${"w-[390px] h-[514px]"}  max-w-full  overflow-y-auto p-5  place-items-center pointer-events-none select-none`}
           >
             <div className="w-full overflow-y-auto flex flex-col space-y-2">
-              <h1 className="text-center text-white text-2xl font-bold">
-                WELCOME TO
-                <br />
-                SUPER GYM
+              <h1 className="text-center text-black text-2xl font-bold">
+                WELCOME TO<br /> THE SUPER GYM
               </h1>
               {rooms.map((room) => (
                 <div

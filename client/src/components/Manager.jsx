@@ -109,29 +109,5 @@ const initialData = [
         "rotation": 0
       }
     ]
-  },
-  {
-    "id": 3,
-    "name": "TOLCHOK",
-    "items": [
-      {
-        "name": "plant",
-        "size": [1, 1],
-        "gridPosition": [1, 0],
-        "rotation": 0
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "name": "RECEPTION",
-    "items": [
-      {
-        "name": "tableCoffee",
-        "size": [4, 2],
-        "gridPosition": [5, 4],
-        "rotation": 0
-      }
-    ]
   }
 ]

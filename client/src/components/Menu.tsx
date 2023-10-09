@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CameraSettings } from "./CameraSettings";
-import { Manager, itemsAtom, roomIDAtom } from "./Manager";
+import { Manager, itemsAtom } from "./Manager";
 import { AvatarCreateButton } from "./AvatarCreateButton";
 import { useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";

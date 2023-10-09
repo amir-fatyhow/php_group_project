@@ -1,12 +1,12 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useAtom } from "jotai";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState} from "react";
 import { avatarUrlAtom } from "./AvatarCreateButton";
 
 export function LobbyAvatar({ ...props }) {
   const [avatarUrl] = useAtom(avatarUrlAtom);
   const avatar = useRef();
-  const group = useRef();
+  const group = useRef(null);
   const { scene } = useGLTF(avatarUrl);
 
   const { animations: waveAnimation } = useGLTF(
@@ -23,16 +23,16 @@ export function LobbyAvatar({ ...props }) {
   const [animation, setAnimation] = useState("M_Standing_Idle_001");
   const [init, setInit] = useState(avatarUrl);
 
-  useEffect(() => {
-    actions[animation]
-      .reset()
-      .fadeIn(init === avatarUrl ? 0.32 : 0)
-      .play();
+  useEffect((): () => void => {
+    actions[animation]!
+        .reset()
+        .fadeIn(init === avatarUrl ? 0.32 : 0)
+        .play();
     setInit(avatarUrl);
     return () => actions[animation]?.fadeOut(0.32);
   }, [animation, avatarUrl]);
 
-  const delayWave = (delay) => {
+  const delayWave = (delay: number) => {
     setTimeout(() => {
       setAnimation("M_Standing_Expressions_001");
     }, delay);
