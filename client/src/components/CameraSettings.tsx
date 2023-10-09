@@ -3,15 +3,17 @@ import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 import { roomIDAtom } from "./RoomLoader";
 
-export const CameraSettings = ({ loaded }) => {
-  const controls = useRef(null);
+export const CameraSettings = ({ loaded } : {loaded: boolean}) => {
+  const controls = useRef<CameraControls>(null);
   const [roomID] = useAtom(roomIDAtom);
 
   useEffect(() => {
     if (!roomID) {
-      controls.current.setTarget(0, 8, 0);
-      controls.current.setPosition(0, 0, 2, true);
-      controls.current.setTarget(0, 0, 0, true);
+        if (controls.current) {
+            controls.current.setTarget(0, 8, 0);
+            controls.current.setPosition(0, 0, 2, true);
+            controls.current.setTarget(0, 0, 0, true);
+        }
     }
   }, [roomID, loaded]);
 
