@@ -70,10 +70,6 @@ export const RoomLoader = () => {
             7 * 2
         )
       };
-     /* room.grid = new pathfinding.Grid(
-          room.size[0] * room.gridDivision,
-          room.size[1] * room.gridDivision
-      );*/
       updateGrid(room);
       rooms.push(room);
     });
@@ -119,23 +115,6 @@ const initialData: IRoom[] = [
         "size": [2, 1],
         "wall": true,
         "gridPosition": [2, 0],
-        "rotation": 0
-      }
-    ],
-    "size": [7, 7],
-    "gridDivision": 2,
-    "characters": [],
-    "grid": pathfinding.Grid,
-    "nbCharacters": 0
-  },
-  {
-    "id": 2,
-    "name": "BATHROOM",
-    "items": [
-      {
-        "name": "washer",
-        "size": [2, 2],
-        "gridPosition": [12, 0],
         "rotation": 0
       }
     ],

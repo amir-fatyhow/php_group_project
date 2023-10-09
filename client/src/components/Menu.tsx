@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { CameraSettings } from "./CameraSettings";
 import { RoomLoader, itemsAtom } from "./RoomLoader";
 import { AvatarCreateButton } from "./AvatarCreateButton";
 import { useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import {Lobby} from "./Lobby";
+import {Gym} from "./Gym";
 
 const Menu = () => {
     const { progress } = useProgress();
     const [loaded, setLoaded] = useState(false);
     const [items] = useAtom(itemsAtom);
+    const [currentRoom, setCurrentRoom] = useState("Lobby")
+
+    function changeRoom(room: string) {
+        setCurrentRoom(room);
+    }
 
     useEffect(() => {
         if (progress === 100 && items) {
@@ -28,10 +33,13 @@ const Menu = () => {
                     fov: 30,
                 }}
             >
-                <CameraSettings loaded={loaded} />
-                <Lobby />
+
+                {
+                    currentRoom === "Lobby" ? <Lobby changeRoom={changeRoom} loaded={loaded}/> :
+                    currentRoom === "Gym" ? <Gym loaded={loaded} /> : <></>
+                }
             </Canvas>
-            <AvatarCreateButton />
+            {currentRoom === "Lobby" && <AvatarCreateButton/>}
         </>
     );
 }

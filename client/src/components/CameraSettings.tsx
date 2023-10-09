@@ -1,21 +1,23 @@
 import { CameraControls } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
-import { roomIDAtom } from "./RoomLoader";
 
-export const CameraSettings = ({ loaded } : {loaded: boolean}) => {
+export const CameraSettings = ({ loaded, room } : {loaded: boolean, room: string}) => {
   const controls = useRef<CameraControls>(null);
-  const [roomID] = useAtom(roomIDAtom);
 
   useEffect(() => {
-    if (!roomID) {
-        if (controls.current) {
-            controls.current.setTarget(0, 8, 0);
-            controls.current.setPosition(0, 0, 2, true);
-            controls.current.setTarget(0, 0, 0, true);
-        }
-    }
-  }, [roomID, loaded]);
+      if (controls.current) {
+          if (room === "Lobby") {
+              controls.current.setTarget(0, 8, 0);
+              controls.current.setPosition(0, 0, 2, true);
+              controls.current.setTarget(0, 0, 0, true);
+          }
+          if (room === "Gym") {
+              controls.current.setPosition(-10, 10, 5);
+              controls.current.setTarget(5, 0, 3);
+          }
+      }
+  }, [loaded]);
 
   return (
     <>
