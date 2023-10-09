@@ -1,20 +1,39 @@
 import { useGLTF } from "@react-three/drei";
-import { atom, useAtom } from "jotai";
+import {atom, SetStateAction, useAtom} from "jotai";
 import { useEffect } from "react";
 import pathfinding from "pathfinding";
 
-export const itemsAtom = atom(null);
+interface IItem {
+  "name": string,
+  "size": [number, number],
+  "gridPosition": [number, number],
+  "rotation": number,
+  "walkable"?: boolean,
+  "wall"?: boolean
+}
+
+interface IRoom {
+  id: number,
+  "name": string,
+  "items": IItem[],
+  size: [number, number],
+  gridDivision: number,
+  characters: number[],
+  "grid": pathfinding.Grid,
+  "nbCharacters": number
+}
+
+export const itemsAtom = atom<IItem[]>([]);
 export const roomIDAtom = atom(null);
-export const roomsAtom = atom([]);
+export const roomsAtom  = atom<IRoom[]>([]);
 
 export const RoomLoader = () => {
-  const [items, setItems] = useAtom(itemsAtom);
-  const [_rooms, setRooms] = useAtom(roomsAtom);
+  const [items, setItems] = useAtom<IItem[], [SetStateAction<IItem[]>], void>(itemsAtom);
+  const [_rooms, setRooms] = useAtom<IRoom[], [SetStateAction<IRoom[]>], void>(roomsAtom);
 
-  const rooms = [];
+  const rooms: IRoom[] = [];
 
-  const updateGrid = (room) => {
-
+  const updateGrid = (room: IRoom) => {
     for (let x = 0; x < room.size[0] * room.gridDivision; x++) {
       for (let y = 0; y < room.size[1] * room.gridDivision; y++) {
         room.grid.setWalkableAt(x, y, true);
@@ -41,16 +60,20 @@ export const RoomLoader = () => {
 
   const loadRooms = async () => {
     initialData.forEach((roomItem) => {
-      const room = {
+      const room: IRoom = {
         ...roomItem,
         size: [7, 7],
         gridDivision: 2,
         characters: [],
+        grid: new pathfinding.Grid(
+            7 * 2,
+            7 * 2
+        )
       };
-      room.grid = new pathfinding.Grid(
+     /* room.grid = new pathfinding.Grid(
           room.size[0] * room.gridDivision,
           room.size[1] * room.gridDivision
-      );
+      );*/
       updateGrid(room);
       rooms.push(room);
     });
@@ -65,15 +88,17 @@ export const RoomLoader = () => {
       useGLTF.preload(`/models/items/${item.name}.glb`);
     });
   }, [items]);
+
   useEffect(() => {
     function onWelcome() {
-      let temp = rooms.map((room) => ({
+      let temp: IRoom[] = rooms.map((room) => ({
+        ...room,
         id: room.id,
         name: room.name,
         nbCharacters: room.characters.length,
       }))
       setRooms(temp);
-      setItems({});
+      setItems([]);
     }
 
     onWelcome();
@@ -84,7 +109,7 @@ export const RoomLoader = () => {
   )
 };
 
-const initialData = [
+const initialData: IRoom[] = [
   {
     "id": 1,
     "name": "GYM",
@@ -96,7 +121,12 @@ const initialData = [
         "gridPosition": [2, 0],
         "rotation": 0
       }
-    ]
+    ],
+    "size": [7, 7],
+    "gridDivision": 2,
+    "characters": [],
+    "grid": pathfinding.Grid,
+    "nbCharacters": 0
   },
   {
     "id": 2,
@@ -108,6 +138,11 @@ const initialData = [
         "gridPosition": [12, 0],
         "rotation": 0
       }
-    ]
+    ],
+    "size": [7, 7],
+    "gridDivision": 2,
+    "characters": [],
+    "grid": pathfinding.Grid,
+    "nbCharacters": 0
   }
 ]

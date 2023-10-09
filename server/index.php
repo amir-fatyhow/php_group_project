@@ -5,6 +5,7 @@ header("Access-Control-Allow-Methods:  OPTIONS,GET,POST,PUT,DELETE");
 error_reporting(-1);
 
 require('application/App.php');
+require('./Answer.php');
 
 function router ($params) {
     $method = $params['method'];
@@ -18,14 +19,4 @@ function router ($params) {
     }
 }
 
-function  answer($data) {
-    if ($data) {
-        return array (
-            'status' => '201 ok',
-            'data' => $data
-        );
-    }
-    return array('status' => '400');
-}
-
-echo json_encode(answer(router($_GET)));
+echo json_encode(Answer::answer(router($_GET)));
