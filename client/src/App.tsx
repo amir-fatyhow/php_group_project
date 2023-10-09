@@ -10,7 +10,6 @@ function App() {
 
     function setMenu(login: string) {
         user.current = login;
-        console.log(login)
         setState('menu')
     }
 

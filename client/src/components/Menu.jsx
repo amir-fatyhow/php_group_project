@@ -1,18 +1,13 @@
-import {useEffect, useState} from "react";
-import { Experience } from "./Experience";
-import {
-    Manager,
-    itemsAtom,
-    roomIDAtom,
-} from "./Manager";
-import { UI } from "./UI";
-import {ScrollControls, useProgress} from "@react-three/drei";
-import {Canvas} from "@react-three/fiber";
-import {useAtom} from "jotai";
+import { useEffect, useState } from "react";
+import { CameraSettings } from "./CameraSettings";
+import { Manager, itemsAtom, roomIDAtom } from "./Manager";
+import { AvatarCreateButton } from "./AvatarCreateButton";
+import { useProgress } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { useAtom } from "jotai";
+import {Lobby} from "./Lobby";
 
 const Menu = () => {
-    const [roomID] = useAtom(roomIDAtom);
-
     const { progress } = useProgress();
     const [loaded, setLoaded] = useState(false);
     const [items] = useAtom(itemsAtom);
@@ -20,7 +15,6 @@ const Menu = () => {
     useEffect(() => {
         if (progress === 100 && items) {
             setLoaded(true);
-            console.log('true')
         }
     }, [progress, items]);
 
@@ -34,11 +28,10 @@ const Menu = () => {
                     fov: 30,
                 }}
             >
-                <ScrollControls pages={roomID ? 4 : 0}>
-                    <Experience loaded={loaded} />
-                </ScrollControls>
+                <CameraSettings loaded={loaded} />
+                {loaded && <Lobby />}
             </Canvas>
-            {loaded && <UI />}
+            {loaded && <AvatarCreateButton />}
         </>
     );
 }

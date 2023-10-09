@@ -6,6 +6,13 @@ import { LobbyAvatar } from "./LobbyAvatar";
 import { roomsAtom } from "./Manager";
 import { Tablet } from "./Tablet";
 
+
+/**
+ *
+ * Lobby = Tablet + LobbyAvatar
+ *
+ * */
+
 export const Lobby = () => {
   const [rooms] = useAtom(roomsAtom);
   const tablet = useRef();
@@ -29,7 +36,7 @@ export const Lobby = () => {
           delay: 0.5,
         }}
       >
-        <Tablet scale={0.03} rotation-x={Math.PI / 2} />
+        <Tablet />
         <Html
           position={[0, 0.17, 0.11]}
           transform

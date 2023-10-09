@@ -1,7 +1,7 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useAtom } from "jotai";
 import React, { useEffect, useRef, useState } from "react";
-import { avatarUrlAtom } from "./UI";
+import { avatarUrlAtom } from "./AvatarCreateButton";
 
 export function LobbyAvatar({ ...props }) {
   const [avatarUrl] = useAtom(avatarUrlAtom);

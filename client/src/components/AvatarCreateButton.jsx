@@ -2,16 +2,14 @@ import { atom, useAtom } from "jotai";
 import { useRef, useState } from "react";
 import { AvatarCreator } from "@readyplayerme/react-avatar-creator";
 import { motion } from "framer-motion";
-export const buildModeAtom = atom(false);
-export const shopModeAtom = atom(false);
 
 export const avatarUrlAtom = atom(
     localStorage.getItem("avatarURL") ||
     "https://models.readyplayer.me/64f0265b1db75f90dcfd9e2c.glb?meshlod=1&quality=medium"
 );
 
-export const UI = () => {
-   const [avatarMode, setAvatarMode] = useState(false);
+export const AvatarCreateButton = () => {
+  const [avatarMode, setAvatarMode] = useState(false);
   const [avatarUrl, setAvatarUrl] = useAtom(avatarUrlAtom);
   const ref = useRef();
 

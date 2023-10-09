@@ -3,8 +3,6 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 import pathfinding from "pathfinding";
 
-export const mapAtom = atom(null);
-export const userAtom = atom(null);
 export const itemsAtom = atom(null);
 export const roomIDAtom = atom(null);
 export const roomsAtom = atom([]);
@@ -27,10 +25,8 @@ export const Manager = () => {
       if (item.walkable || item.wall) {
         return;
       }
-      const width =
-          item.rotation === 1 || item.rotation === 3 ? item.size[1] : item.size[0];
-      const height =
-          item.rotation === 1 || item.rotation === 3 ? item.size[0] : item.size[1];
+      const width = item.rotation === 1 || item.rotation === 3 ? item.size[1] : item.size[0];
+      const height = item.rotation === 1 || item.rotation === 3 ? item.size[0] : item.size[1];
       for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
           room.grid.setWalkableAt(
