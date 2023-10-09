@@ -7,7 +7,7 @@ export const itemsAtom = atom(null);
 export const roomIDAtom = atom(null);
 export const roomsAtom = atom([]);
 
-export const Manager = () => {
+export const RoomLoader = () => {
   const [items, setItems] = useAtom(itemsAtom);
   const [_rooms, setRooms] = useAtom(roomsAtom);
 

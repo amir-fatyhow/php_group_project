@@ -1,9 +1,10 @@
 import React, {SyntheticEvent, useRef, useState} from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import Request from "../../request";
+import Server from "../../server";
 
-const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: string) => void}) => {
+const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: string) => void}) => {
+    const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
     const loginCreate = useRef<HTMLInputElement>(null);
@@ -12,7 +13,7 @@ const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: 
     const [error, setError] = useState("");
 
     async function sign(event: SyntheticEvent,
-                        server: Request,
+                        server: Server,
                         login: string,
                         password: string,
                         setMenu: (login: string) => void) {
@@ -35,7 +36,6 @@ const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: 
                     setError("login does not exist!");
                     return;
                 }
-                await server.postUser(login, password);
                 setMenu(login);
             }
             setError("login does not exist!");
@@ -45,7 +45,7 @@ const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: 
     }
 
     async function createUser(event: SyntheticEvent,
-                              server: Request,
+                              server: Server,
                               login: string,
                               password: string,
                               setMenu: (login: string) => void) {
@@ -87,7 +87,7 @@ const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: 
                                 event,
                                 request,
                                 loginSign.current === null ? '' : loginSign.current.value,
-                                passwordSign.current === null ? '' : passwordSign.current.value,
+                                passwordSign.current === null ? '' : md5(passwordSign.current.value),
                                 setMenu)
                         )
                         }>
@@ -111,7 +111,7 @@ const Authorization = ({request, setMenu} : {request: Request, setMenu: (login: 
                             event,
                             request,
                             loginCreate.current === null ? '' : loginCreate.current.value,
-                            passwordCreate.current === null ? '' : passwordCreate.current.value,
+                            passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
                             setMenu
                         )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>

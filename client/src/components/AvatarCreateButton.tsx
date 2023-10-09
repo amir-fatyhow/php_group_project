@@ -11,7 +11,7 @@ export const avatarUrlAtom = atom(
 export const AvatarCreateButton = () => {
   const [avatarMode, setAvatarMode] = useState(false);
   const [avatarUrl, setAvatarUrl] = useAtom(avatarUrlAtom);
-  const ref = useRef();
+  const ref = useRef(null);
 
   return (
       <>

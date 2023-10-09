@@ -1,9 +1,9 @@
 import { useRef, useState} from "react";
-import Request from "./request";
+import Server from "./server";
 import Authorization from "./components/authorization/Authorization";
 import Menu from "./components/Menu";
 
-const server: Request = new Request();
+const server: Server = new Server();
 function App() {
     let user = useRef("");
     const [state, setState] = useState('authorization');

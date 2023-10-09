@@ -3,17 +3,17 @@ import { motion } from "framer-motion-3d";
 import { useAtom } from "jotai";
 import { Suspense, useRef } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
-import { roomsAtom } from "./Manager";
+import { roomsAtom } from "./RoomLoader";
 
-/**
- *
- * Lobby = Tablet + LobbyAvatar
- *
- * */
+interface IRoom {
+    id : number,
+    name: string,
+    nbCharacters: number
+}
 
 export const Lobby = () => {
   const [rooms] = useAtom(roomsAtom);
-  const tablet = useRef();
+  const tablet = useRef(null);
 
   return (
     <group position-y={-1.5}>
@@ -47,7 +47,7 @@ export const Lobby = () => {
               <h1 className="text-center text-black text-2xl font-bold">
                 WELCOME TO<br /> THE SUPER GYM
               </h1>
-              {rooms.map((room) => (
+              {rooms.map((room: IRoom) => (
                 <div
                   key={room.id}
                   className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"

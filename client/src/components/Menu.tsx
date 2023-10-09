@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CameraSettings } from "./CameraSettings";
-import { Manager, itemsAtom } from "./Manager";
+import { RoomLoader, itemsAtom } from "./RoomLoader";
 import { AvatarCreateButton } from "./AvatarCreateButton";
 import { useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -20,7 +20,7 @@ const Menu = () => {
 
     return (
         <>
-            <Manager />
+            <RoomLoader />
             <Canvas
                 shadows
                 camera={{
@@ -29,9 +29,9 @@ const Menu = () => {
                 }}
             >
                 <CameraSettings loaded={loaded} />
-                {loaded && <Lobby />}
+                <Lobby />
             </Canvas>
-            {loaded && <AvatarCreateButton />}
+            <AvatarCreateButton />
         </>
     );
 }

@@ -2,7 +2,7 @@ interface IObjectKeys {
     [key: string]: string | number;
 }
 
-export default class Request {
+export default class Server {
     constructor() {
     }
 

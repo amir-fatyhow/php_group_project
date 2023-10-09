@@ -1,7 +1,7 @@
 import { CameraControls } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
-import { roomIDAtom } from "./Manager";
+import { roomIDAtom } from "./RoomLoader";
 
 export const CameraSettings = ({ loaded }) => {
   const controls = useRef(null);
@@ -29,21 +29,20 @@ export const CameraSettings = ({ loaded }) => {
           far={22}
         />
       </directionalLight>
-      <CameraControls
-        ref={controls}
-        mouseButtons={{
-          left: 0,
-          middle: 0,
-          right: 0,
-          wheel: 0,
-        }}
-        touches={{
-          one: 0,
-          two: 0,
-          three: 0,
-        }}
-      />
-
+        <CameraControls
+            ref={controls}
+            mouseButtons={{
+            left: 0,
+            middle: 0,
+            right: 0,
+            wheel: 0,
+            }}
+            touches={{
+            one: 0,
+            two: 0,
+            three: 0,
+            }}
+        />
     </>
   );
 };
