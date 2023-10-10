@@ -1,8 +1,7 @@
 import { CameraControls } from "@react-three/drei";
-import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
-export const CameraSettings = ({ loaded, room } : {loaded: boolean, room: string}) => {
+export const CameraSettings = ({ room } : { room: string }) => {
   const controls = useRef<CameraControls>(null);
 
   useEffect(() => {
@@ -17,7 +16,7 @@ export const CameraSettings = ({ loaded, room } : {loaded: boolean, room: string
               controls.current.setTarget(5, 0, 3);
           }
       }
-  }, [loaded]);
+  });
 
   return (
     <>

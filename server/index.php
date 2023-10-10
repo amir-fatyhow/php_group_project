@@ -15,6 +15,7 @@ function router ($params) {
         switch ($method) {
             case 'getUsers' : return $app->getUsers();
             case 'postUser' : return $app->postUser($params);
+            case 'getOnlineUsers' : return $app->getOnlineUsers($params);
         }
     }
 }

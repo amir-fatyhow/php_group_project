@@ -1,9 +1,9 @@
 import React, {SyntheticEvent, useRef, useState} from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import Server from "../../server";
+import {server} from "../../server";
 
-const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: string) => void}) => {
+const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
@@ -13,7 +13,6 @@ const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: s
     const [error, setError] = useState("");
 
     async function sign(event: SyntheticEvent,
-                        server: Server,
                         login: string,
                         password: string,
                         setMenu: (login: string) => void) {
@@ -45,7 +44,6 @@ const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: s
     }
 
     async function createUser(event: SyntheticEvent,
-                              server: Server,
                               login: string,
                               password: string,
                               setMenu: (login: string) => void) {
@@ -85,7 +83,6 @@ const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: s
                         onClick={(event) => (
                             createUser(
                                 event,
-                                request,
                                 loginSign.current === null ? '' : loginSign.current.value,
                                 passwordSign.current === null ? '' : md5(passwordSign.current.value),
                                 setMenu)
@@ -109,7 +106,6 @@ const Authorization = ({request, setMenu} : {request: Server, setMenu: (login: s
                     <button
                         onClick={(event) => sign(
                             event,
-                            request,
                             loginCreate.current === null ? '' : loginCreate.current.value,
                             passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
                             setMenu

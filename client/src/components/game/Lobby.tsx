@@ -1,24 +1,15 @@
 import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
-import { useAtom } from "jotai";
-import { Suspense, useRef } from "react";
+import {Suspense, useRef } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
-import { roomsAtom } from "./RoomLoader";
 import {CameraSettings} from "./CameraSettings";
 
-interface IRoom {
-    id : number,
-    name: string,
-    nbCharacters: number
-}
-
-export const Lobby = ({ changeRoom, loaded } : { changeRoom: (room : string ) => void, loaded: boolean }) => {
-  const [rooms] = useAtom(roomsAtom);
+export const Lobby = ({ changeRoom } : { changeRoom: (room : string ) => void }) => {
   const tablet = useRef(null);
 
   return (
       <>
-        <CameraSettings loaded={loaded} room="Lobby"/>
+        <CameraSettings room="Lobby"/>
         <group position-y={-1.5}>
           <motion.group
             ref={tablet}
@@ -50,25 +41,17 @@ export const Lobby = ({ changeRoom, loaded } : { changeRoom: (room : string ) =>
                   <h1 className="text-center text-black text-2xl font-bold">
                     WELCOME TO<br /> THE SUPER GYM
                   </h1>
-                  {rooms.map((room: IRoom) => (
                     <div
-                      onClick={() => changeRoom("Gym")}
-                      key={room.id}
-                      className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                        onClick={() => changeRoom("Gym")}
+                        className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                     >
-                      <p className="text-uppercase font-bold text-lg">
-                        GO TO THE {room.name}
-                      </p>
-                      <div className="flex items-center gap-2">
+                        <p className="text-uppercase font-bold text-lg">
+                            JOIN
+                        </p>
                         <div
-                          className={`w-4 h-4 rounded-full ${
-                            room.nbCharacters > 0 ? "bg-green-500" : "bg-orange-500"
-                          }`}
+                            className={"w-4 h-4 rounded-full bg-green-500"}
                         ></div>
-                        {room.nbCharacters} people online
-                      </div>
                     </div>
-                  ))}
                 </div>
               </div>
             </Html>

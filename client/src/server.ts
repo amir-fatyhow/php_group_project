@@ -16,10 +16,16 @@ export default class Server {
     }
 
     getUsers() {
-        return this.send({ method: 'getUsers'});
+        return this.send({ method: 'getUsers' });
     }
 
     postUser(login: string, password: string) {
-        return this.send({ method: 'postUser', login: login, password: password});
+        return this.send({ method: 'postUser', login: login, password: password });
+    }
+
+    getOnlineUsers(roomId: number) {
+        return this.send({ method: 'getOnlineUsers', roomId: roomId });
     }
 }
+
+export const server = new Server();

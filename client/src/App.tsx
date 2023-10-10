@@ -1,9 +1,7 @@
 import { useRef, useState} from "react";
-import Server from "./server";
 import Authorization from "./components/authorization/Authorization";
-import Menu from "./components/Menu";
+import Menu from "./components/game/Menu";
 
-const server: Server = new Server();
 function App() {
     let user = useRef("");
     const [state, setState] = useState('authorization');
@@ -17,7 +15,7 @@ function App() {
       <>
           {
           state === 'authorization' ?
-              <Authorization request={server} setMenu={setMenu}/> :
+              <Authorization setMenu={setMenu}/> :
               state === 'menu' ? <Menu/>
                : <></>
           }

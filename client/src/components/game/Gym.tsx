@@ -1,9 +1,13 @@
 import {CameraSettings} from "./CameraSettings";
 
-export const Gym = ({ loaded } : {loaded: boolean}) => {
+/**
+ * RoomId = 1
+ **/
+
+export const Gym = () => {
     return (
     <>
-        <CameraSettings loaded={loaded} room="Gym"/>
+        <CameraSettings room="Gym"/>
         <mesh
           onClick={() => console.log("clicked")}
           rotation-x={-Math.PI / 2}
