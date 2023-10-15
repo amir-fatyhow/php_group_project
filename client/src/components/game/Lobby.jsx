@@ -86,10 +86,10 @@ function getItemsInGym(roomId) {
             "id": 1,
             "items": [
                 {
-                    "name": "loungeSofaCorner",
-                    "size": [5, 5],
-                    "rotation": 3,
-                    "gridPosition": [0, 0]
+                    "name": "treadmill",
+                    "size": [3, 2],
+                    "rotation": 0,
+                    "gridPosition": [10, 9]
                 }
             ],
             "size": [7, 7],
