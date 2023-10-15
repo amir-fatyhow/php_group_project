@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useRef, useState } from "react";
+import Authorization from "./components/authorization/Authorization";
+import Menu from "./components/game/Menu";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    let user = useRef("");
+    const [state, setState] = useState('authorization');
+
+    function setMenu(login: string) {
+        user.current = login;
+        setState('menu')
+    }
+
+    function logOut() {
+        user.current = "";
+        setState('authorization');
+    }
+
+    return (
+        <>
+            {
+                state === 'authorization' ? <Authorization setMenu={setMenu} /> :
+                    state === 'menu' ? <Menu logOut={logOut} />
+                        : <></>
+            }
+        </>
+    );
 }
 
 export default App;
