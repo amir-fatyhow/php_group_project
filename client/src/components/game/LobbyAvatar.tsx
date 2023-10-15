@@ -1,7 +1,11 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import React, { useEffect, useRef, useState} from "react";
-import { avatarUrlAtom } from "./AvatarCreateButton";
+
+const avatarUrlAtom = atom(
+    localStorage.getItem("avatarURL") ||
+    "https://models.readyplayer.me/64f0265b1db75f90dcfd9e2c.glb?meshlod=1&quality=medium"
+);
 
 export function LobbyAvatar({ ...props }) {
   const [avatarUrl] = useAtom(avatarUrlAtom);

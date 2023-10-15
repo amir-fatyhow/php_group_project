@@ -11,12 +11,17 @@ function App() {
         setState('menu')
     }
 
+    function logOut() {
+        user.current = "";
+        setState('authorization');
+    }
+
     return (
       <>
           {
           state === 'authorization' ?
               <Authorization setMenu={setMenu}/> :
-              state === 'menu' ? <Menu/>
+              state === 'menu' ? <Menu logOut={logOut}/>
                : <></>
           }
       </>

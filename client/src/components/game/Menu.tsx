@@ -1,16 +1,19 @@
-import { useState} from "react";
-import { AvatarCreateButton } from "./AvatarCreateButton";
+import {useEffect, useState} from "react";
 import { Canvas } from "@react-three/fiber";
 import { Lobby } from "./Lobby";
 import { Gym } from "./Gym";
+import {CameraSettings} from "./CameraSettings";
+import {useProgress} from "@react-three/drei";
 
-const Menu = () => {
-    const [currentRoom, setCurrentRoom] = useState("Lobby")
+const Menu = ({ logOut }: {logOut: () => void}) => {
+    const { progress } = useProgress();
+    const [loaded, setLoaded] = useState(false);
 
-    function changeRoom(room: string) {
-        setCurrentRoom(room);
-    }
-
+    useEffect(() => {
+        if (progress === 100) {
+            setLoaded(true); // As progress can go back to 0 when new resources are loaded, we need to make sure we don't fade out the UI when that happens
+        }
+    }, [progress]);
     return (
         <>
             <Canvas
@@ -20,12 +23,8 @@ const Menu = () => {
                     fov: 30,
                 }}
             >
-                {
-                    currentRoom === "Lobby" ? <Lobby changeRoom={changeRoom} /> :
-                    currentRoom === "Gym" ? <Gym /> : <></>
-                }
+                <CameraSettings loaded={loaded} place={"Lobby"} logOut={logOut}/>
             </Canvas>
-            {currentRoom === "Lobby" && <AvatarCreateButton/>}
         </>
     );
 }
