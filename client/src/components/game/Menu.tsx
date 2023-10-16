@@ -1,18 +1,24 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Lobby } from "./Lobby";
-import { CameraSettings } from "./CameraSettings";
+import { Gym } from "./Gym";
 import { useProgress } from "@react-three/drei";
 
-const Menu = ({ logOut }: {logOut: () => void}) => {
+const Menu = ({ logOut }: { logOut: () => void }) => {
     const { progress } = useProgress();
     const [loaded, setLoaded] = useState(false);
+    const [currentRoom, setCurrentRoom] = useState("Lobby");
+
+    function changePlace(room: string) {
+        setCurrentRoom(room);
+    }
 
     useEffect(() => {
         if (progress === 100) {
             setLoaded(true);
         }
     }, [progress]);
+
     return (
         <>
             <Canvas
@@ -22,7 +28,10 @@ const Menu = ({ logOut }: {logOut: () => void}) => {
                     fov: 30,
                 }}
             >
-                <CameraSettings loaded={loaded} place={"Lobby"} logOut={logOut}/>
+                {
+                    currentRoom === "Lobby" ? <Lobby changePlace={changePlace} logOut={logOut} /> :
+                        currentRoom === "Gym" ? <Gym changePlace={changePlace} /> : <></>
+                }
             </Canvas>
         </>
     );

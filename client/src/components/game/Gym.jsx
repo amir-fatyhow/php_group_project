@@ -1,12 +1,12 @@
-import {atom, SetStateAction, useAtom} from "jotai";
+import { atom, SetStateAction, useAtom } from "jotai";
 import { useEffect } from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
-import {Html} from "@react-three/drei";
+import { Html } from "@react-three/drei";
 
 export const roomItemsAtom = atom([]);
 
-export const Gym = ({changePlace}) => {
+export const Gym = ({ changePlace }) => {
     const [map] = useAtom(mapAtom);
     const [items, setItems] = useAtom(roomItemsAtom);
     useEffect(() => {

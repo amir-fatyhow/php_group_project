@@ -12,12 +12,20 @@ export const Item = ({
   dragPosition,
   canDrop,
   dragRotation,
+}: {
+  item: { name: string, gridPosition: number[], size: number[], rotation: number },
+  onClick?: () => void,
+  isDragging?: boolean,
+  dragPosition?: number[],
+  canDrop?: boolean,
+  dragRotation?: number,
 }) => {
   const { name, gridPosition, size, rotation: itemRotation } = item;
 
   const rotation = isDragging ? dragRotation : itemRotation;
   const { gridToVector3 } = useGrid();
   const [map] = useAtom(mapAtom);
+  const gridDiv = map.gridDivision ? map.gridDivision : 1;
   const { scene } = useGLTF(`/models/items/${name}.glb`);
   // Skinned meshes cannot be re-used in threejs without cloning them
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
@@ -28,7 +36,7 @@ export const Item = ({
 
   useEffect(() => {
     clone.traverse((child) => {
-      if (child.isMesh) {
+      if (child.isObject3D) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
@@ -50,7 +58,7 @@ export const Item = ({
       {isDragging && (
         <mesh>
           <boxGeometry
-            args={[width / map.gridDivision, 0.2, height / map.gridDivision]}
+            args={[width / gridDiv, 0.2, height / gridDiv]}
           />
           <meshBasicMaterial
             color={canDrop ? "green" : "red"}

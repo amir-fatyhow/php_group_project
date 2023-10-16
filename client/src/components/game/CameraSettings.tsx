@@ -1,19 +1,13 @@
 import { CameraControls } from "@react-three/drei";
 import { useAtom } from "jotai";
 import {useEffect, useRef, useState} from "react";
-import { Lobby } from "./Lobby";
-import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
 
 
-export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, place: string, logOut: () => void }) => {
+export const CameraSettings = ({ loaded, place } : { loaded?: boolean, place: string }) => {
     const controls = useRef<CameraControls>(null);
     const [map] = useAtom(mapAtom);
     const[currentPlace, setPlace] = useState(place)
-
-    function changePlace(place: string) {
-        setPlace(place);
-    }
 
     useEffect(() => {
         if (controls.current) {
@@ -25,7 +19,7 @@ export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, pl
                 controls.current.setTarget(0, 0, 0, true);
                 return;
             }
-            // ROOM
+            // GYM
             if (currentPlace === "Gym") {
                 controls.current.setTarget(4.75,0,4.75,true);
                 controls.current.setPosition(4.5,5,4.75 + 10,true);
@@ -62,8 +56,10 @@ export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, pl
                     three: 0,
                 }}
             />
-            {currentPlace === "Gym" && map && <Gym changePlace={changePlace}/>}
-            {currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut}/>}
+            
         </>
     );
 };
+
+//{currentPlace === "Gym" && map && <Gym changePlace={changePlace}/>}
+//{currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut}/>}

@@ -1,9 +1,9 @@
-import React, {SyntheticEvent, useRef, useState} from 'react';
+import React, { SyntheticEvent, useRef, useState } from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import {server} from "../../server";
+import { server } from "../../server";
 
-const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
+const Authorization = ({ setMenu }: { setMenu: (login: string) => void }) => {
     const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
@@ -13,9 +13,9 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const [error, setError] = useState("");
 
     async function sign(event: SyntheticEvent,
-                        login: string,
-                        password: string,
-                        setMenu: (login: string) => void) {
+        login: string,
+        password: string,
+        setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
             let users = await server.getUsers();
@@ -44,9 +44,9 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     }
 
     async function createUser(event: SyntheticEvent,
-                              login: string,
-                              password: string,
-                              setMenu: (login: string) => void) {
+        login: string,
+        password: string,
+        setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
             let users = await server.getUsers();
@@ -107,7 +107,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                         onClick={(event) => sign(
                             event,
                             loginCreate.current === null ? '' : loginCreate.current.value,
-                            passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
+                            passwordCreate.current === null ? '' : md5(passwordCreate.current.value),
                             setMenu
                         )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>
@@ -120,6 +120,6 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
 export default Authorization;
 
 const handler = () => {
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
 }
 
