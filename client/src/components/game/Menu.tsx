@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 import { Canvas } from "@react-three/fiber";
 import { Lobby } from "./Lobby";
-import { Gym } from "./Gym";
-import {CameraSettings} from "./CameraSettings";
-import {useProgress} from "@react-three/drei";
+import { CameraSettings } from "./CameraSettings";
+import { useProgress } from "@react-three/drei";
 
 const Menu = ({ logOut }: {logOut: () => void}) => {
     const { progress } = useProgress();
@@ -11,7 +10,7 @@ const Menu = ({ logOut }: {logOut: () => void}) => {
 
     useEffect(() => {
         if (progress === 100) {
-            setLoaded(true); // As progress can go back to 0 when new resources are loaded, we need to make sure we don't fade out the UI when that happens
+            setLoaded(true);
         }
     }, [progress]);
     return (

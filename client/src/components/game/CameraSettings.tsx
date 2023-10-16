@@ -1,5 +1,4 @@
 import { CameraControls } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import {useEffect, useRef, useState} from "react";
 import { Lobby } from "./Lobby";
@@ -7,50 +6,32 @@ import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
 
 
-export const CameraSettings = ({ loaded, place, logOut }) => {
-    const controls = useRef();
+export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, place: string, logOut: () => void }) => {
+    const controls = useRef<CameraControls>(null);
     const [map] = useAtom(mapAtom);
     const[currentPlace, setPlace] = useState(place)
 
-    function changePlace(place) {
+    function changePlace(place: string) {
         setPlace(place);
     }
 
     useEffect(() => {
-        // LOBBY
-        if (currentPlace === "Lobby") {
-            controls.current.setPosition(0, 8, 2);
-            controls.current.setTarget(0, 8, 0);
-            controls.current.setPosition(0, 0, 2, true);
-            controls.current.setTarget(0, 0, 0, true);
-            return;
+        if (controls.current) {
+            // LOBBY
+            if (currentPlace === "Lobby") {
+                controls.current.setPosition(0, 8, 2);
+                controls.current.setTarget(0, 8, 0);
+                controls.current.setPosition(0, 0, 2, true);
+                controls.current.setTarget(0, 0, 0, true);
+                return;
+            }
+            // ROOM
+            if (currentPlace === "Gym") {
+                controls.current.setTarget(4.75,0,4.75,true);
+                controls.current.setPosition(4.5,5,4.75 + 10,true);
+            }
         }
-        // ROOM
-        if (currentPlace === "Gym") {
-            controls.current.setPosition(0, 8, 2);
-            controls.current.setTarget(0, 8, 0);
-            controls.current.setPosition(10, 10, 52, true);
-            controls.current.setTarget(10, 10, 10, true);
-        }
-    }, [loaded]);
-
-    useFrame(() => {
-        if (currentPlace === "Lobby") {
-            return;
-        }
-        controls.current.setTarget(
-            4.75,
-            0,
-            4.75,
-            true
-        );
-        controls.current.setPosition(
-            4.75 + 8,
-            8,
-            4.75 + 8,
-            true
-        );
-    });
+    }, [loaded, currentPlace]);
 
     return (
         <>
@@ -81,7 +62,7 @@ export const CameraSettings = ({ loaded, place, logOut }) => {
                     three: 0,
                 }}
             />
-            {currentPlace === "Gym" && map && <Gym />}
+            {currentPlace === "Gym" && map && <Gym changePlace={changePlace}/>}
             {currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut}/>}
         </>
     );

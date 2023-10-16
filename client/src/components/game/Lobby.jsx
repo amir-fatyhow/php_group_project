@@ -1,6 +1,6 @@
 import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
-import {Suspense } from "react";
+import { Suspense } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
 import {atom} from "jotai";
 
