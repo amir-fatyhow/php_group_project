@@ -1,9 +1,10 @@
-import React, {SyntheticEvent, useRef, useState} from 'react';
+import {SyntheticEvent, useContext, useRef, useState} from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import {server} from "../../server";
+import {ServerContext} from "../../App";
 
 const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
+    const server = useContext(ServerContext);
     const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
@@ -73,6 +74,16 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                         ref={loginSign}
                         type="text"
                         placeholder="login"
+                    />
+                    <input
+                        ref={passwordCreate}
+                        type="text"
+                        placeholder="name"
+                    />
+                    <input
+                        ref={passwordCreate}
+                        type="text"
+                        placeholder="surname"
                     />
                     <input
                         ref={passwordSign}

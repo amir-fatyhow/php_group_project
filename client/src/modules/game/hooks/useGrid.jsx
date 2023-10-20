@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { mapAtom } from "../components/game/Lobby";
+import { mapAtom } from "../Lobby";
 
 import * as THREE from "three";
 

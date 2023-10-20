@@ -36,18 +36,6 @@ class Mysql {
             name VARCHAR(255)
         )";
         $this->connection->query($items);
-
-        $onlineUsers = "CREATE TABLE IF NOT EXISTS onlineUsers(
-            userId INT,
-            roomId INT
-        )";
-        $this->connection->query($onlineUsers);
-
-        $itemsInRoom = "CREATE TABLE IF NOT EXISTS itemsInRoom(
-            roomId INT,
-            itemId INT
-        )";
-        $this->connection->query($itemsInRoom);
     }
 
     public function getConnection() {
