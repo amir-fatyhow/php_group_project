@@ -2,9 +2,10 @@ import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { Suspense } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
-import {atom} from "jotai";
+import {atom, PrimitiveAtom, SetStateAction, WritableAtom} from "jotai";
 
-export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void } ) => {
+export const Lobby = ({ changePlace, logOut, addChat } :
+                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void } ) => {
     const goldenRatio = Math.min(1, window.innerWidth / 1600);
 
     return (
@@ -47,6 +48,17 @@ export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string)
                                 </p>
                                 <div
                                     className={"w-4 h-4 rounded-full bg-green-500"}
+                                ></div>
+                            </div>
+                            <div
+                                onClick={() => addChat()}
+                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                            >
+                                <p className="text-uppercase font-bold text-lg">
+                                    CHAT
+                                </p>
+                                <div
+                                    className={"w-4 h-4 rounded-full bg-blue-500"}
                                 ></div>
                             </div>
                             <div
@@ -118,6 +130,17 @@ function getItemsInGym(roomId: number) {
             items: room.items
         }
     }
-    return null;
+    return {
+        gridDivision: 2,
+        size: [7, 7],
+        items: [
+        {
+            "name": "treadmill",
+            "size": [3, 2],
+            "rotation": 0,
+            "gridPosition": [10, 9]
+        }
+    ]
+    };
 }
 

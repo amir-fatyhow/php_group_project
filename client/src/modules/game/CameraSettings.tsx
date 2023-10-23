@@ -4,9 +4,11 @@ import {useEffect, useRef, useState} from "react";
 import { Lobby } from "./Lobby";
 import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
+import Chat from "./chat/Chat";
 
 
-export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, place: string, logOut: () => void }) => {
+export const CameraSettings = ({ loaded, place, logOut, addChat }
+                                   : { loaded: boolean, place: string, logOut: () => void, addChat : () => void }) => {
     const controls = useRef<CameraControls>(null);
     const [map] = useAtom(mapAtom);
     const[currentPlace, setPlace] = useState(place)
@@ -63,7 +65,7 @@ export const CameraSettings = ({ loaded, place, logOut } : { loaded: boolean, pl
                 }}
             />
             {currentPlace === "Gym" && map && <Gym changePlace={changePlace}/>}
-            {currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut}/>}
+            {currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut} addChat={addChat}/>}
         </>
     );
 };
