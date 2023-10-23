@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
 import {atom} from "jotai";
 
-export const Lobby = ({ changePlace, logOut } ) => {
+export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void } ) => {
     const goldenRatio = Math.min(1, window.innerWidth / 1600);
 
     return (
@@ -80,8 +80,22 @@ useFont.preload("/fonts/Inter_Bold.json");
 
 export const mapAtom = atom(getItemsInGym(1));
 
-function getItemsInGym(roomId) {
-    const gym = [
+interface IRoom {
+    "id": number,
+    "items": [
+        {
+            "name": string,
+            "size": [number, number],
+            "rotation": number,
+            "gridPosition": [number, number]
+        }
+    ],
+    "size": [number, number],
+    "gridDivision": number
+}
+
+function getItemsInGym(roomId: number) {
+    const gym: IRoom[] = [
         {
             "id": 1,
             "items": [
@@ -96,11 +110,14 @@ function getItemsInGym(roomId) {
             "gridDivision": 2
         }
     ]
-    let room = gym.find((room) => room.id === roomId);
-    return {
-        gridDivision: room.gridDivision,
-        size: room.size,
-        items: room.items,
+    let room  = gym.find((room) => room.id === roomId);
+    if (room) {
+        return {
+            gridDivision: room.gridDivision,
+            size: room.size,
+            items: room.items
+        }
     }
+    return null;
 }
 
