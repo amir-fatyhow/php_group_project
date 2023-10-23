@@ -13,7 +13,6 @@ function App() {
 
     function setMenu(login: string) {
         user.current = login;
-        console.log('menu')
         setState('menu')
     }
 

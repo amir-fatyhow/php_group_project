@@ -5,8 +5,10 @@ export type TError = {
 
 export type TUser = {
     id: number,
+    login: string,
     name: string,
     surname: string,
+    password: string
     token: string,
 };
 

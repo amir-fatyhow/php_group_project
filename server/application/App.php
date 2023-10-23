@@ -18,8 +18,12 @@ class App {
         return $this->user->getUsers();
     }
 
-    function postUser($params) {
-        return $this->user->postUser($params['login'], $params['password']);
+    function login($params) {
+        return $this->user->login($params['login'], $params['password']);
+    }
+
+    function registration($params) {
+        return $this->user->registration($params['login'], $params['password'], $params['name'], $params['surname']);
     }
 
     function getOnlineUsers($params) {

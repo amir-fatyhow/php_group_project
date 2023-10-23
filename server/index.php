@@ -14,8 +14,9 @@ function router ($params) {
         $app = new App();
         switch ($method) {
             case 'getUsers' : return $app->getUsers();
-            case 'postUser' : return $app->postUser($params);
+            case 'postUser' : return $app->registration($params);
             case 'getOnlineUsers' : return $app->getOnlineUsers($params);
+            case 'login' : return $app->login($params);
         }
     }
 }

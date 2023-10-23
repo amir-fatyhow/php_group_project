@@ -1,7 +1,7 @@
-import {SyntheticEvent, useContext, useRef, useState} from 'react';
+import { SyntheticEvent, useContext, useRef, useState } from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import {ServerContext} from "../../App";
+import { ServerContext } from "../../App";
 
 const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const server = useContext(ServerContext);
@@ -9,33 +9,32 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const loginSign = useRef<HTMLInputElement>(null);
     const passwordSign = useRef<HTMLInputElement>(null);
     const loginCreate = useRef<HTMLInputElement>(null);
+    const nameCreate = useRef<HTMLInputElement>(null);
+    const surnameCreate = useRef<HTMLInputElement>(null);
     const passwordCreate = useRef<HTMLInputElement>(null);
 
     const [error, setError] = useState("");
 
-    async function sign(event: SyntheticEvent,
+    async function login(event: SyntheticEvent,
                         login: string,
                         password: string,
                         setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
-            let users = await server.getUsers();
-            if (users) {
+            let user = await server.login(login, password);
+            if (user) {
                 let flag = false;
-                for (let user of users) {
-                    if (login == user['login']) {
-                        if (password == user['password']) {
-                            flag = true;
-                        } else {
-                            setError("incorrect password!");
-                            return;
-                        }
-                    }
+                if (password == user.password) {
+                    flag = true;
+                } else {
+                    setError("incorrect password!");
+                    return;
                 }
                 if (!flag) {
                     setError("login does not exist!");
                     return;
                 }
+                console.log(user.token)
                 setMenu(login);
             }
             setError("login does not exist!");
@@ -44,22 +43,23 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
         setError("login or password is empty!");
     }
 
-    async function createUser(event: SyntheticEvent,
+    async function registration(event: SyntheticEvent,
                               login: string,
                               password: string,
+                              name: string,
+                              surname: string,
                               setMenu: (login: string) => void) {
         event.preventDefault();
-        if (login.trim() !== '' && password.trim() !== '') {
-            let users = await server.getUsers();
-            if (users) {
-                for (let user of users) {
-                    if (login == user['login']) {
-                        setError("login already exists");
-                        return;
-                    }
+        if (login.trim() !== '' && password.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
+            let user = await server.login(login, password);
+            if (user) {
+                if (login == user.login) {
+                    setError("login already exists");
+                    return;
                 }
             }
-            await server.postUser(login, password);
+            let token = await server.registration(login, password, name, surname);
+            console.log(token);
             setMenu(login);
         }
         setError("login or password is empty!");
@@ -76,12 +76,12 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                         placeholder="login"
                     />
                     <input
-                        ref={passwordCreate}
+                        ref={nameCreate}
                         type="text"
                         placeholder="name"
                     />
                     <input
-                        ref={passwordCreate}
+                        ref={surnameCreate}
                         type="text"
                         placeholder="surname"
                     />
@@ -92,10 +92,12 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                     />
                     <button
                         onClick={(event) => (
-                            createUser(
+                            registration(
                                 event,
                                 loginSign.current === null ? '' : loginSign.current.value,
                                 passwordSign.current === null ? '' : md5(passwordSign.current.value),
+                                surnameCreate.current === null ? '' : surnameCreate.current.value,
+                                nameCreate.current === null ? '' : nameCreate.current.value,
                                 setMenu)
                         )
                         }>
@@ -115,7 +117,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                         placeholder="password"
                     />
                     <button
-                        onClick={(event) => sign(
+                        onClick={(event) => login(
                             event,
                             loginCreate.current === null ? '' : loginCreate.current.value,
                             passwordCreate.current === null ? '' :md5(passwordCreate.current.value),

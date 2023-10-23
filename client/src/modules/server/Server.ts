@@ -39,17 +39,17 @@ export default class Server {
 
     async login(
         login: string,
-        hash: string,
-        rnd: number
+        password: string
     ): Promise<TUser | null> {
-        const answer = await this.request<TUser>(
+        const answer = await this.request<TUser[]>(
             'login',
-            { login, hash, rnd }
+            { login, password }
         );
-        if (answer?.token) {
-            this.token = answer.token;
+        if (answer) {
+            this.token = answer[0].token;
+            return answer[0];
         }
-        return answer;
+        return null;
     }
 
     async logout() {
@@ -60,15 +60,7 @@ export default class Server {
         return answer;
     }
 
-    getUsers() : Promise<TLogin[] | null> {
-        return this.request( 'getUsers' );
-    }
-
-    postUser(login: string, password: string) {
-        return this.request('postUser', { login: login, password: password });
-    }
-
-    getOnlineUsers(roomId: number) {
-        return this.request('getOnlineUsers', { roomId: roomId });
+    async registration(login: string, password: string, name: string, surname: string) : Promise<string | null> {
+        return this.request('postUser', { login: login, password: password, name: name, surname: surname });
     }
 }
