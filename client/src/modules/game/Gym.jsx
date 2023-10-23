@@ -1,4 +1,4 @@
-import {atom, SetStateAction, useAtom} from "jotai";
+import {atom, useAtom} from "jotai";
 import { useEffect } from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
