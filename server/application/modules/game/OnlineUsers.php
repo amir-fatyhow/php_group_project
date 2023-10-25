@@ -14,12 +14,12 @@ class OnlineUsers
         $select = "SELECT * FROM onlineUsers WHERE roomId = $id";
         $result = $this->connection->query($select);
 
-        $answer = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $answer[] = $row;
             }
+            return $answer;
         }
-        return $answer;
+        return array(false, 4001);
     }
 }

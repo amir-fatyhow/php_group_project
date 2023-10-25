@@ -14,13 +14,13 @@ class User
         $select = "SELECT * FROM users";
         $result = $this->connection->query($select);
 
-        $answer = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $answer[] = $row;
             }
+            return $answer;
         }
-        return $answer;
+        return array(false, 4001);
     }
 
     public function login($login, $pass)
@@ -33,13 +33,13 @@ class User
         $select = 'SELECT * FROM users WHERE users.login = "' . $login . '"' . 'AND users.password = "' . $pass . '"';
         $result = $this->connection->query($select);
 
-        $answer = array();
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $answer[] = $row;
             }
+            return $answer;
         }
-        return $answer;
+        return array(false, 2002);
     }
 
     public function registration($login, $pass, $name, $surname)
