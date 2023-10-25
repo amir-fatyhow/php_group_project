@@ -8,6 +8,7 @@ import useServer from "./modules/server";
 
 export const ServerContext = createContext<Server>(null!);
 function App() {
+    const server = useServer(HOST);
     let user = useRef("");
     const [state, setState] = useState('authorization');
 
@@ -17,11 +18,11 @@ function App() {
     }
 
     function logOut() {
+        server.logout(user.current);
         user.current = "";
         setState('authorization');
     }
 
-    const server = useServer(HOST);
     return (
      <ServerContext.Provider value={server}>
           {

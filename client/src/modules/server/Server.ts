@@ -1,4 +1,4 @@
-import {TError, TLogin, TUser} from './types';
+import { TUser } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number;
@@ -52,12 +52,9 @@ export default class Server {
         return null;
     }
 
-    async logout() {
-        const answer = await this.request<boolean>('logout');
-        if (answer) {
-            this.token = null;
-        }
-        return answer;
+    async logout(login: string) {
+        const answer = await this.request<boolean>('logout', { login: login });
+        console.log(answer)
     }
 
     async registration(login: string, password: string, name: string, surname: string) : Promise<string | null> {

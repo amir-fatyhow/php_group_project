@@ -44,7 +44,7 @@ export const Lobby = ({ changePlace, logOut, addChat } :
                                 className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                             >
                                 <p className="text-uppercase font-bold text-lg">
-                                    START GAME
+                                    GAME
                                 </p>
                                 <div
                                     className={"w-4 h-4 rounded-full bg-green-500"}

@@ -17,6 +17,7 @@ function router ($params) {
             case 'postUser' : return $app->registration($params);
             case 'getOnlineUsers' : return $app->getOnlineUsers($params);
             case 'login' : return $app->login($params);
+            case 'logout' : return $app->logout($params);
         }
     }
 }

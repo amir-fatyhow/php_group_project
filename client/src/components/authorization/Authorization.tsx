@@ -21,6 +21,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                         setMenu: (login: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
+            console.log(password)
             let user = await server.login(login, password);
             if (user) {
                 let flag = false;
@@ -31,7 +32,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                     return;
                 }
                 if (!flag) {
-                    setError("login does not exist!");
+                    setError("login dorfes not exist!");
                     return;
                 }
                 console.log(user.token)

@@ -25,6 +25,11 @@ class User
 
     public function login($login, $pass)
     {
+        $token = md5($login.$pass.rand(0, 10));
+        $update = "UPDATE users SET token = '$token' WHERE login = ". "'" . $login . "'";
+
+        $this->connection->query($update);
+
         $select = 'SELECT * FROM users WHERE users.login = "' . $login . '"' . 'AND users.password = "' . $pass . '"';
         $result = $this->connection->query($select);
 
@@ -44,5 +49,15 @@ class User
 
         $this->connection->query($insert);
         return $token;
+    }
+
+    function logout($login) {
+        try {
+            $query = "UPDATE users SET token = 'NULL' WHERE login = '$login'";
+            $this->connection->query($query);
+        } catch (Exception $ex){
+            return false;
+        }
+        return true;
     }
 }

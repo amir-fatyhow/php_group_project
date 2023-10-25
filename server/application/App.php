@@ -29,4 +29,8 @@ class App {
     function getOnlineUsers($params) {
         return $this->onlineUsers->getOnlineUsers($params['roomId']);
     }
+
+    function logout($params) {
+        return $this->user->logout($params['login']);
+    }
 }

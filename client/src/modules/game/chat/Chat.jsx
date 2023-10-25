@@ -7,14 +7,10 @@ const Chat = ({exit}) => {
             <div className="modal__dialog">
                 <div
                     onClick={() => exit()}
-                    className="exit p-2 flex gap-2 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                    className="exit p-2 flex gap-2 items-center bg-slate-700 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
-                    <p className="text-uppercase font-bold text-sm">
-                        EXIT
-                    </p>
-                    <div
-                        className={"w-3 h-3 rounded-full bg-red-500"}
-                    ></div>
+                    <p className="text-uppercase font-bold text-sm">EXIT</p>
+                    <div className={"w-3 h-3 rounded-full bg-red-500"}></div>
                 </div>
                 <div className="modal__content chat">
                     <div className="modal__main">
@@ -29,6 +25,17 @@ const Chat = ({exit}) => {
                                             <div className="message__head">
                                                 <span className="message__note">Antonio</span>
                                                 <span className="message__note">Вчера, 17:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="message">
+                                        <div className="message__base">
+                                            <div className="message__textbox">
+                                                <span className="message__text">Hello, Antonio! Yes, funny smiles</span>
+                                            </div>
+                                            <div className="message__head">
+                                                <span className="message__note">Bogdan</span>
+                                                <span className="message__note">Вчера, 18:00</span>
                                             </div>
                                         </div>
                                     </div>
