@@ -19,18 +19,40 @@ class App {
     }
 
     function login($params) {
-        return $this->user->login($params['login'], $params['password']);
+        $login = $params['login'];
+        $password = $params['password'];
+
+        if($login && $password) {
+            return $this->user->login($login, $password);
+        }
+        return array(false, 2001);
     }
 
     function registration($params) {
-        return $this->user->registration($params['login'], $params['password'], $params['name'], $params['surname']);
+        $login = $params['login'];
+        $password = $params['password'];
+        $name = $params['name'];
+        $surname = $params['surname'];
+
+        if($login && $hash && $rnd && $name && $surname) {
+            return $this->user->registration($login, $password, $name, $surname);
+        }
+        return array(false, 2003);
     }
 
     function getOnlineUsers($params) {
-        return $this->onlineUsers->getOnlineUsers($params['roomId']);
+        $roomId = $params['roomId'];
+        if($roomId) {
+            return $this->onlineUsers->getOnlineUsers($roomId);
+        }
+        return array(false, 3001);
     }
 
     function logout($params) {
-        return $this->user->logout($params['login']);
+        $login = $params['login'];
+        if($login){
+            return $this->user->logout($login);
+        }
+        return array(false, 4001);
     }
 }

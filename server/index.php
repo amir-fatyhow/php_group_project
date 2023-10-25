@@ -18,8 +18,10 @@ function router ($params) {
             case 'getOnlineUsers' : return $app->getOnlineUsers($params);
             case 'login' : return $app->login($params);
             case 'logout' : return $app->logout($params);
+            default : return array(false, 1002);
         }
     }
+    return array(false, 1001);
 }
 
 echo json_encode(Answer::answer(router($_GET)));
