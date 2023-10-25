@@ -26,7 +26,7 @@ class Mysql {
         $this->connection->query($users);
 
         $rooms = "CREATE TABLE IF NOT EXISTS rooms(
-            id INT,
+            id INT PRIMARY KEY AUTO_INCREMENT,
             name VARCHAR(255),
             size1 INT,
             size2 INT,
@@ -35,10 +35,16 @@ class Mysql {
         $this->connection->query($rooms);
 
         $items = "CREATE TABLE IF NOT EXISTS items(
-            id INT,
+            id INT PRIMARY KEY AUTO_INCREMENT,
             name VARCHAR(255)
         )";
         $this->connection->query($items);
+
+        $chat = "CREATE TABLE IF NOT EXISTS chat(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            login VARCHAR(255)
+        )";
+        $this->connection->query($chat);
     }
 
     public function getConnection() {

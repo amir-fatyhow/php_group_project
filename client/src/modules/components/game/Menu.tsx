@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Lobby } from "./Lobby";
 import { CameraSettings } from "./CameraSettings";
 import { useProgress } from "@react-three/drei";
-import Chat from "./chat/Chat";
+import Chat from "../chat/Chat";
 
 const Menu = ({ logOut }: {logOut: () => void}) => {
     const { progress } = useProgress();

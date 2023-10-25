@@ -27,12 +27,7 @@ export default class Server {
             const result = await fetch(`${this.HOST}?method=${method}&${query}`);
             const answer = await result.json();
             return answer.data;
-            // обработать ошибку
-            //...
-
         } catch (e) {
-            // обработать ошибку
-            //...
             return null;
         }
     }

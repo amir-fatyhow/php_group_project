@@ -1,6 +1,6 @@
 import {createContext, useRef, useState} from "react";
-import Authorization from "./components/authorization/Authorization";
-import Menu from "./modules/game/Menu";
+import Authorization from "./modules/components/authorization/Authorization";
+import Menu from "./modules/components/game/Menu";
 import {Server} from "./modules/server";
 import {HOST} from "./config";
 import useServer from "./modules/server";

@@ -1,7 +1,7 @@
 import { SyntheticEvent, useContext, useRef, useState } from 'react';
 import $ from 'jquery'
 import './Authorization.css'
-import { ServerContext } from "../../App";
+import { ServerContext } from "../../../App";
 
 const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const server = useContext(ServerContext);

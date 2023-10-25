@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import { Lobby } from "./Lobby";
 import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
-import Chat from "./chat/Chat";
+import Chat from "../chat/Chat";
 
 
 export const CameraSettings = ({ loaded, place, logOut, addChat }

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
 import { Html } from "@react-three/drei";
-import Chat from "./chat/Chat";
+import Chat from "../chat/Chat";
 
 export const roomItemsAtom = atom([]);
 
