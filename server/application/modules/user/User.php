@@ -7,6 +7,16 @@ class User
     function __construct($connection)
     {
         $this->connection = $connection;
+
+        $users = "CREATE TABLE IF NOT EXISTS users(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            login VARCHAR(255),
+            password VARCHAR(255),
+            user_name VARCHAR(255),
+            user_surname VARCHAR(255),
+            token VARCHAR(255)    
+        )";
+        $this->connection->query($users);
     }
 
     public function getUsers()

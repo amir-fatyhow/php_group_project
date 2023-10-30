@@ -1,5 +1,5 @@
 <?php
-require_once('modules/db/Mysql.php');
+require_once('modules/db/db.php');
 require_once('modules/user/User.php');
 require_once('modules/game/OnlineUsers.php');
 
