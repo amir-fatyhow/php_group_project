@@ -14,6 +14,16 @@ const Chat = ({exit, userToken}) => {
         }
     }
 
+    async function getMessage() {
+        let data = await server.getMessage();
+        let arr = [];
+        for (let el of data) {
+            arr.push(el);
+        }
+        console.log(messages);
+        setMessages(arr);
+    }
+
     return (
         <div className="modal">
             <div className="modal__dialog">
@@ -29,19 +39,24 @@ const Chat = ({exit, userToken}) => {
                         <div className="chatbox">
                             <div className="chatbox__row chatbox__row_fullheight">
                                 <div className="chatbox__content">
-                                    <div className="message">
-                                        <div className="message__base">
-                                            <div className="message__textbox">
-                                                {messages.map((message) => {
-                                                    <span className="message__text">{message}</span>
-                                                })}
-                                            </div>
-                                            <div className="message__head">
-                                                <span className="message__note">Antonio</span>
-                                                <span className="message__note">Вчера, 17:00</span>
+                                    {messages.length !== 0 && messages.map((m) => (
+                                        <div className="message">
+                                            <div className="message__base">
+                                                <div className="message__textbox">
+                                                    <span className="message__text">{m.message}</span>
+                                                </div>
+                                                <div className="message__head">
+                                                    <div className="message__name">
+                                                        <span className="message__note">{m.user_name}</span>
+                                                        <span className="message__note">{m.user_surname}</span>
+                                                    </div>
+                                                    <div className="message__time">
+                                                        <span className="message__note">{m.created}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                             <div className="chatbox__row">
@@ -54,7 +69,7 @@ const Chat = ({exit, userToken}) => {
                                         <button className="send-btn" onClick={() => sendMessage(token, message.current.value)}>
 
                                         </button>
-                                        <button className="send-btn get" onClick={() => console.log("get message")}>
+                                        <button className="send-btn get" onClick={() => getMessage()}>
 
                                         </button>
                                     </div>

@@ -56,4 +56,8 @@ class App {
         }
         return array(false, 4001);
     }
+
+    function getMessage() {
+        return $this->chat->getMessage();
+    }
 }

@@ -59,4 +59,8 @@ export default class Server {
     async sendMessage(token: string, message: string) {
         const answer = await this.request<boolean>('sendMessage', { token: token, message: message })
     }
+
+    async getMessage() {
+        return await this.request<boolean>('getMessage');
+    }
 }

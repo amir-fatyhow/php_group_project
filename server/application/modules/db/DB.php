@@ -81,10 +81,25 @@ class DB {
     }
 
     function sendMessage($token, $message) {
-        $query = "INSERT INTO messages(token, message) VALUES('$token','$message')";
+        date_default_timezone_set('Australia/Melbourne');
+        $created = date('m/d/Y h:i:s a', time());
+        $query = "INSERT INTO messages(token, message, created) VALUES('$token','$message','$created')";
         if ($this->db->query($query)){
             return true;
         }
         return false;
+    }
+
+    function getMessage() {
+        $query = "SELECT u.user_name, u.user_surname, m.message, m.created FROM messages AS m
+                    JOIN users AS u ON m.token = u.token";
+        $result = $this->db->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $answer[] = $row;
+            }
+            return $answer;
+        }
+        return array();
     }
 }

@@ -10,4 +10,8 @@ class Chat {
     function sendMessage($token, $message) {
         return $this->db->sendMessage($token, $message);
     }
+
+    function getMessage() {
+        return $this->db->getMessage();
+    }
 }

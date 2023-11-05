@@ -55,7 +55,11 @@
 }
 
 .chatbox__content {
+    padding-top: 8px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 
@@ -63,11 +67,18 @@
 
 .message__head {
     display: flex;
-    flex-direction: column;
+    gap: 14px;
+    justify-content: center;
+    align-items: center;
     max-width: 150px;
     width: 100%;
-    justify-content: space-between;
     padding: 11px 8px 8px 48px;
+}
+
+.message__name {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .message__note {
