@@ -3,7 +3,7 @@ import $ from 'jquery'
 import './Authorization.css'
 import { ServerContext } from "../../../App";
 
-const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
+const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | null) => void}) => {
     const server = useContext(ServerContext);
     const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
@@ -16,12 +16,11 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     const [error, setError] = useState("");
 
     async function login(event: SyntheticEvent,
-                        login: string,
-                        password: string,
-                        setMenu: (login: string) => void) {
+                         login: string,
+                         password: string,
+                         setMenu: (login: string, token: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '') {
-            console.log(password)
             let user = await server.login(login, password);
             if (user) {
                 let flag = false;
@@ -32,11 +31,10 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                     return;
                 }
                 if (!flag) {
-                    setError("login dorfes not exist!");
+                    setError("login does not exist!");
                     return;
                 }
-                console.log(user.token)
-                setMenu(login);
+                setMenu(login, user.token);
             }
             setError("login does not exist!");
             return;
@@ -45,11 +43,11 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
     }
 
     async function registration(event: SyntheticEvent,
-                              login: string,
-                              password: string,
-                              name: string,
-                              surname: string,
-                              setMenu: (login: string) => void) {
+                                login: string,
+                                password: string,
+                                name: string,
+                                surname: string,
+                                setMenu: (login: string, token: string | null) => void) {
         event.preventDefault();
         if (login.trim() !== '' && password.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
             let user = await server.login(login, password);
@@ -60,8 +58,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string) => void}) => {
                 }
             }
             let token = await server.registration(login, password, name, surname);
-            console.log(token);
-            setMenu(login);
+            setMenu(login, token);
         }
         setError("login or password is empty!");
     }

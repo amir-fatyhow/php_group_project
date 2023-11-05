@@ -24,6 +24,7 @@ export default class Server {
             const query = Object.keys(params)
                 .map((key: string) => `${key}=${params[key]}`)
                 .join('&');
+            console.log(`${this.HOST}?method=${method}&${query}`)
             const result = await fetch(`${this.HOST}?method=${method}&${query}`);
             const answer = await result.json();
             return answer.data;
@@ -47,12 +48,15 @@ export default class Server {
         return null;
     }
 
-    async logout(login: string) {
-        const answer = await this.request<boolean>('logout', { login: login });
-        console.log(answer)
+    async logout(token: string) {
+        const answer = await this.request<boolean>('logout', { token: token });
     }
 
     async registration(login: string, password: string, name: string, surname: string) : Promise<string | null> {
-        return this.request('postUser', { login: login, password: password, name: name, surname: surname });
+        return this.request('registration', { login: login, password: password, name: name, surname: surname });
+    }
+
+    async sendMessage(token: string, message: string) {
+        const answer = await this.request<boolean>('sendMessage', { token: token, message: message })
     }
 }

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import './Chat.css';
+import {ServerContext} from "../../../App";
 
-const Chat = ({exit}) => {
+const Chat = ({exit, userToken}) => {
+    let token = useRef(userToken);
+    const message = useRef(null);
+    const [messages, setMessages] = useState([]);
+    const server = useContext(ServerContext);
+
+    function sendMessage(token, message) {
+        if (message) {
+            server.sendMessage(token.current, message);
+        }
+    }
+
     return (
         <div className="modal">
             <div className="modal__dialog">
@@ -20,22 +32,13 @@ const Chat = ({exit}) => {
                                     <div className="message">
                                         <div className="message__base">
                                             <div className="message__textbox">
-                                                <span className="message__text">Hello, Bogdan! Yes, funny smiles</span>
+                                                {messages.map((message) => {
+                                                    <span className="message__text">{message}</span>
+                                                })}
                                             </div>
                                             <div className="message__head">
                                                 <span className="message__note">Antonio</span>
                                                 <span className="message__note">Вчера, 17:00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="message">
-                                        <div className="message__base">
-                                            <div className="message__textbox">
-                                                <span className="message__text">Hello, Antonio! Yes, funny smiles</span>
-                                            </div>
-                                            <div className="message__head">
-                                                <span className="message__note">Bogdan</span>
-                                                <span className="message__note">Вчера, 18:00</span>
                                             </div>
                                         </div>
                                     </div>
@@ -44,8 +47,16 @@ const Chat = ({exit}) => {
                             <div className="chatbox__row">
                                 <div className="enter">
                                     <div className="enter__textarea">
-                                        <textarea name="enterMessage" id="enterMessage" cols="30" rows="2"
-                                                  placeholder="Say message..."></textarea>
+                                        <input ref={message} className="input-send" name="enterMessage" id="enterMessage"
+                                                  placeholder="Say message..."></input>
+                                    </div>
+                                    <div className="btn-box">
+                                        <button className="send-btn" onClick={() => sendMessage(token, message.current.value)}>
+
+                                        </button>
+                                        <button className="send-btn get" onClick={() => console.log("get message")}>
+
+                                        </button>
                                     </div>
                                 </div>
                             </div>

@@ -1,16 +1,13 @@
 <?php
 
-class Chat
-{
-    private $connection;
+class Chat {
+    private $db;
 
-    function __constructor($connection) {
-        $this->connection = $connection;
+    function __construct($db) {
+        $this->db = $db;
+    }
 
-        $chat = "CREATE TABLE IF NOT EXISTS chat(
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            login VARCHAR(255)
-        )";
-        $this->connection->query($chat);
+    function sendMessage($token, $message) {
+        return $this->db->sendMessage($token, $message);
     }
 }

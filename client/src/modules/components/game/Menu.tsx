@@ -5,7 +5,7 @@ import { CameraSettings } from "./CameraSettings";
 import { useProgress } from "@react-three/drei";
 import Chat from "../chat/Chat";
 
-const Menu = ({ logOut }: {logOut: () => void}) => {
+const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const { progress } = useProgress();
     const [loaded, setLoaded] = useState(false);
     const [chat, setChat] = useState(false)
@@ -25,7 +25,7 @@ const Menu = ({ logOut }: {logOut: () => void}) => {
     }, [progress]);
     return (
         <>
-            {chat ? <Chat exit={removeChat}/> : <Canvas
+            {chat ? <Chat exit={removeChat} userToken={token}/> : <Canvas
                 shadows
                 camera={{
                     position: [0, 8, 2],

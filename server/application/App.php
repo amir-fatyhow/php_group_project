@@ -1,17 +1,17 @@
 <?php
-require_once('modules/db/db.php');
+require_once('modules/db/DB.php');
 require_once('modules/user/User.php');
-require_once('modules/game/OnlineUsers.php');
+require_once('modules/chat/Chat.php');
 
 class App {
     private $db;
     private $user;
-    private $onlineUsers;
+    private $chat;
 
     function __construct() {
-        $this->db = new Mysql();
-        $this->user = new User($this->db->getConnection());
-        $this->onlineUsers = new OnlineUsers($this->db->getConnection());
+        $this->db = new DB();
+        $this->user = new User($this->db);
+        $this->chat = new Chat($this->db);
     }
 
     function getUsers() {
@@ -34,24 +34,25 @@ class App {
         $name = $params['name'];
         $surname = $params['surname'];
 
-        if($login && $hash && $rnd && $name && $surname) {
+        if($login && $name && $surname) {
             return $this->user->registration($login, $password, $name, $surname);
         }
         return array(false, 2003);
     }
 
-    function getOnlineUsers($params) {
-        $roomId = $params['roomId'];
-        if($roomId) {
-            return $this->onlineUsers->getOnlineUsers($roomId);
+    function logout($params) {
+        $token = $params['token'];
+        if($token){
+            return $this->user->logout($token);
         }
-        return array(false, 3001);
+        return array(false, 4001);
     }
 
-    function logout($params) {
-        $login = $params['login'];
-        if($login){
-            return $this->user->logout($login);
+    function sendMessage($params) {
+        $token = $params['token'];
+        $message = $params['message'];
+        if($token){
+            return $this->chat->sendMessage($token, $message);
         }
         return array(false, 4001);
     }

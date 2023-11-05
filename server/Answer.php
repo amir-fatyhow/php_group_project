@@ -2,10 +2,6 @@
 
 class Answer
 {
-    function __construct()
-    {
-    }
-
     static $CODES = array(
         '1001' => 'method param not set',
         '1002' => 'method param not exists',
@@ -17,7 +13,7 @@ class Answer
         '9000' => 'unknown error'
     );
 
-    static function answer($data) {
+    static function response($data) {
         if ($data) {
             if (count($data) === 2 && !$data[0]) {
                 $code = $data[1];

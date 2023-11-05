@@ -10,15 +10,19 @@ export const ServerContext = createContext<Server>(null!);
 function App() {
     const server = useServer(HOST);
     let user = useRef("");
+    let userToken = useRef("");
     const [state, setState] = useState('authorization');
 
-    function setMenu(login: string) {
+    function setMenu(login: string, token: string | null) {
         user.current = login;
+        if (token != null) {
+            userToken.current = token;
+        }
         setState('menu')
     }
 
     function logOut() {
-        server.logout(user.current);
+        server.logout(userToken.current);
         user.current = "";
         setState('authorization');
     }
@@ -28,7 +32,7 @@ function App() {
           {
           state === 'authorization' ?
               <Authorization setMenu={setMenu}/> :
-              state === 'menu' ? <Menu logOut={logOut}/>
+              state === 'menu' ? <Menu logOut={logOut} token={userToken.current}/>
                : <></>
           }
       </ServerContext.Provider>

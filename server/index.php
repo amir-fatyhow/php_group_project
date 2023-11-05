@@ -14,14 +14,14 @@ function router ($params) {
         $app = new App();
         switch ($method) {
             case 'getUsers' : return $app->getUsers();
-            case 'postUser' : return $app->registration($params);
-            case 'getOnlineUsers' : return $app->getOnlineUsers($params);
+            case 'registration' : return $app->registration($params);
             case 'login' : return $app->login($params);
             case 'logout' : return $app->logout($params);
+            case 'sendMessage' : return $app->sendMessage($params);
             default : return array(false, 1002);
         }
     }
     return array(false, 1001);
 }
 
-echo json_encode(Answer::answer(router($_GET)));
+echo json_encode(Answer::response(router($_GET)));
