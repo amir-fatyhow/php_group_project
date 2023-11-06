@@ -130,10 +130,29 @@ function getItemsInGym(roomId: number) {
                     "gridPosition": [10, 9]
                 },
                 {
-                    "name": "treadmill",
-                    "size": [3, 2],
+                    "name": "paper",
+                    "size": [2, 2],
                     "rotation": 0,
-                    "gridPosition": [3, 9]
+                    "gridPosition": [9, 9]
+                },
+                {
+                    "name": "soda",
+                    "size": [2, 2],
+                    "rotation": 0,
+                    "gridPosition": [7, 7]
+                },
+                {
+                    "name": "bathtub",
+                    "size": [2, 2],
+                    "rotation": 0,
+                    "gridPosition": [1, 9]
+                }
+                ,
+                {
+                    "name": "unicorn",
+                    "size": [2, 2],
+                    "rotation": 0,
+                    "gridPosition": [5, 10]
                 }
             ],
             "size": [7, 7],
