@@ -8,7 +8,6 @@ import { mapAtom } from "./Lobby";
 interface TItem {
   "name": string,
   "size": [number, number],
-  "rotation": number,
   "gridPosition": [number, number]
 }
 

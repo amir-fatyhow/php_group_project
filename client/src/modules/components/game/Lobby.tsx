@@ -114,7 +114,6 @@ interface RootObject {
 interface Item {
     name: string;
     size: number[];
-    rotation: number;
     gridPosition: number[];
 }
 
@@ -126,32 +125,27 @@ function getItemsInGym(roomId: number) {
                 {
                     "name": "treadmill",
                     "size": [3, 2],
-                    "rotation": 0,
                     "gridPosition": [10, 9]
                 },
                 {
                     "name": "paper",
                     "size": [2, 2],
-                    "rotation": 0,
                     "gridPosition": [9, 9]
                 },
                 {
                     "name": "soda",
                     "size": [2, 2],
-                    "rotation": 0,
                     "gridPosition": [7, 7]
                 },
                 {
                     "name": "bathtub",
                     "size": [2, 2],
-                    "rotation": 0,
                     "gridPosition": [1, 9]
                 }
                 ,
                 {
                     "name": "unicorn",
                     "size": [2, 2],
-                    "rotation": 0,
                     "gridPosition": [5, 10]
                 }
             ],
