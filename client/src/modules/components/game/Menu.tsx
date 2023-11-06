@@ -32,7 +32,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                     fov: 30,
                 }}
             >
-                <CameraSettings loaded={loaded} place={"Lobby"} logOut={logOut} addChat={addChat}/>
+                <CameraSettings loaded={loaded} place={"Lobby"} logOut={logOut} addChat={addChat} />
             </Canvas>}
         </>
     );

@@ -2,10 +2,11 @@ import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { Suspense } from "react";
 import { LobbyAvatar } from "./LobbyAvatar";
-import {atom, PrimitiveAtom, SetStateAction, WritableAtom} from "jotai";
+import {atom} from "jotai";
 
-export const Lobby = ({ changePlace, logOut, addChat } :
-                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void } ) => {
+export const Lobby = ({ changePlace, logOut, addChat, } :
+                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void,
+                           } ) => {
     const goldenRatio = Math.min(1, window.innerWidth / 1600);
 
     return (
@@ -59,6 +60,17 @@ export const Lobby = ({ changePlace, logOut, addChat } :
                                 </p>
                                 <div
                                     className={"w-4 h-4 rounded-full bg-blue-500"}
+                                ></div>
+                            </div>
+                            <div
+                                onClick={() => changePlace("Persons")}
+                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                            >
+                                <p className="text-uppercase font-bold text-lg">
+                                    PERS
+                                </p>
+                                <div
+                                    className={"w-4 h-4 rounded-full bg-yellow-500"}
                                 ></div>
                             </div>
                             <div

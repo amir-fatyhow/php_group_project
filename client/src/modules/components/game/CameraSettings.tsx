@@ -5,6 +5,7 @@ import { Lobby } from "./Lobby";
 import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
 import Chat from "../chat/Chat";
+import {Persons} from "./Persons";
 
 
 export const CameraSettings = ({ loaded, place, logOut, addChat }
@@ -20,18 +21,19 @@ export const CameraSettings = ({ loaded, place, logOut, addChat }
     useEffect(() => {
         if (controls.current) {
             // LOBBY
-            if (currentPlace === "Lobby") {
+            if (currentPlace === "Lobby" || currentPlace === "Persons") {
                 controls.current.setPosition(0, 8, 2);
                 controls.current.setTarget(0, 8, 0);
                 controls.current.setPosition(0, 0, 2, true);
                 controls.current.setTarget(0, 0, 0, true);
                 return;
             }
-            // ROOM
+            // GYM
             if (currentPlace === "Gym") {
                 controls.current.setTarget(4.75,0,4.75,true);
                 controls.current.setPosition(4.5,5,4.75 + 10,true);
             }
+            // Persons
         }
     }, [loaded, currentPlace]);
 
@@ -65,7 +67,13 @@ export const CameraSettings = ({ loaded, place, logOut, addChat }
                 }}
             />
             {currentPlace === "Gym" && map && <Gym changePlace={changePlace}/>}
-            {currentPlace === "Lobby" && <Lobby changePlace={changePlace} logOut={logOut} addChat={addChat}/>}
+            {currentPlace === "Lobby" && <Lobby
+                                                changePlace={changePlace}
+                                                logOut={logOut}
+                                                addChat={addChat}
+                                                />
+            }
+            {currentPlace === "Persons" && <Persons changePlace={changePlace}/>}
         </>
     );
 };
