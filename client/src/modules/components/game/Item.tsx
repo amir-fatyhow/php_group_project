@@ -24,16 +24,6 @@ export const Item = ({ item } : { item : TItem }) => {
   const height = size[1];
   const [hover, setHover] = useState(false);
 
-
-  /*useEffect(() => {
-    clone.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-  }, []);*/
-
   return (
     <group
       position={gridToVector3(

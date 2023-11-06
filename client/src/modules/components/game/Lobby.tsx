@@ -104,22 +104,22 @@ useFont.preload("/fonts/Inter_Bold.json");
 
 export const mapAtom = atom(getItemsInGym(1));
 
-interface IRoom {
-    "id": number,
-    "items": [
-        {
-            "name": string,
-            "size": [number, number],
-            "rotation": number,
-            "gridPosition": [number, number]
-        }
-    ],
-    "size": [number, number],
-    "gridDivision": number
+interface RootObject {
+    id: number;
+    items: Item[];
+    size: number[];
+    gridDivision: number;
+}
+
+interface Item {
+    name: string;
+    size: number[];
+    rotation: number;
+    gridPosition: number[];
 }
 
 function getItemsInGym(roomId: number) {
-    const gym: IRoom[] = [
+    const gym: RootObject[] = [
         {
             "id": 1,
             "items": [
@@ -128,6 +128,12 @@ function getItemsInGym(roomId: number) {
                     "size": [3, 2],
                     "rotation": 0,
                     "gridPosition": [10, 9]
+                },
+                {
+                    "name": "treadmill",
+                    "size": [3, 2],
+                    "rotation": 0,
+                    "gridPosition": [3, 9]
                 }
             ],
             "size": [7, 7],
