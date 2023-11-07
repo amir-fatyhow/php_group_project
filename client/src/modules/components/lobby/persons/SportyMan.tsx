@@ -4,7 +4,7 @@ import {useAnimations, useGLTF} from "@react-three/drei";
 
 const avatarUrlAtom = atom(
     localStorage.getItem("avatarURL") ||
-    "https://models.readyplayer.me/6548a28c8ef6ede9493ce30d.glb?meshlod=1&quality=medium"
+    "https://models.readyplayer.me/6548a089e42e04abf89a867d.glb?meshlod=1&quality=medium"
 );
 
 const SportyMan = ({...props}) => {
@@ -14,7 +14,7 @@ const SportyMan = ({...props}) => {
     const { scene } = useGLTF(avatarUrl);
 
     const { animations: waveAnimation } = useGLTF(
-        "/animations/M_Standing_Expressions_001.glb"
+        "/animations/M_Dances_001.glb"
     );
     const { animations: idleAnimation } = useGLTF(
         "/animations/M_Standing_Idle_001.glb"
@@ -38,7 +38,7 @@ const SportyMan = ({...props}) => {
 
     const delayWave = (delay: number) => {
         setTimeout(() => {
-            setAnimation("M_Standing_Expressions_001");
+            setAnimation("M_Dances_001");
         }, delay);
     };
 

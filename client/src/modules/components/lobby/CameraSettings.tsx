@@ -4,7 +4,6 @@ import {useEffect, useRef, useState} from "react";
 import { Lobby } from "./Lobby";
 import { Gym } from "./Gym";
 import { mapAtom } from "./Lobby";
-import Chat from "../chat/Chat";
 import {Persons} from "./Persons";
 
 
