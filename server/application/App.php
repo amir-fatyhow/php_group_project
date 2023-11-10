@@ -60,4 +60,8 @@ class App {
     function getMessage() {
         return $this->chat->getMessage();
     }
+
+    function getPersons() {
+        return $this->user->getPersons();
+    }
 }

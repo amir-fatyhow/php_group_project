@@ -24,6 +24,7 @@ export default class Server {
             const query = Object.keys(params)
                 .map((key: string) => `${key}=${params[key]}`)
                 .join('&');
+            console.log(`${this.HOST}?method=${method}&${query}`)
             const result = await fetch(`${this.HOST}?method=${method}&${query}`);
             const answer = await result.json();
             return answer.data;

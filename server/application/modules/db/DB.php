@@ -102,4 +102,17 @@ class DB {
         }
         return array();
     }
+
+    // http://server/?method=getPersons
+    function getPersons() {
+        $query = "SELECT type FROM persons";
+        $result = $this->db->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $answer[] = $row;
+            }
+            return $answer;
+        }
+        return array();
+    }
 }

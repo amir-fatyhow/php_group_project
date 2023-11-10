@@ -19,6 +19,7 @@ function router ($params) {
             case 'logout' : return $app->logout($params);
             case 'sendMessage' : return $app->sendMessage($params);
             case 'getMessage' : return $app->getMessage();
+            case 'getPersons' : return $app->getPersons();
             default : return array(false, 1002);
         }
     }

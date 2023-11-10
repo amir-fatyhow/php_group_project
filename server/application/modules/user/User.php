@@ -27,4 +27,8 @@ class User {
         }
         return array(false, 4002);
     }
+
+    function getPersons() {
+        return $this->db->getPersons();
+    }
 }
