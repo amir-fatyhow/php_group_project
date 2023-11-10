@@ -1,6 +1,6 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import './Chat.css';
-import {ServerContext} from "../../../App";
+import { ServerContext } from "../../../App";
 
 const Chat = ({exit, userToken}) => {
     let token = useRef(userToken);

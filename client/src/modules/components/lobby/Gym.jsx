@@ -8,12 +8,16 @@ import Chat from "../chat/Chat";
 export const roomItemsAtom = atom([]);
 
 
-export const Gym = ({ changePlace } ) => {
+export const Gym = ({ changePlace, setCamera } ) => {
     const [map] = useAtom(mapAtom);
     const [items, setItems] = useAtom(roomItemsAtom);
     useEffect(() => {
         setItems(map.items);
     }, [map]);
+
+    useEffect(() => {
+        setCamera();
+    }, [])
 
     return (
         <>

@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import React from "react";
+import React, {useEffect} from "react";
 import { Avatar } from "./Avatar";
 import { atom } from "jotai";
 import { NERD, SPORTYMAN, WOMAN } from "../constants";
@@ -32,7 +32,11 @@ const woman = {
     'animation2': "M_Standing_Idle_001",
 }
 
-export function Persons({ ...props }) {
+export function Persons({ changePlace, setCamera } : { changePlace : (param : string) => void , setCamera : () => void}) {
+    useEffect(() => {
+        setCamera();
+    }, [])
+
     return (
         <>
             <Avatar
@@ -54,7 +58,7 @@ export function Persons({ ...props }) {
                 scale={0.04}
             >
                 <div
-                    onClick={() => props.changePlace("Lobby")}
+                    onClick={() => changePlace("Lobby")}
                     className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
                     <p className="text-uppercase font-bold text-lg">
