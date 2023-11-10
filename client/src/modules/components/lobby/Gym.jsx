@@ -39,7 +39,7 @@ export const Gym = ({ changePlace } ) => {
             >
                 <div
                     onClick={() => changePlace("Lobby")}
-                    className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
                     <p className="text-uppercase font-bold text-lg">
                         EXIT

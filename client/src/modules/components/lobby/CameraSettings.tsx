@@ -29,10 +29,11 @@ export const CameraSettings = ({ loaded, place, logOut, addChat }
             }
             // GYM
             if (currentPlace === "Gym") {
+                controls.current.setPosition(0, 8, 2);
+                controls.current.setTarget(0, 8, 0);
                 controls.current.setTarget(4.75,0,4.75,true);
                 controls.current.setPosition(4.5,5,4.75 + 10,true);
             }
-            // Persons
         }
     }, [loaded, currentPlace]);
 
@@ -58,7 +59,6 @@ export const CameraSettings = ({ loaded, place, logOut, addChat }
                     right: 0,
                     wheel: 0,
                 }}
-                // disable all touch gestures
                 touches={{
                     one: 0,
                     two: 0,

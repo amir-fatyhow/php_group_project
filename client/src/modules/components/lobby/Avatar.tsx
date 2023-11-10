@@ -1,30 +1,35 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { atom, useAtom } from "jotai";
+import {atom, PrimitiveAtom, useAtom} from "jotai";
 import React, { useEffect, useRef, useState} from "react";
 
-const avatarUrlAtom = atom(
-    localStorage.getItem("avatarURL") ||
-    "https://models.readyplayer.me/64f0265b1db75f90dcfd9e2c.glb?meshlod=1&quality=medium"
-);
 
-export function LobbyAvatar({ ...props }) {
-  const [avatarUrl] = useAtom(avatarUrlAtom);
+interface IAvatar {
+  positionX: number,
+  positionY: number,
+  positionZ: number,
+  rotationY?: number | null,
+  animation1: string,
+  animation2: string
+}
+
+export function Avatar({ props, url } : { props : IAvatar, url :  PrimitiveAtom<string> }) {
+  const [avatarUrl] = useAtom(url);
   const avatar = useRef();
   const group = useRef(null);
   const { scene } = useGLTF(avatarUrl);
 
   const { animations: waveAnimation } = useGLTF(
-    "/animations/M_Standing_Expressions_001.glb"
+      `/animations/${props.animation1}.glb`
   );
   const { animations: idleAnimation } = useGLTF(
-    "/animations/M_Standing_Idle_001.glb"
+      `/animations/${props.animation2}.glb`
   );
 
   const { actions } = useAnimations(
-    [waveAnimation[0], idleAnimation[0]],
-    avatar
+      [waveAnimation[0], idleAnimation[0]],
+      avatar
   );
-  const [animation, setAnimation] = useState("M_Standing_Idle_001");
+  const [animation, setAnimation] = useState(props.animation2);
   const [init, setInit] = useState(avatarUrl);
 
   useEffect((): () => void => {
@@ -38,7 +43,7 @@ export function LobbyAvatar({ ...props }) {
 
   const delayWave = (delay: number) => {
     setTimeout(() => {
-      setAnimation("M_Standing_Expressions_001");
+      setAnimation(props.animation1);
     }, delay);
   };
 
@@ -47,7 +52,12 @@ export function LobbyAvatar({ ...props }) {
   }, []);
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group
+        ref={group}
+        position-z={props.positionZ}
+        position-x={props.positionX}
+        position-y={props.positionY}
+        dispose={null}>
       <primitive object={scene} ref={avatar} />
     </group>
   );

@@ -17,11 +17,12 @@ const Chat = ({exit, userToken}) => {
     async function getMessage() {
         let data = await server.getMessage();
         let arr = [];
-        for (let el of data) {
-            arr.push(el);
+        if (data) {
+            for (let el of data) {
+                arr.push(el);
+            }
+            setMessages(arr);
         }
-        console.log(messages);
-        setMessages(arr);
     }
 
     return (

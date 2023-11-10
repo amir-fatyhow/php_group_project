@@ -1,8 +1,16 @@
 import { Html, useFont } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { Suspense } from "react";
-import { LobbyAvatar } from "./LobbyAvatar";
+import { Avatar } from "./Avatar";
 import {atom} from "jotai";
+import {NERD} from "../constants";
+
+const avatar = {
+    'positionz': -1,
+    'positionx': 0.5 * Math.min(1, window.innerWidth / 1600),
+    'positiony' : 0,
+    'rotationy' : -Math.PI / 8
+}
 
 export const Lobby = ({ changePlace, logOut, addChat, } :
                           { changePlace : (param : string) => void , logOut : () => void, addChat : () => void,
@@ -42,7 +50,7 @@ export const Lobby = ({ changePlace, logOut, addChat, } :
                             </h1>
                             <div
                                 onClick={() => changePlace("Gym")}
-                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                                className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                             >
                                 <p className="text-uppercase font-bold text-lg">
                                     GAME
@@ -53,7 +61,7 @@ export const Lobby = ({ changePlace, logOut, addChat, } :
                             </div>
                             <div
                                 onClick={() => addChat()}
-                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                                className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                             >
                                 <p className="text-uppercase font-bold text-lg">
                                     CHAT
@@ -64,7 +72,7 @@ export const Lobby = ({ changePlace, logOut, addChat, } :
                             </div>
                             <div
                                 onClick={() => changePlace("Persons")}
-                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                                className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                             >
                                 <p className="text-uppercase font-bold text-lg">
                                     PERS
@@ -75,7 +83,7 @@ export const Lobby = ({ changePlace, logOut, addChat, } :
                             </div>
                             <div
                                 onClick={() => logOut()}
-                                className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                                className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                             >
                                 <p className="text-uppercase font-bold text-lg">
                                     EXIT
@@ -89,12 +97,7 @@ export const Lobby = ({ changePlace, logOut, addChat, } :
                 </Html>
             </motion.group>
             <Suspense>
-                <LobbyAvatar
-                    position-z={-1}
-                    position-x={0.5 * Math.min(1, window.innerWidth / 1600)}
-                    position-y={0}
-                    rotation-y={-Math.PI / 8}
-                />
+
             </Suspense>
         </group>
     );

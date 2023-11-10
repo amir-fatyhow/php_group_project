@@ -1,24 +1,51 @@
 import { Html } from "@react-three/drei";
 import React from "react";
-import Nerd from "./persons/Nerd";
-import SportyMan from "./persons/SportyMan";
-import Woman from "./persons/Woman";
+import { Avatar } from "./Avatar";
+import { atom } from "jotai";
+import { NERD, SPORTYMAN, WOMAN } from "../constants";
+
+const nerdUrl = atom(NERD);
+const sportyManUrl = atom(SPORTYMAN);
+const womanUrl = atom(WOMAN);
+
+const nerd = {
+    'positionZ': -2.1,
+    'positionX': -1.3 * Math.min(1, window.innerWidth / 1600),
+    'positionY' : -1,
+    'animation1': "M_Standing_Expressions_001",
+    'animation2': "M_Standing_Idle_001",
+}
+
+const sportyMan = {
+    'positionZ': -2.1,
+    'positionX': 0,
+    'positionY' : -1,
+    'animation1': "M_Dances_001",
+    'animation2': "M_Standing_Idle_001",
+}
+
+const woman = {
+    'positionZ': -2.1,
+    'positionX': 1.3 * Math.min(1, window.innerWidth / 1600),
+    'positionY' : -1,
+    'animation1': "M_Dances_006",
+    'animation2': "M_Standing_Idle_001",
+}
 
 export function Persons({ ...props }) {
     return (
         <>
-            <Nerd   onClick={ () => console.log(("Nerd"))}
-                    position-z={-2.1}
-                    position-x={-1.3 * Math.min(1, window.innerWidth / 1600)}
-                    position-y={-1}
+            <Avatar
+                props={ nerd }
+                url={ nerdUrl }
             />
-            <SportyMan position-z={-2.1}
-                       position-x={0}
-                       position-y={-1}
+            <Avatar
+                props={ sportyMan }
+                url={ sportyManUrl }
             />
-            <Woman position-z={-2.1}
-                   position-x={1.3 * Math.min(1, window.innerWidth / 1600)}
-                   position-y={-1}
+            <Avatar
+                props={ woman }
+                url={ womanUrl }
             />
             <Html
                 position={[0.9, 0.38, 0]}
@@ -28,7 +55,7 @@ export function Persons({ ...props }) {
             >
                 <div
                     onClick={() => props.changePlace("Lobby")}
-                    className="p-4 flex gap-3 items-center rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
                     <p className="text-uppercase font-bold text-lg">
                         EXIT

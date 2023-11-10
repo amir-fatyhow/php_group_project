@@ -1,5 +1,5 @@
 import Server from "./Server";
-import useServer from "./useServer";
+import useServer from "../hooks/useServer";
 
 export type { Server };
 export default useServer;
