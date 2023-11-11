@@ -1,0 +1,43 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+a:hover {
+    cursor: pointer;
+}
+
+.lobby-container {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+.lobby-selection {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.lobby-item button {
+    margin-bottom: 10px;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: rgba(4, 17, 96, 0.62);
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.lobby-item button:hover,.lobby-item button:active,.lobby-item button:focus {
+    background: rgb(51, 52, 61);
+}
+
+
+
