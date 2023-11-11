@@ -1,6 +1,6 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
-import {atom, PrimitiveAtom, useAtom} from "jotai";
-import React, { useEffect, useRef, useState} from "react";
+import { PrimitiveAtom, useAtom } from "jotai";
+import React, { useEffect, useRef, useState } from "react";
 
 
 interface IAvatar {

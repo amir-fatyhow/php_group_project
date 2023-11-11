@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import {Lobby, mapAtom} from "./Lobby";
+import { Lobby, mapAtom } from "./Lobby";
 import Chat from "../chat/Chat";
-import {CameraControls} from "@react-three/drei";
-import {useAtom} from "jotai";
-import {Gym} from "./Gym";
-import {Persons} from "./Persons";
+import { CameraControls } from "@react-three/drei";
+import { useAtom } from "jotai";
+import { Gym } from "./Gym";
+import { Persons } from "./Persons";
 
 const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const [chat, setChat] = useState(false)
@@ -14,7 +14,6 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const[currentPlace, setPlace] = useState("Lobby")
 
     function changePlace(place: string) {
-        console.log(place)
         setPlace(place);
     }
 
@@ -50,6 +49,11 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
         <>
             {chat ?
                 <Chat exit={removeChat} userToken={token}/> :
+                currentPlace === "Lobby" ? <Lobby
+                    changePlace={changePlace}
+                    logOut={logOut}
+                    addChat={addChat}
+                /> :
                 <Canvas
                 shadows
                 camera={{
@@ -84,13 +88,6 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                                 three: 0,
                             }}
                         />
-                        {currentPlace === "Lobby" && <Lobby
-                                changePlace={changePlace}
-                                logOut={logOut}
-                                addChat={addChat}
-                                setCamera={setCamera}
-                            />
-                        }
                         {currentPlace === "Gym" && map && <Gym changePlace={changePlace} setCamera={setCamera}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera}/>}
                     </>

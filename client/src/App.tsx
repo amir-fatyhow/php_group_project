@@ -1,8 +1,8 @@
-import {createContext, useRef, useState} from "react";
+import { createContext, useRef, useState } from "react";
 import Authorization from "./modules/components/authorization/Authorization";
 import Menu from "./modules/components/lobby/Menu";
-import {Server} from "./modules/server";
-import {HOST} from "./config";
+import { Server } from "./modules/server";
+import { HOST } from "./config";
 import useServer from "./modules/server";
 
 

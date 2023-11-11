@@ -64,4 +64,10 @@ class App {
     function getPersons() {
         return $this->user->getPersons();
     }
+
+    function choosePerson($params) {
+        $token = $params['token'];
+        $personId = $params['personId'];
+        return $this->user->choosePerson($token, $personId);
+    }
 }

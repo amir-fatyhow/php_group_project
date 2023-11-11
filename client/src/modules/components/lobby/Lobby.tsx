@@ -1,78 +1,37 @@
 import { Html, useFont } from "@react-three/drei";
-import { motion } from "framer-motion-3d";
-import {Suspense, useEffect} from "react";
-import {atom} from "jotai";
+import { atom } from "jotai";
+import './styles/Lobby.css'
 
-export const Lobby = ({ changePlace, logOut, addChat, setCamera } :
-                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void,
-                              setCamera : () => void } ) => {
-    const goldenRatio = Math.min(1, window.innerWidth / 1600);
-
-    useEffect(() => {
-        setCamera();
-    }, [])
+export const Lobby = ({ changePlace, logOut, addChat } :
+                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void } ) => {
 
     return (
-        <Html
-            position={[0, 0.17, 0.11]}
-            transform
-            center
-            scale={0.04}
-        >
-        <div
-            className={`${"w-[390px] h-[514px]"}  max-w-full  overflow-y-auto p-5  place-items-center pointer-events-none select-none`}
-        >
-            <div className="w-full overflow-y-auto flex flex-col space-y-2">
-                <h1 className="text-center text-black text-2xl font-bold">
-                    WELCOME TO<br /> THE SUPER GYM
-                </h1>
-                <div
-                    onClick={() => changePlace("Gym")}
-                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
-                >
-                    <p className="text-uppercase font-bold text-lg">
+        <div className="lobby-container">
+            <div className="lobby-selection">
+                <form className="lobby-item">
+                    <button
+                        onClick={() => changePlace("Gym")}
+                    >
                         GAME
-                    </p>
-                    <div
-                        className={"w-4 h-4 rounded-full bg-green-500"}
-                    ></div>
-                </div>
-                <div
-                    onClick={() => addChat()}
-                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
-                >
-                    <p className="text-uppercase font-bold text-lg">
+                    </button>
+                    <button
+                        onClick={() => addChat()}
+                    >
                         CHAT
-                    </p>
-                    <div
-                        className={"w-4 h-4 rounded-full bg-blue-500"}
-                    ></div>
-                </div>
-                <div
-                    onClick={() => changePlace("Persons")}
-                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
-                >
-                    <p className="text-uppercase font-bold text-lg">
+                    </button>
+                    <button
+                        onClick={() => changePlace("Persons")}
+                    >
                         PERS
-                    </p>
-                    <div
-                        className={"w-4 h-4 rounded-full bg-yellow-500"}
-                    ></div>
-                </div>
-                <div
-                    onClick={() => logOut()}
-                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
-                >
-                    <p className="text-uppercase font-bold text-lg">
+                    </button>
+                    <button
+                        onClick={() => logOut()}
+                    >
                         EXIT
-                    </p>
-                    <div
-                        className={"w-4 h-4 rounded-full bg-red-500"}
-                    ></div>
-                </div>
+                    </button>
+                </form>
             </div>
         </div>
-        </Html>
     );
 };
 

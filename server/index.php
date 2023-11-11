@@ -20,6 +20,7 @@ function router ($params) {
             case 'sendMessage' : return $app->sendMessage($params);
             case 'getMessage' : return $app->getMessage();
             case 'getPersons' : return $app->getPersons();
+            case 'choosePerson' : return $app->choosePerson($params);
             default : return array(false, 1002);
         }
     }

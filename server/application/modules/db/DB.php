@@ -105,7 +105,7 @@ class DB {
 
     // http://server/?method=getPersons
     function getPersons() {
-        $query = "SELECT type FROM persons";
+        $query = "SELECT * FROM persons";
         $result = $this->db->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -114,5 +114,14 @@ class DB {
             return $answer;
         }
         return array();
+    }
+
+    function choosePerson($token, $personId) {
+        $query = "INSERT INTO gamers(token, score, person_id) VALUES('$token','100','$personId')";
+        $result = $this->db->query($query);
+        if ($result) {
+            return true;
+        }
+        return false;
     }
 }

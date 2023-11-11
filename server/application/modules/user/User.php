@@ -31,4 +31,8 @@ class User {
     function getPersons() {
         return $this->db->getPersons();
     }
+
+    function choosePerson($token, $personId) {
+        return $this->db->choosePerson($token, $personId);
+    }
 }
