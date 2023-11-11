@@ -47,13 +47,9 @@ const Chat = ({exit, userToken}) => {
                                                     <span className="message__text">{m.message}</span>
                                                 </div>
                                                 <div className="message__head">
-                                                    <div className="message__name">
-                                                        <span className="message__note">{m.user_name}</span>
-                                                        <span className="message__note">{m.user_surname}</span>
-                                                    </div>
-                                                    <div className="message__time">
-                                                        <span className="message__note">{m.created}</span>
-                                                    </div>
+                                                    <span className="message__note">{m.user_name}</span>
+                                                    <span className="message__note">{m.user_surname}</span>
+                                                    <span className="message__note">{m.created}</span>
                                                 </div>
                                             </div>
                                         </div>

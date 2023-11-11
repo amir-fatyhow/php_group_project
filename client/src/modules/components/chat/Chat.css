@@ -67,18 +67,11 @@
 
 .message__head {
     display: flex;
-    gap: 14px;
+    gap: 18px;
     justify-content: center;
     align-items: center;
-    max-width: 150px;
-    width: 100%;
-    padding: 11px 8px 8px 48px;
-}
-
-.message__name {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    min-width: 70px;
+    padding: 2px 8px 8px 4px;
 }
 
 .message__note {

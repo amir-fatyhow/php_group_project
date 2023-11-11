@@ -1,4 +1,4 @@
-import { Html, useFont } from "@react-three/drei";
+import { useFont } from "@react-three/drei";
 import { atom } from "jotai";
 import './styles/Lobby.css'
 
@@ -22,7 +22,7 @@ export const Lobby = ({ changePlace, logOut, addChat } :
                     <button
                         onClick={() => changePlace("Persons")}
                     >
-                        PERS
+                        PERSONS
                     </button>
                     <button
                         onClick={() => logOut()}
