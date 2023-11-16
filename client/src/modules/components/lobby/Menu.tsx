@@ -8,7 +8,6 @@ import { Gym } from "./Gym";
 import { Persons } from "./Persons";
 
 const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
-    const [chat, setChat] = useState(false)
     const controls = useRef<CameraControls>(null);
     const [map] = useAtom(mapAtom);
     const[currentPlace, setPlace] = useState("Lobby")
@@ -36,22 +35,11 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
         }
     }
 
-    function addChat() {
-        setChat(true);
-    }
-
-    function removeChat() {
-        setChat(false);
-    }
-
     return (
         <>
-            {chat ?
-                <Chat userToken={token}/> :
-                currentPlace === "Lobby" ? <Lobby
+            {currentPlace ===  "Lobby" ? <Lobby
                     changePlace={changePlace}
                     logOut={logOut}
-                    addChat={addChat}
                 /> :
                 <Canvas
                 shadows

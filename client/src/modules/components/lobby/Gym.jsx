@@ -1,9 +1,8 @@
 import { atom, useAtom } from "jotai";
-import {useEffect, useRef} from "react";
+import { useEffect } from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
 import { Html } from "@react-three/drei";
-import Chat from "../chat/Chat";
 
 export const roomItemsAtom = atom([]);
 
@@ -32,7 +31,7 @@ export const Gym = ({ changePlace, setCamera } ) => {
                 position-z={map.size[1] / 2}
             >
                 <planeGeometry args={map.size} />
-                <meshStandardMaterial color="#adacfc" />
+                <meshStandardMaterial color="#66d0ff" />
             </mesh>
             <Html
                 position={[3.5, 0, 6.11]}

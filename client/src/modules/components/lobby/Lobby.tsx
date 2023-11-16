@@ -2,8 +2,7 @@ import { useFont } from "@react-three/drei";
 import { atom } from "jotai";
 import './styles/Lobby.css'
 
-export const Lobby = ({ changePlace, logOut, addChat } :
-                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void } ) => {
+export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void }) => {
 
     return (
         <div className="lobby-container">
@@ -55,7 +54,7 @@ function getItemsInGym(roomId: number) {
                 {
                     "name": "elliptical",
                     "size": [2, 2],
-                    "gridPosition": [4, 7]
+                    "gridPosition": [4, 4]
                 },
                 {
                     "name": "treadmill",
@@ -68,14 +67,9 @@ function getItemsInGym(roomId: number) {
                     "gridPosition": [9, 3]
                 },
                 {
-                    "name": "dumbell",
+                    "name": "barbell",
                     "size": [2, 2],
                     "gridPosition": [1, 3]
-                },
-                {
-                    "name": "dumbell",
-                    "size": [2, 2],
-                    "gridPosition": [1, 4]
                 }
             ],
             "size": [6, 5],
