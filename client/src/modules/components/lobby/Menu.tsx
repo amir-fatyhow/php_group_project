@@ -20,7 +20,6 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     function setCamera() {
         if (controls.current) {
             if (currentPlace === "Persons" || currentPlace === "Lobby") {
-                console.log('persons')
                 controls.current.setPosition(0, 8, 2);
                 controls.current.setTarget(0, 8, 0);
                 controls.current.setPosition(0, 0, 2, true);
@@ -31,8 +30,8 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
             if (currentPlace === "Gym") {
                 controls.current.setPosition(0, 8, 2);
                 controls.current.setTarget(0, 8, 0);
-                controls.current.setTarget(4.75,0,4.75,true);
-                controls.current.setPosition(4.5,5,4.75 + 10,true);
+                controls.current.setTarget(4.75,0,3,true);
+                controls.current.setPosition(4.5,5,4.75 + 9,true);
             }
         }
     }
@@ -48,7 +47,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     return (
         <>
             {chat ?
-                <Chat exit={removeChat} userToken={token}/> :
+                <Chat userToken={token}/> :
                 currentPlace === "Lobby" ? <Lobby
                     changePlace={changePlace}
                     logOut={logOut}
@@ -91,7 +90,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                         {currentPlace === "Gym" && map && <Gym changePlace={changePlace} setCamera={setCamera}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera}/>}
                     </>
-                </Canvas>}
+                </Canvas>}{currentPlace === "Gym" && <Chat userToken={token}/>}
         </>
     );
 }

@@ -15,11 +15,6 @@ export const Lobby = ({ changePlace, logOut, addChat } :
                         GAME
                     </button>
                     <button
-                        onClick={() => addChat()}
-                    >
-                        CHAT
-                    </button>
-                    <button
                         onClick={() => changePlace("Persons")}
                     >
                         PERSONS
@@ -58,33 +53,32 @@ function getItemsInGym(roomId: number) {
             "id": 1,
             "items": [
                 {
+                    "name": "elliptical",
+                    "size": [2, 2],
+                    "gridPosition": [4, 7]
+                },
+                {
                     "name": "treadmill",
-                    "size": [3, 2],
-                    "gridPosition": [10, 9]
+                    "size": [2, 2],
+                    "gridPosition": [7, 3]
                 },
                 {
-                    "name": "paper",
+                    "name": "treadmill",
                     "size": [2, 2],
-                    "gridPosition": [9, 9]
+                    "gridPosition": [9, 3]
                 },
                 {
-                    "name": "soda",
+                    "name": "dumbell",
                     "size": [2, 2],
-                    "gridPosition": [7, 7]
+                    "gridPosition": [1, 3]
                 },
                 {
-                    "name": "bathtub",
+                    "name": "dumbell",
                     "size": [2, 2],
-                    "gridPosition": [1, 9]
-                }
-                ,
-                {
-                    "name": "unicorn",
-                    "size": [2, 2],
-                    "gridPosition": [5, 10]
+                    "gridPosition": [1, 4]
                 }
             ],
-            "size": [7, 7],
+            "size": [6, 5],
             "gridDivision": 2
         }
     ]
