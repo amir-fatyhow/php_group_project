@@ -27,6 +27,7 @@ export default class Server {
             console.log(`${this.HOST}?method=${method}&${query}`)
             const result = await fetch(`${this.HOST}?method=${method}&${query}`);
             const answer = await result.json();
+            console.log(answer);
             return answer.data;
         } catch (e) {
             return null;
@@ -35,15 +36,15 @@ export default class Server {
 
     async login(
         login: string,
-        password: string
+        pass: string
     ): Promise<TUser | null> {
-        const answer = await this.request<TUser[]>(
+        const answer = await this.request<TUser>(
             'login',
-            { login, password }
+            { login, pass }
         );
         if (answer) {
-            this.token = answer[0].token;
-            return answer[0];
+            this.token = answer.token;
+            return answer;
         }
         return null;
     }
@@ -52,12 +53,14 @@ export default class Server {
         const answer = await this.request<boolean>('logout', { token: token });
     }
 
-    async registration(login: string, password: string, name: string, surname: string) : Promise<string | null> {
-        return this.request('registration', { login: login, password: password, name: name, surname: surname });
+    async registration(login: string, hash: string, name: string, surname: string) : Promise<string | null> {
+        const answer = await this.request('registration', { login, hash, name, surname });
+        console.log(answer);
+        return "answer";
     }
 
     async sendMessage(token: string, message: string) {
-        const answer = await this.request<boolean>('sendMessage', { token: token, message: message })
+        const answer = await this.request<boolean>('sendMessage', { token, message })
     }
 
     async getMessage() {

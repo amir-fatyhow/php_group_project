@@ -7,11 +7,18 @@ class Chat {
         $this->db = $db;
     }
 
-    function sendMessage($token, $message) {
-        return $this->db->sendMessage($token, $message);
+    function sendMessage($userId, $message) {
+        $this->db->sendMessage($userId, $message);
+        $hash = md5(rand(0, 100000));
+        $this->db->updateChatHash($hash);
+        return true;
     }
 
-    function getMessage() {
-        return $this->db->getMessage();
+    function getMessages($oldHash) {
+        $game = $this->db->getHashes();
+        if ($game->chat_hash === $oldHash) {
+            return true;
+        }
+        return $this->db->getMessages();
     }
 }

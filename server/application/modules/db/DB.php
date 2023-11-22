@@ -5,123 +5,105 @@ class DB {
     function __construct() {
         $host = '127.0.0.1';
         $port = 4200;
-        $name = 'root';
+        //$port = 3306;
+        $user = 'root';
         $pass = '';
         $db = 'gym';
-        $this->db = new mysqli($host, $name, $pass, $db, $port);
 
-        if ($this->db->connect_errno) {
-            echo "Failed to connect to MySQL: " . $this->db->connect_error;
-            exit();
-        }
+        $connect = "mysql:host=$host;port=$port;dbname=$db;charset=utf8";
+        $this->db = new PDO($connect, $user, $pass);
     }
 
     function __destruct() {
-        $this->db->close();
+        $this->db = null;
+    }
+
+    private function post($sql, $params = []) {
+        return $this->db->prepare($sql)->execute($params);
+    }
+
+    private function query($sql, $params = []) {
+        $obj = $this->db->prepare($sql);
+        $obj->execute($params);
+        return $obj->fetch(PDO::FETCH_OBJ);
+    }
+
+    private function queryAll($sql, $params = []) {
+        $obj = $this->db->prepare($sql);
+        $obj->execute($params);
+        return $obj->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getUsers() {
-        $select = "SELECT * FROM users";
-        $result = $this->db->query($select);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $answer[] = $row;
-            }
-            return $answer;
-        }
-        return array(false, 4001);
+        return $this->queryAll("SELECT * FROM users");
     }
 
     function getUserByLogin($login) {
-        $query = "SELECT * FROM users WHERE login='$login'";
-        $result = $this->db->query($query);
-        return $result->fetch_object();
+        return $this->query("SELECT * FROM users WHERE login=?", [$login]);
     }
 
     function getUserByToken($token) {
-        $query = "SELECT * FROM users WHERE token='$token'";
-        $result = $this->db->query($query);
-        return $result->fetch_object();
+        return $this->query("SELECT * FROM users WHERE token=?", [$token]);
     }
 
     function updateToken($userId, $token) {
-        $query = "UPDATE users SET token='$token' WHERE id='$userId'";
-        $isGood = $this->db->query($query);
-        if (!$isGood) {
-            return array(false, 2002);
-        }
-        return true;
+        $this->post("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
-    function registration($login, $pass, $name, $surname) {
-        $token = md5($login.$pass.rand(0, 10));
-        $query = "INSERT INTO users(login, password, user_name, user_surname, token) VALUES('$login','$pass','$name','$surname','$token')";
-
-        $this->db->query($query);
+    function registration($login, $hash, $name, $surname) {
+        $token = md5($login.$hash.rand(0, 10000));
+        $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
+                    [$login, $hash, $name, $surname, $token]);
         return $token;
     }
 
     function login($login, $pass) {
         $token = md5($login.$pass.rand(0, 10));
-        $query = "UPDATE users SET token = '$token' WHERE login = ". "'" . $login . "'";
-
-        $this->db->query($query);
-
-        $select = 'SELECT * FROM users WHERE users.login = "' . $login . '"' . 'AND users.password = "' . $pass . '"';
-        $result = $this->db->query($select);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $answer[] = $row;
-            }
-            return $answer;
-        }
-        return array(false, 2002);
+        $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
+        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?",
+            [$login, $pass]);
     }
 
-    function sendMessage($token, $message) {
-        date_default_timezone_set('Australia/Melbourne');
-        $created = date('m/d/Y h:i:s a', time());
-        $query = "INSERT INTO messages(token, message, created) VALUES('$token','$message','$created')";
-        if ($this->db->query($query)){
-            return true;
-        }
-        return false;
+    function sendMessage($userId, $message) {
+        $this->post("INSERT INTO 
+            messages(user_id, message, created) 
+            VALUES (?, ?, now())",
+        [$userId, $message]);
     }
 
-    function getMessage() {
-        $query = "SELECT u.user_name, u.user_surname, m.message, m.created FROM messages AS m
-                    JOIN users AS u ON m.token = u.token";
-        $result = $this->db->query($query);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $answer[] = $row;
-            }
-            return $answer;
-        }
-        return array();
+    function getMessages() {
+        return $this->queryAll("SELECT 
+                m.message AS message,
+                u.name AS name,
+                u.surname AS surname
+            FROM messages AS m
+            INNER JOIN users AS u
+            ON u.id=m.user_id
+            ORDER BY m.created DESC");
     }
 
-    // http://server/?method=getPersons
     function getPersons() {
-        $query = "SELECT * FROM persons";
-        $result = $this->db->query($query);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $answer[] = $row;
-            }
-            return $answer;
-        }
-        return array();
+        return $this->queryAll("SELECT * FROM persons");
     }
 
-    function choosePerson($token, $personId) {
-        $query = "INSERT INTO gamers(token, score, person_id) VALUES('$token','100','$personId')";
-        $result = $this->db->query($query);
-        if ($result) {
-            return true;
-        }
-        return false;
+    function choosePerson($userId, $personId) {
+        $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
+        $this->post("INSERT INTO gamers(user_id, score, person_id) VALUES(?,?,?)", [$userId, 100, $personId]);
+        return true;
+    }
+
+    function updateChatHash($hash) {
+        $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+    }
+
+    function getHashes() {
+        return $this->query("SELECT * FROM game WHERE id=1");
+    }
+
+    function changeScore($userId, $score) {
+        $oldScore = $this->query("SELECT score FROM gamers WHERE user_id = ?", [$userId]);
+        $newScore = $oldScore->score + $score;
+        $this->post("UPDATE gamers SET score=? WHERE user_id=? ", [$newScore, $userId]);
+        return $newScore;
     }
 }

@@ -4,7 +4,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    position: absolute;
+    top: 80px;
+    right: 30px;
 }
 
 .exit {
@@ -15,7 +17,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 870px;
+    width: 470px;
     position: relative;
 }
 
@@ -37,11 +39,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 530px;
+    height: 600px;
     table-layout: fixed;
     box-sizing: border-box;
     width: 100%;
-    padding: 0 26px;
+    padding: 0 6px;
     position: relative;
 }
 
@@ -67,22 +69,27 @@
 
 .message__head {
     display: flex;
-    gap: 18px;
+    flex-direction: column;
+    gap: 2px;
     justify-content: center;
     align-items: center;
-    min-width: 70px;
     padding: 2px 8px 8px 4px;
+}
+
+.message__text {
+    font-size: 12px;
 }
 
 .message__note {
     opacity: 0.5;
     color: #5b6171;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .message__base {
     display: flex;
     align-items: center;
+    gap: 4px;
 
 }
 
@@ -90,12 +97,11 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    margin-left: 15px;
-    width: 100%;
+    margin-left: 5px;
     min-height: 43px;
     background-color: #f5f6fa;
     border-radius: 9px;
-    padding: 11px 25px 12px 25px;
+    padding: 5px 10px 5px 10px;
     color: #6a6d77;
 }
 
@@ -113,18 +119,10 @@
     gap: 20px;
 }
 
-.enter:before {
-    background-color: #edeef1;
-    height: 2px;
-    width: 100%;
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-}
+
 
 .enter__textarea {
-    padding-right: 50px;
+    padding-right: 10px;
 }
 
 .enter__textarea input:focus {
@@ -132,7 +130,8 @@
 }
 
 .input-send {
-    width: 600px;
+    padding: 6px;
+    width: 260px;
 }
 
 .enter__textarea textarea {
@@ -141,6 +140,7 @@
 }
 
 .send-btn {
+    margin-right: 4px;
     background-color: #3DD1E7;
     border: 0 solid #E5E7EB;
     box-sizing: border-box;

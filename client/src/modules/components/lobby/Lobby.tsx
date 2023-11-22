@@ -2,9 +2,7 @@ import { useFont } from "@react-three/drei";
 import { atom } from "jotai";
 import './styles/Lobby.css'
 
-export const Lobby = ({ changePlace, logOut, addChat } :
-                          { changePlace : (param : string) => void , logOut : () => void, addChat : () => void } ) => {
-
+export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void }) => {
     return (
         <div className="lobby-container">
             <div className="lobby-selection">
@@ -13,11 +11,6 @@ export const Lobby = ({ changePlace, logOut, addChat } :
                         onClick={() => changePlace("Gym")}
                     >
                         GAME
-                    </button>
-                    <button
-                        onClick={() => addChat()}
-                    >
-                        CHAT
                     </button>
                     <button
                         onClick={() => changePlace("Persons")}
@@ -58,33 +51,27 @@ function getItemsInGym(roomId: number) {
             "id": 1,
             "items": [
                 {
+                    "name": "elliptical",
+                    "size": [2, 2],
+                    "gridPosition": [4, 4]
+                },
+                {
                     "name": "treadmill",
-                    "size": [3, 2],
-                    "gridPosition": [10, 9]
+                    "size": [2, 2],
+                    "gridPosition": [7, 3]
                 },
                 {
-                    "name": "paper",
+                    "name": "treadmill",
                     "size": [2, 2],
-                    "gridPosition": [9, 9]
+                    "gridPosition": [9, 3]
                 },
                 {
-                    "name": "soda",
+                    "name": "barbell",
                     "size": [2, 2],
-                    "gridPosition": [7, 7]
-                },
-                {
-                    "name": "bathtub",
-                    "size": [2, 2],
-                    "gridPosition": [1, 9]
-                }
-                ,
-                {
-                    "name": "unicorn",
-                    "size": [2, 2],
-                    "gridPosition": [5, 10]
+                    "gridPosition": [1, 3]
                 }
             ],
-            "size": [7, 7],
+            "size": [6, 5],
             "gridDivision": 2
         }
     ]

@@ -31,10 +31,10 @@ export const Gym = ({ changePlace, setCamera } ) => {
                 position-z={map.size[1] / 2}
             >
                 <planeGeometry args={map.size} />
-                <meshStandardMaterial color="#adacfc" />
+                <meshStandardMaterial color="#66d0ff" />
             </mesh>
             <Html
-                position={[4, -1, 6.11]}
+                position={[3.5, 0, 6.11]}
                 transform
                 center
                 scale={0.2}

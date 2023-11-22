@@ -14,7 +14,6 @@ interface TItem {
 
 export const Item = ({ item } : { item : TItem }) => {
   const { name, gridPosition, size } = item;
-
   const { gridToVector3 } = useGrid();
   const [map] = useAtom(mapAtom);
   const { scene } = useGLTF(`/models/items/${name}.glb`);

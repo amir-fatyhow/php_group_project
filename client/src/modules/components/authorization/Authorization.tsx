@@ -17,26 +17,15 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
 
     async function login(event: SyntheticEvent,
                          login: string,
-                         password: string,
+                         pass: string,
                          setMenu: (login: string, token: string) => void) {
         event.preventDefault();
-        if (login.trim() !== '' && password.trim() !== '') {
-            let user = await server.login(login, password);
+        if (login.trim() !== '' && pass.trim() !== '') {
+            let user = await server.login(login, pass);
             if (user) {
-                let flag = false;
-                if (password == user.password) {
-                    flag = true;
-                } else {
-                    setError("incorrect password!");
-                    return;
-                }
-                if (!flag) {
-                    setError("login does not exist!");
-                    return;
-                }
                 setMenu(login, user.token);
             }
-            setError("login does not exist!");
+            setError("login or password incorrect   !");
             return;
         }
         setError("login or password is empty!");
@@ -44,20 +33,13 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
 
     async function registration(event: SyntheticEvent,
                                 login: string,
-                                password: string,
+                                pass: string,
                                 name: string,
                                 surname: string,
                                 setMenu: (login: string, token: string | null) => void) {
         event.preventDefault();
-        if (login.trim() !== '' && password.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
-            let user = await server.login(login, password);
-            if (user) {
-                if (login == user.login) {
-                    setError("login already exists");
-                    return;
-                }
-            }
-            let token = await server.registration(login, password, name, surname);
+        if (login.trim() !== '' && pass.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
+            let token = await server.registration(login, pass, name, surname);
             setMenu(login, token);
         }
         setError("login or password is empty!");
