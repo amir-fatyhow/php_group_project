@@ -3,7 +3,6 @@ import { atom } from "jotai";
 import './styles/Lobby.css'
 
 export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void }) => {
-
     return (
         <div className="lobby-container">
             <div className="lobby-selection">

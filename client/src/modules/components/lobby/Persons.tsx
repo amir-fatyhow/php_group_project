@@ -37,38 +37,78 @@ export function Persons({ changePlace, setCamera } : { changePlace : (param : st
         setCamera();
     }, [])
 
+    function setPerson(typeId: number) {
+        changePlace("Lobby");
+    }
+
     return (
         <>
-            <Avatar
-                props={ nerd }
-                url={ nerdUrl }
-            />
-            <Avatar
-                props={ sportyMan }
-                url={ sportyManUrl }
-            />
-            <Avatar
-                props={ woman }
-                url={ womanUrl }
-            />
             <Html
-                position={[0.9, 0.38, 0]}
+                position={[-0.62, 0.48, 0]}
                 transform
                 center
                 scale={0.04}
             >
                 <div
-                    onClick={() => changePlace("Lobby")}
+                    onClick={() => setPerson(1)}
                     className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
                     <p className="text-uppercase font-bold text-lg">
-                        EXIT
+                        NERD
                     </p>
                     <div
                         className={"w-4 h-4 rounded-full bg-red-500"}
                     ></div>
                 </div>
             </Html>
+            <Avatar
+                props={ nerd }
+                url={ nerdUrl }
+            />
+            <Html
+                position={[0, 0.48, 0]}
+                transform
+                center
+                scale={0.04}
+            >
+                <div
+                    onClick={() => setPerson(2)}
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                    <p className="text-uppercase font-bold text-lg">
+                        SPORTYMAN
+                    </p>
+                    <div
+                        className={"w-4 h-4 rounded-full bg-red-500"}
+                    ></div>
+                </div>
+            </Html>
+            <Avatar
+                props={ sportyMan }
+                url={ sportyManUrl }
+            />
+            <Html
+                position={[0.61, 0.48, 0]}
+                transform
+                center
+                scale={0.04}
+            >
+                <div
+                    onClick={() => setPerson(3)}
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                    <p className="text-uppercase font-bold text-lg">
+                        WOMAN
+                    </p>
+                    <div
+                        className={"w-4 h-4 rounded-full bg-red-500"}
+                    ></div>
+                </div>
+            </Html>
+            <Avatar
+                props={ woman }
+                url={ womanUrl }
+            />
         </>
     );
 }
