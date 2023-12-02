@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import { useMemo, useState } from "react";
 import { SkeletonUtils } from "three-stdlib";
 import { useGrid } from "../../hooks/useGrid";
-import { mapAtom } from "./Lobby";
 
 interface TItem {
   "name": string,
@@ -17,7 +16,7 @@ interface TItem {
 export const Item = ({ item } : { item : TItem }) => {
   const { name, length, width, x, y } = item;
   const { gridToVector3 } = useGrid();
-  const [map] = useAtom(mapAtom);
+  //const [map] = useAtom(mapAtom);
   const { scene } = useGLTF(`/models/items/${name}.glb`);
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const [hover, setHover] = useState(false);

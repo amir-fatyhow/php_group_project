@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Lobby, mapAtom } from "./Lobby";
+import { Lobby } from "./Lobby";
 import Chat from "../chat/Chat";
 import { CameraControls } from "@react-three/drei";
 import { useAtom } from "jotai";
@@ -9,7 +9,7 @@ import { Persons } from "./Persons";
 
 const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const controls = useRef<CameraControls>(null);
-    const [map] = useAtom(mapAtom);
+    //const [map] = useAtom(mapAtom);
     const[currentPlace, setPlace] = useState("Lobby")
 
     function changePlace(place: string) {
@@ -75,7 +75,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                                 three: 0,
                             }}
                         />
-                        {currentPlace === "Gym" && map && <Gym changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
+                        {currentPlace === "Gym" && <Gym changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                     </>
                 </Canvas>}{currentPlace === "Gym" && <Chat userToken={token}/>}
