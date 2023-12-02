@@ -1,32 +1,35 @@
 import { atom, useAtom } from "jotai";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
 import { Html } from "@react-three/drei";
-import {ServerContext} from "../../../App";
+import { ServerContext } from "../../../App";
 
 export const roomItemsAtom = atom([]);
 
 export const Gym = ({ changePlace, setCamera, userToken } ) => {
     const [map] = useAtom(mapAtom);
     const [items, setItems] = useAtom(roomItemsAtom);
+    const [inventar, setInvetar] = useState([]);
     const server = useContext(ServerContext);
 
     async function getItems() {
         return await server.getItems();
     }
 
-    useEffect(() => {
-        const answer = getItems();
-        console.log(answer);
-    })
-
-    useEffect(() => {
+    /*useEffect(() => {
         setItems(map.items);
-    }, [map]);
+    }, [map]);*/
 
     useEffect(() => {
         setCamera();
+        const answer = getItems();
+        //setInvetar(answer)
+        answer.then(value => {
+            console.log(value)
+            setInvetar(value)
+        })
+        console.log(inventar)
     }, [])
 
     async function increaseScore() {
@@ -35,7 +38,7 @@ export const Gym = ({ changePlace, setCamera, userToken } ) => {
 
     return (
         <>
-            {(map.items).map((item, idx) => (
+            {(inventar).map((item, idx) => (
                 <>
                     <Item
                         onClick={() => increaseScore()}

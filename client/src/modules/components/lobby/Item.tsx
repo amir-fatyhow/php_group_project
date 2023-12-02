@@ -7,27 +7,27 @@ import { mapAtom } from "./Lobby";
 
 interface TItem {
   "name": string,
-  "size": [number, number],
-  "gridPosition": [number, number]
+  "length": number,
+  "width": number,
+  "x": number,
+  "y": number
 }
 
 
 export const Item = ({ item } : { item : TItem }) => {
-  const { name, gridPosition, size } = item;
+  const { name, length, width, x, y } = item;
   const { gridToVector3 } = useGrid();
   const [map] = useAtom(mapAtom);
   const { scene } = useGLTF(`/models/items/${name}.glb`);
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  const width = size[0];
-  const height = size[1];
   const [hover, setHover] = useState(false);
-
+  const gridPosition = [x, y]
   return (
     <group
       position={gridToVector3(
         gridPosition,
         width,
-        height
+        length
       )}
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
