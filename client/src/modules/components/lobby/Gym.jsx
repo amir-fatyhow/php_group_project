@@ -1,12 +1,14 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import {useContext, useEffect} from "react";
 import { Item } from "./Item";
 import { mapAtom } from "./Lobby";
 import { Html } from "@react-three/drei";
+import {ServerContext} from "../../../App";
 
 export const roomItemsAtom = atom([]);
 
-export const Gym = ({ changePlace, setCamera } ) => {
+export const Gym = ({ changePlace, setCamera, userToken } ) => {
+    const server = useContext(ServerContext);
     const [map] = useAtom(mapAtom);
     const [items, setItems] = useAtom(roomItemsAtom);
     useEffect(() => {
@@ -17,10 +19,16 @@ export const Gym = ({ changePlace, setCamera } ) => {
         setCamera();
     }, [])
 
+    async function increaseScore() {
+        const answer = await server.increaseScore(userToken, 10);
+        console.log("clicked");
+    }
+
     return (
         <>
             {(map.items).map((item, idx) => (
                 <Item
+                    onClick={() => increaseScore()}
                     key={`${item.name}-${idx}`}
                     item={item}
                 />))}

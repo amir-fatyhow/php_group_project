@@ -54,7 +54,7 @@ class DB {
         $token = md5($login.$hash.rand(0, 10000));
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
                     [$login, $hash, $name, $surname, $token]);
-        return $token;
+        return array($token);
     }
 
     function login($login, $pass) {

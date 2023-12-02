@@ -1,8 +1,9 @@
 import { Html } from "@react-three/drei";
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import { Avatar } from "./Avatar";
 import { atom } from "jotai";
 import { NERD, SPORTYMAN, WOMAN } from "../constants";
+import {ServerContext} from "../../../App";
 
 const nerdUrl = atom(NERD);
 const sportyManUrl = atom(SPORTYMAN);
@@ -32,12 +33,16 @@ const woman = {
     'animation2': "M_Standing_Idle_001",
 }
 
-export function Persons({ changePlace, setCamera } : { changePlace : (param : string) => void , setCamera : () => void}) {
+export function Persons({ changePlace, setCamera, userToken } :
+                            { changePlace : (param : string) => void , setCamera : () => void, userToken: string}) {
+    const server = useContext(ServerContext);
+
     useEffect(() => {
         setCamera();
     }, [])
 
-    function setPerson(typeId: number) {
+    async function setPerson(typeId: number) {
+        const answer = await server.choosePerson(userToken, typeId);
         changePlace("Lobby");
     }
 
