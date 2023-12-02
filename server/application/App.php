@@ -104,4 +104,8 @@ class App {
         }
         return [false, 1002];
     }
+
+    function getItems() {
+        return $this->game->getItems();
+    }
 }

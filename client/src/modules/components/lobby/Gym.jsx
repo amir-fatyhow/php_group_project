@@ -8,9 +8,19 @@ import {ServerContext} from "../../../App";
 export const roomItemsAtom = atom([]);
 
 export const Gym = ({ changePlace, setCamera, userToken } ) => {
-    const server = useContext(ServerContext);
     const [map] = useAtom(mapAtom);
     const [items, setItems] = useAtom(roomItemsAtom);
+    const server = useContext(ServerContext);
+
+    async function getItems() {
+        return await server.getItems();
+    }
+
+    useEffect(() => {
+        const answer = getItems();
+        console.log(answer);
+    })
+
     useEffect(() => {
         setItems(map.items);
     }, [map]);
@@ -21,17 +31,36 @@ export const Gym = ({ changePlace, setCamera, userToken } ) => {
 
     async function increaseScore() {
         const answer = await server.increaseScore(userToken, 10);
-        console.log("clicked");
     }
 
     return (
         <>
             {(map.items).map((item, idx) => (
-                <Item
-                    onClick={() => increaseScore()}
-                    key={`${item.name}-${idx}`}
-                    item={item}
-                />))}
+                <>
+                    <Item
+                        onClick={() => increaseScore()}
+                        key={`${item.name}-${idx}`}
+                        item={item}
+                    />
+                    <Html
+                        position={[idx+2, 1.9, 3]}
+                        transform
+                        center
+                        scale={0.2}
+                    >
+                        <div
+                            className="p-4 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                        >
+                            <p className="text-uppercase font-bold text-lg">
+                                {item.name}
+                            </p>
+                        </div>
+                    </Html>
+                </>
+                )
+
+            )
+            }
             <mesh
                 rotation-x={-Math.PI / 2}
                 position-y={-0.002}

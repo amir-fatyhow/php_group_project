@@ -19,4 +19,8 @@ class Game
     function changeScore($userId, $points) {
         return $this->db->changeScore($userId, $points);
     }
+
+    function getItems() {
+        return $this->db->getItems();
+    }
 }

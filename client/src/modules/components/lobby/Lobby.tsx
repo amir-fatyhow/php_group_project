@@ -51,6 +51,11 @@ function getItemsInGym(roomId: number) {
             "id": 1,
             "items": [
                 {
+                    "name": "barbell",
+                    "size": [2, 2],
+                    "gridPosition": [1, 3]
+                },
+                {
                     "name": "elliptical",
                     "size": [2, 2],
                     "gridPosition": [4, 4]
@@ -64,11 +69,6 @@ function getItemsInGym(roomId: number) {
                     "name": "treadmill",
                     "size": [2, 2],
                     "gridPosition": [9, 3]
-                },
-                {
-                    "name": "barbell",
-                    "size": [2, 2],
-                    "gridPosition": [1, 3]
                 }
             ],
             "size": [6, 5],

@@ -106,4 +106,8 @@ class DB {
         $this->post("UPDATE gamers SET score=? WHERE user_id=? ", [$newScore, $userId]);
         return $newScore;
     }
+
+    function getItems() {
+        return $this->queryAll("SELECT name, length, width, x, y FROM items");
+    }
 }
