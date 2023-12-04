@@ -93,12 +93,13 @@ class DB {
     }
 
     function updateChatHash() {
-        $hash = md5('chatHash'.rand(1,100000));
+        $hash = md5('hashMessage'.rand(0, 100000));
         $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+        return true;
     }
 
     function getHashes() {
-        return $this->queryAll("SELECT * FROM game WHERE id=1");
+        return $this->query("SELECT * FROM game WHERE id=1");
     }
 
     function changeScore($userId, $score) {

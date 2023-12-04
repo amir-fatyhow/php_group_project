@@ -50,8 +50,7 @@ class User {
     }
 
 
-    private function genToken($login, $hashS)
-    {
+    private function genToken($login, $hashS) {
         return $token = md5($login.$hashS.rand(0, 100000));;
     }
 }

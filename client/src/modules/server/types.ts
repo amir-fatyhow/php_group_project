@@ -12,6 +12,12 @@ export type TUser = {
     token: string,
 };
 
+export interface TMessage {
+    message: string,
+    name: string,
+    surname: string
+}
+
 export type TLogin = {
     login: string,
     password: string

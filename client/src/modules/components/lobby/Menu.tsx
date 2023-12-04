@@ -11,21 +11,7 @@ import {ServerContext} from "../../../App";
 const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const controls = useRef<CameraControls>(null);
     const[currentPlace, setPlace] = useState("Lobby");
-    let chatHash = null;
     const server = useContext(ServerContext);
-
-    async function getChatHash(token: string) {
-        return await server.getChatHash(token);
-    }
-
-    useEffect(() => {
-        const answer = getChatHash(token);
-        answer.then((value) => {
-            if (value) {
-                chatHash = value.chat_hash;
-            }
-        });
-    }, []);
 
     function changePlace(place: string) {
         setPlace(place);
@@ -93,7 +79,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                         {currentPlace === "Gym" && <Gym changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                     </>
-                </Canvas>}{currentPlace === "Gym" && <Chat userToken={token} chatHash={chatHash}/>}
+                </Canvas>}{currentPlace === "Gym" && <Chat userToken={token} />}
         </>
     );
 }

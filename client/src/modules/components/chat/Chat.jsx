@@ -1,26 +1,28 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import './Chat.css';
 import { ServerContext } from "../../../App";
 
-const Chat = ({ userToken, chatHash }) => {
+const Chat = ({ userToken }) => {
     let token = useRef(userToken);
     const message = useRef(null);
     const formMsg = useRef(null);
     const [messages, setMessages] = useState([]);
     const server = useContext(ServerContext);
-    let currentChatHash = chatHash;
+    let currentChatHash = "hash";
 
-    function sendMessage(token, msg) {
+    async function sendMessage(token, msg) {
         if (msg) {
-
+            await server.changeChatHash(token.current);
+            const answer = await server.getChatHash(token.current);
+            currentChatHash = answer.chat_hash;
             formMsg.current.reset();
-            server.sendMessage(token.current, msg);
-            getMessage()
+            await server.sendMessage(token.current, msg);
+            await getMessage(token.current)
         }
     }
 
-    async function getMessage() {
-        let data = await server.getMessage();
+    async function getMessage(token) {
+        let data = await server.getMessage(token, currentChatHash);
         let arr = [];
         if (data) {
             for (let el of data) {
@@ -29,6 +31,7 @@ const Chat = ({ userToken, chatHash }) => {
             setMessages(arr);
         }
     }
+
 
     return (
         <div className="modal">
