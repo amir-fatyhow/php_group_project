@@ -1,16 +1,31 @@
-import { useRef, useState } from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { Canvas } from "@react-three/fiber";
 import { Lobby } from "./Lobby";
 import Chat from "../chat/Chat";
 import { CameraControls } from "@react-three/drei";
-import { useAtom } from "jotai";
 import { Gym } from "./Gym";
 import { Persons } from "./Persons";
+import {ServerContext} from "../../../App";
+
 
 const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
     const controls = useRef<CameraControls>(null);
-    //const [map] = useAtom(mapAtom);
-    const[currentPlace, setPlace] = useState("Lobby")
+    const[currentPlace, setPlace] = useState("Lobby");
+    let chatHash = null;
+    const server = useContext(ServerContext);
+
+    async function getChatHash(token: string) {
+        return await server.getChatHash(token);
+    }
+
+    useEffect(() => {
+        const answer = getChatHash(token);
+        answer.then((value) => {
+            if (value) {
+                chatHash = value.chat_hash;
+            }
+        });
+    }, []);
 
     function changePlace(place: string) {
         setPlace(place);
@@ -25,7 +40,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                 controls.current.setTarget(0, 0, 0, true);
                 return;
             }
-            // GYM
+
             if (currentPlace === "Gym") {
                 controls.current.setPosition(0, 8, 2);
                 controls.current.setTarget(0, 8, 0);
@@ -78,7 +93,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                         {currentPlace === "Gym" && <Gym changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                     </>
-                </Canvas>}{currentPlace === "Gym" && <Chat userToken={token}/>}
+                </Canvas>}{currentPlace === "Gym" && <Chat userToken={token} chatHash={chatHash}/>}
         </>
     );
 }

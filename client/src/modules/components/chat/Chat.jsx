@@ -2,15 +2,17 @@ import React, { useContext, useRef, useState } from 'react';
 import './Chat.css';
 import { ServerContext } from "../../../App";
 
-const Chat = ({ userToken }) => {
+const Chat = ({ userToken, chatHash }) => {
     let token = useRef(userToken);
     const message = useRef(null);
     const formMsg = useRef(null);
     const [messages, setMessages] = useState([]);
     const server = useContext(ServerContext);
+    let currentChatHash = chatHash;
 
     function sendMessage(token, msg) {
         if (msg) {
+
             formMsg.current.reset();
             server.sendMessage(token.current, msg);
             getMessage()

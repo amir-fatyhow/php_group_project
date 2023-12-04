@@ -43,6 +43,12 @@ function router ($params) {
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
 
+            // http://server/?method=changeChatHash&token=
+            case 'changeChatHash' : return $app->changeChatHash($params);
+
+            // http://server/?method=getChatHash&token=
+            case 'getChatHash': return $app->getChatHash($params);
+
             default : return array(false, 1002);
         }
     }

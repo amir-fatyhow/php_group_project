@@ -21,4 +21,12 @@ class Chat {
         }
         return $this->db->getMessages();
     }
+
+    function changeChatHash() {
+        return $this->db->updateChatHash();
+    }
+
+    function getChatHash() {
+        return $this->db->getHashes();
+    }
 }

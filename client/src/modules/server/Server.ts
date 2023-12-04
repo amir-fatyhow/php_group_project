@@ -1,4 +1,4 @@
-import { TUser } from './types';
+import {IChatHash, TUser} from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -62,7 +62,7 @@ export default class Server {
     }
 
     async sendMessage(token: string, message: string) {
-        const answer = await this.request<boolean>('sendMessage', { token, message })
+        await this.request<boolean>('sendMessage', { token, message })
     }
 
     async getMessage() {
@@ -70,8 +70,7 @@ export default class Server {
     }
 
     async choosePerson(token: string, personId: number) {
-        const answer = await this.request('choosePerson', { token : token, personId })
-        return answer;
+        return await this.request('choosePerson', { token : token, personId });
     }
 
     async increaseScore(token: string, points: number) {
@@ -80,5 +79,13 @@ export default class Server {
 
     async getItems() {
         return await this.request('getItems');
+    }
+
+    async getChatHash(token: string) {
+        const answer = await this.request<IChatHash[]>('getChatHash', { token: token });
+        if (answer) {
+            return answer[0];
+        }
+        return null;
     }
 }

@@ -108,4 +108,28 @@ class App {
     function getItems() {
         return $this->game->getItems();
     }
+
+    function changeChatHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->chat->changeChatHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function getChatHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->chat->getChatHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
 }

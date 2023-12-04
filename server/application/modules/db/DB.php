@@ -58,7 +58,7 @@ class DB {
     }
 
     function login($login, $pass) {
-        $token = md5($login.$pass.rand(0, 10));
+        $token = md5($login.$pass.rand(0, 100000));
         $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
         return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?",
             [$login, $pass]);
@@ -92,12 +92,13 @@ class DB {
         return true;
     }
 
-    function updateChatHash($hash) {
+    function updateChatHash() {
+        $hash = md5('chatHash'.rand(1,100000));
         $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
     }
 
     function getHashes() {
-        return $this->query("SELECT * FROM game WHERE id=1");
+        return $this->queryAll("SELECT * FROM game WHERE id=1");
     }
 
     function changeScore($userId, $score) {
