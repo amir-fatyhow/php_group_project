@@ -117,4 +117,9 @@ class DB {
         $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
         return true;
     }
+
+    function setGamerStatus($userId, $statusId) {
+        $this->post("UPDATE gamers SET status=? WHERE user_id=? ", [$statusId, $userId]);
+        return true;
+    }
 }

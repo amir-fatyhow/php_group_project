@@ -27,4 +27,8 @@ class Game
     function setPersonPositionX($id, $x, $y) {
         return $this->db->setPersonPositionX($id, $x, $y);
     }
+
+    function setGamerStatus($userId, $statusId) {
+        return $this->db->setGamerStatus($userId, $statusId);
+    }
 }

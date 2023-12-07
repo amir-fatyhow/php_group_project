@@ -146,4 +146,17 @@ class App {
         }
         return [false, 1002];
     }
+
+    function setGamerStatus($params) {
+        $token = $params['token'];
+        $statusId = $params['statusId'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->setGamerStatus($user->id ,$statusId);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
 }
