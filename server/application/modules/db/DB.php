@@ -112,4 +112,9 @@ class DB {
     function getItems() {
         return $this->queryAll("SELECT name, length, width, x, y FROM items");
     }
+
+    function setPersonPositionX($id, $x, $y) {
+        $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
+        return true;
+    }
 }

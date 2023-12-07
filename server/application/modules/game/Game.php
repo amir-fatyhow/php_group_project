@@ -23,4 +23,8 @@ class Game
     function getItems() {
         return $this->db->getItems();
     }
+
+    function setPersonPositionX($id, $x, $y) {
+        return $this->db->setPersonPositionX($id, $x, $y);
+    }
 }

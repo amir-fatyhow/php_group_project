@@ -49,6 +49,9 @@ function router ($params) {
             // http://server/?method=getChatHash&token=
             case 'getChatHash': return $app->getChatHash($params);
 
+            // http://server/?method=setPersonPosition&token=&x=&y=
+            case 'setPersonPosition': return $app->setPersonPositionX($params);
+
             default : return array(false, 1002);
         }
     }

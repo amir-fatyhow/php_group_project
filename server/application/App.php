@@ -132,4 +132,18 @@ class App {
         }
         return [false, 1002];
     }
+
+    function setPersonPositionX($params) {
+        $token = $params['token'];
+        $x = $params['x'];
+        $y = $params['y'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->setPersonPositionX($user->id ,$x, $y);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
 }

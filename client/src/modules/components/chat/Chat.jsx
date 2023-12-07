@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import './Chat.css';
 import { ServerContext } from "../../../App";
 
@@ -32,6 +32,13 @@ const Chat = ({ userToken }) => {
         }
     }
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            getMessage(token.current);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    });
 
     return (
         <div className="modal">
@@ -48,8 +55,8 @@ const Chat = ({ userToken }) => {
                                                     <span className="message__text">{m.message}</span>
                                                 </div>
                                                 <div className="message__head">
-                                                    <span className="message__note">{m.user_name}</span>
-                                                    <span className="message__note">{m.user_surname}</span>
+                                                    <span className="message__note">{m.name}</span>
+                                                    <span className="message__note">{m.surname}</span>
                                                 </div>
                                             </div>
                                         </div>
