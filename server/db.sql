@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `game` (
-                        `id` int NOT NULL PRIMARY KEY,
+                        `id` int NOT NULL,
                         `version` int NOT NULL,
                         `chat_hash` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Дамп данных таблицы `game`
+-- Дамп данных таблицы game
 --
 
 INSERT INTO `game` (`id`, `version`, `chat_hash`) VALUES
@@ -38,7 +38,7 @@ INSERT INTO `game` (`id`, `version`, `chat_hash`) VALUES
 --
 
 CREATE TABLE `gamers` (
-                          `id` int NOT NULL PRIMARY KEY,
+                          `id` int NOT NULL,
                           `user_id` int DEFAULT NULL,
                           `score` int DEFAULT NULL,
                           `person_id` int DEFAULT NULL,
@@ -46,13 +46,6 @@ CREATE TABLE `gamers` (
                           `y` int DEFAULT NULL,
                           `status` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `gamers`
---
-
-INSERT INTO `gamers` (`id`, `user_id`, `score`, `person_id`, `x`, `y`, `status`) VALUES
-    (26, 1, 100, 1, 10, 203, 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +73,7 @@ INSERT INTO `gamer_status` (`id`, `status`) VALUES
 --
 
 CREATE TABLE `items` (
-                         `id` int NOT NULL PRIMARY KEY,
+                         `id` int NOT NULL,
                          `name` varchar(255) DEFAULT NULL,
                          `length` int DEFAULT NULL,
                          `width` int DEFAULT NULL,
@@ -93,10 +86,10 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`) VALUES
-                                                                    (6, 'barbell', 2, 2, 1, 3),
-                                                                    (7, 'elliptical', 2, 2, 4, 4),
-                                                                    (8, 'treadmill', 2, 2, 7, 3),
-                                                                    (9, 'treadmill', 2, 2, 9, 3);
+                                                                    (1, 'barbell', 2, 2, 1, 3),
+                                                                    (2, 'elliptical', 2, 2, 4, 4),
+                                                                    (3, 'treadmill', 2, 2, 7, 3),
+                                                                    (4, 'treadmill', 2, 2, 9, 3);
 
 -- --------------------------------------------------------
 
@@ -105,7 +98,7 @@ INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`) VALUES
 --
 
 CREATE TABLE `messages` (
-                            `id` int NOT NULL PRIMARY KEY,
+                            `id` int NOT NULL,
                             `user_id` int DEFAULT NULL,
                             `message` varchar(255) DEFAULT NULL,
                             `created` varchar(255) DEFAULT NULL
@@ -118,7 +111,7 @@ CREATE TABLE `messages` (
 --
 
 CREATE TABLE `persons` (
-                           `id` int NOT NULL PRIMARY KEY,
+                           `id` int NOT NULL,
                            `type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -138,7 +131,7 @@ INSERT INTO `persons` (`id`, `type`) VALUES
 --
 
 CREATE TABLE `users` (
-                         `id` int NOT NULL PRIMARY KEY,
+                         `id` int NOT NULL,
                          `login` varchar(255) DEFAULT NULL,
                          `password` varchar(255) DEFAULT NULL,
                          `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -149,10 +142,6 @@ CREATE TABLE `users` (
 --
 -- Дамп данных таблицы `users`
 --
-
-INSERT INTO `users` (`id`, `login`, `password`, `name`, `surname`, `token`) VALUES
-                                                                                (1, 'bobr', 'c4ca4238a0b923820dcc509a6f75849b', 'bobr', 'bobr', '6a6839baafb7719377428f319815c423'),
-                                                                                (3, 'surok', 'c4ca4238a0b923820dcc509a6f75849b', 'there', 'hey', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -203,31 +192,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `game`
 --
 ALTER TABLE `game`
-    MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+    MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `gamers`
 --
 ALTER TABLE `gamers`
-    MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+    MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `items`
 --
 ALTER TABLE `items`
-    MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+    MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-    MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+    MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-    MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+    MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
