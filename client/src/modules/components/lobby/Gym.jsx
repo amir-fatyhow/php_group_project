@@ -1,36 +1,64 @@
-import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import {useContext, useEffect, useState} from "react";
 import { Item } from "./Item";
-import { mapAtom } from "./Lobby";
 import { Html } from "@react-three/drei";
+import { ServerContext } from "../../../App";
 
-export const roomItemsAtom = atom([]);
 
-export const Gym = ({ changePlace, setCamera } ) => {
-    const [map] = useAtom(mapAtom);
-    const [items, setItems] = useAtom(roomItemsAtom);
-    useEffect(() => {
-        setItems(map.items);
-    }, [map]);
+export const Gym = ({ changePlace, setCamera, userToken } ) => {
+    const [inventar, setInvetar] = useState([]);
+    const server = useContext(ServerContext);
+
+    async function getItems() {
+        return await server.getItems();
+    }
 
     useEffect(() => {
         setCamera();
+        const answer = getItems();
+        answer.then(value => {
+            setInvetar(value)
+        })
     }, [])
+
+    async function increaseScore() {
+        const answer = await server.increaseScore(userToken, 10);
+    }
 
     return (
         <>
-            {(map.items).map((item, idx) => (
-                <Item
-                    key={`${item.name}-${idx}`}
-                    item={item}
-                />))}
+            {(inventar).map((item, idx) => (
+                <>
+                    <Item
+                        onClick={() => increaseScore()}
+                        key={`${item.name}-${idx}`}
+                        item={item}
+                    />
+                    <Html
+                        position={[idx+2, 1.9, 3]}
+                        transform
+                        center
+                        scale={0.2}
+                    >
+                        <div
+                            className="p-4 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                        >
+                            <p className="text-uppercase font-bold text-lg">
+                                {item.name}
+                            </p>
+                        </div>
+                    </Html>
+                </>
+                )
+
+            )
+            }
             <mesh
                 rotation-x={-Math.PI / 2}
                 position-y={-0.002}
-                position-x={map.size[0] / 2}
-                position-z={map.size[1] / 2}
+                position-x={6 / 2}
+                position-z={5 / 2}
             >
-                <planeGeometry args={map.size} />
+                <planeGeometry args={[6,5]} />
                 <meshStandardMaterial color="#66d0ff" />
             </mesh>
             <Html

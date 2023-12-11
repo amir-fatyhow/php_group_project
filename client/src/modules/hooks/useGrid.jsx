@@ -1,23 +1,18 @@
-import { useAtom } from "jotai";
-import { mapAtom } from "../components/lobby/Lobby";
-
 import * as THREE from "three";
 
 export const useGrid = () => {
-  const [map] = useAtom(mapAtom);
-
   const vector3ToGrid = (vector3) => {
     return [
-      Math.floor(vector3.x * map.gridDivision),
-      Math.floor(vector3.z * map.gridDivision),
+      Math.floor(vector3.x * 2),
+      Math.floor(vector3.z * 2),
     ];
   };
 
   const gridToVector3 = (gridPosition, width = 1, height = 1) => {
     return new THREE.Vector3(
-      width / map.gridDivision / 2 + gridPosition[0] / map.gridDivision,
+      width / 2 / 2 + gridPosition[0] / 2,
       0,
-      height / map.gridDivision / 2 + gridPosition[1] / map.gridDivision
+      height /2 / 2 + gridPosition[1] / 2
     );
   };
 

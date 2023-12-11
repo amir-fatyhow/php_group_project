@@ -78,6 +78,7 @@
 
 .message__text {
     font-size: 12px;
+    min-width: 350px;
 }
 
 .message__note {

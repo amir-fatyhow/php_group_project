@@ -1,5 +1,4 @@
 import { useFont } from "@react-three/drei";
-import { atom } from "jotai";
 import './styles/Lobby.css'
 
 export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string) => void , logOut : () => void }) => {
@@ -29,71 +28,4 @@ export const Lobby = ({ changePlace, logOut } : { changePlace : (param : string)
 };
 
 useFont.preload("/fonts/Inter_Bold.json");
-
-export const mapAtom = atom(getItemsInGym(1));
-
-interface RootObject {
-    id: number;
-    items: Item[];
-    size: number[];
-    gridDivision: number;
-}
-
-interface Item {
-    name: string;
-    size: number[];
-    gridPosition: number[];
-}
-
-function getItemsInGym(roomId: number) {
-    const gym: RootObject[] = [
-        {
-            "id": 1,
-            "items": [
-                {
-                    "name": "elliptical",
-                    "size": [2, 2],
-                    "gridPosition": [4, 4]
-                },
-                {
-                    "name": "treadmill",
-                    "size": [2, 2],
-                    "gridPosition": [7, 3]
-                },
-                {
-                    "name": "treadmill",
-                    "size": [2, 2],
-                    "gridPosition": [9, 3]
-                },
-                {
-                    "name": "barbell",
-                    "size": [2, 2],
-                    "gridPosition": [1, 3]
-                }
-            ],
-            "size": [6, 5],
-            "gridDivision": 2
-        }
-    ]
-    let room  = gym.find((room) => room.id === roomId);
-    if (room) {
-        return {
-            gridDivision: room.gridDivision,
-            size: room.size,
-            items: room.items
-        }
-    }
-    return {
-        gridDivision: 2,
-        size: [7, 7],
-        items: [
-        {
-            "name": "treadmill",
-            "size": [3, 2],
-            "rotation": 0,
-            "gridPosition": [10, 9]
-        }
-    ]
-    };
-}
 

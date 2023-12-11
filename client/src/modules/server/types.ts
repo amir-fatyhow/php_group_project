@@ -12,7 +12,19 @@ export type TUser = {
     token: string,
 };
 
+export interface TMessage {
+    message: string,
+    name: string,
+    surname: string
+}
+
 export type TLogin = {
     login: string,
     password: string
+}
+
+export interface IChatHash {
+    id: number,
+    version: number,
+    chat_hash: string
 }

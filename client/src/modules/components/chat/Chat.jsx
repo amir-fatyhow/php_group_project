@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import './Chat.css';
 import { ServerContext } from "../../../App";
 
@@ -8,17 +8,21 @@ const Chat = ({ userToken }) => {
     const formMsg = useRef(null);
     const [messages, setMessages] = useState([]);
     const server = useContext(ServerContext);
+    let currentChatHash = "hash";
 
-    function sendMessage(token, msg) {
+    async function sendMessage(token, msg) {
         if (msg) {
+            await server.changeChatHash(token.current);
+            const answer = await server.getChatHash(token.current);
+            currentChatHash = answer.chat_hash;
             formMsg.current.reset();
-            server.sendMessage(token.current, msg);
-            getMessage()
+            await server.sendMessage(token.current, msg);
+            await getMessage(token.current)
         }
     }
 
-    async function getMessage() {
-        let data = await server.getMessage();
+    async function getMessage(token) {
+        let data = await server.getMessage(token, currentChatHash);
         let arr = [];
         if (data) {
             for (let el of data) {
@@ -27,6 +31,14 @@ const Chat = ({ userToken }) => {
             setMessages(arr);
         }
     }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            getMessage(token.current);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    });
 
     return (
         <div className="modal">
@@ -43,8 +55,8 @@ const Chat = ({ userToken }) => {
                                                     <span className="message__text">{m.message}</span>
                                                 </div>
                                                 <div className="message__head">
-                                                    <span className="message__note">{m.user_name}</span>
-                                                    <span className="message__note">{m.user_surname}</span>
+                                                    <span className="message__note">{m.name}</span>
+                                                    <span className="message__note">{m.surname}</span>
                                                 </div>
                                             </div>
                                         </div>

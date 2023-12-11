@@ -54,11 +54,11 @@ class DB {
         $token = md5($login.$hash.rand(0, 10000));
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
                     [$login, $hash, $name, $surname, $token]);
-        return $token;
+        return array($token);
     }
 
     function login($login, $pass) {
-        $token = md5($login.$pass.rand(0, 10));
+        $token = md5($login.$pass.rand(0, 100000));
         $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
         return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?",
             [$login, $pass]);
@@ -92,8 +92,10 @@ class DB {
         return true;
     }
 
-    function updateChatHash($hash) {
+    function updateChatHash() {
+        $hash = md5('hashMessage'.rand(0, 100000));
         $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+        return true;
     }
 
     function getHashes() {
@@ -105,5 +107,19 @@ class DB {
         $newScore = $oldScore->score + $score;
         $this->post("UPDATE gamers SET score=? WHERE user_id=? ", [$newScore, $userId]);
         return $newScore;
+    }
+
+    function getItems() {
+        return $this->queryAll("SELECT name, length, width, x, y FROM items");
+    }
+
+    function setPersonPositionX($id, $x, $y) {
+        $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
+        return true;
+    }
+
+    function setGamerStatus($userId, $statusId) {
+        $this->post("UPDATE gamers SET status=? WHERE user_id=? ", [$statusId, $userId]);
+        return true;
     }
 }

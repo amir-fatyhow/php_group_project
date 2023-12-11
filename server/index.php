@@ -40,6 +40,21 @@ function router ($params) {
             // http://server/?method=increaseScore&points=&token=
             case 'increaseScore' : return $app->changeScore($params);
 
+            // http://server/?method=getItems
+            case 'getItems' : return $app->getItems();
+
+            // http://server/?method=changeChatHash&token=
+            case 'changeChatHash' : return $app->changeChatHash($params);
+
+            // http://server/?method=getChatHash&token=
+            case 'getChatHash': return $app->getChatHash($params);
+
+            // http://server/?method=setPersonPosition&token=&x=&y=
+            case 'setPersonPosition': return $app->setPersonPositionX($params);
+
+            // http://server/?method=setGamerStatus&token=&statusId=
+            case 'setGamerStatus': return $app->setGamerStatus($params);
+
             default : return array(false, 1002);
         }
     }
