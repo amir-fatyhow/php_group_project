@@ -159,4 +159,18 @@ class App {
         }
         return [false, 1002];
     }
+
+    function getScene($params) {
+        $token = $params['token'];
+        $gamersHash = $params['gamersHash'];
+        $itemsHash = $params['itemsHash'];
+        if ($token && $gamersHash && $itemsHash) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getScene($user->id, $gamersHash, $itemsHash);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

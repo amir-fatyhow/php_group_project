@@ -55,6 +55,9 @@ function router ($params) {
             // http://server/?method=setGamerStatus&token=&statusId=
             case 'setGamerStatus': return $app->setGamerStatus($params);
 
+            // http://server/?method=getScene&token=&gamersHash=&itemsHash=
+            case 'getScene': return $app->getScene($params);
+
             default : return array(false, 1002);
         }
     }

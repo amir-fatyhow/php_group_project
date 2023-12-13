@@ -92,9 +92,8 @@ class DB {
         return true;
     }
 
-    function updateChatHash() {
-        $hash = md5('hashMessage'.rand(0, 100000));
-        $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+    function updateChatHash($hash) {
+        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 
@@ -111,6 +110,10 @@ class DB {
 
     function getItems() {
         return $this->queryAll("SELECT name, length, width, x, y FROM items");
+    }
+
+    function getGamers() {
+        return $this->queryAll("SELECT id, user_id, score, person_id, x, y, status FROM gamers");
     }
 
     function setPersonPositionX($id, $x, $y) {
