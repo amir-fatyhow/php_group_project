@@ -20,14 +20,22 @@ class Game
         return $this->db->changeScore($userId, $points);
     }
 
+    function changeHealth($userId, $points) {
+        return $this->db->changeHealth($userId, $points);
+    }
+
     function getItems() {
         return $this->db->getItems();
+    }
+    
+    function getGamers() {
+        return $this->db->getGamers();
     }
 
     function setPersonPositionX($id, $x, $y) {
         // для каждого игрока ввести свой timestamp
         // и в игре держать таймаут на частоту обновления позиции
-        // если игрок обновляет свою позицию слишком часто, то игнорироватьслишком частые запросы
+        // если игрок обновляет свою позицию слишком часто, то игнорировать слишком частые запросы
         $hash = md5('hashMessage'.rand(0, 100000));
         $this->db->updateGamersHash($hash);
         $this->db->setPersonPositionX($id, $x, $y);
@@ -40,33 +48,35 @@ class Game
         return $this->db->setGamerStatus($userId, $statusId);
     }
 
-    function getGamers() {
-        return $this->db->getGamers();
-        // вернуть всех активных игроков вместе с их персонажами и координатами
+    function deleteDeadGamers(){
+
     }
 
-    function updateScene($timestamp, $timeout) {
+    function updateScene($userId, $timestamp, $timeout) {
         $currentTimestamp = time();
         if ($currentTimestamp - $timestamp >= $timeout) { // обновить игровую сцену
             $this->db->updateTimestamp($currentTimestamp);
-            // удалить мёртвых игроков 
-            
-            // игрокам посчитать очки (тренит за тренажером)
+            // удалить мёртвых игроков
+            $this->deleteDeadGamers();
 
             // у игроков уменьшить очки
 
             // если игрок умер, выставить ему статус "умер"
+            $user = $this->db->getGamerById($userId);
+            if ($user->health <= 0) {
+                $this->setGamerStatus(2);
+            }
 
             // обновить хеш игроков
             $hash = md5('hashMessage'.rand(0, 100000));
-            $this->db->updateGamersHash($hash);
+            $this->db->updateGameHash($hash);
         }
     }
 
     function getScene($userId, $gamersHash, $itemsHash) {
         $result = array();
         $game = $this->db->getHashes();
-        $this->updateScene($game->timestamp, $game->timeout);
+        $this->updateScene($userId, $game->timestamp, $game->timeout);
         if ($gamersHash !== $game->gamers_hash) {
             $result['gamers'] = $this->getGamers();
             $result['gamersHash'] = $game->gamers_hash;

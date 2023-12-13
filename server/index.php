@@ -40,6 +40,9 @@ function router ($params) {
             // http://server/?method=increaseScore&points=&token=
             case 'increaseScore' : return $app->changeScore($params);
 
+            // http://server/?method=decreaseHealth&points=&token=
+            case 'decreaseHealth' : return $app->changeHealth($params);
+
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
 

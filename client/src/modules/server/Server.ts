@@ -73,8 +73,10 @@ export default class Server {
         return await this.request('choosePerson', { token, personId });
     }
 
-    async increaseScore(token: string, points: number) {
-        const answer = await this.request('increaseScore', { token, points })
+    async changePoints(token: string, scorePoints: number, healthPoints: number) {
+        const answer1 = await this.request('increaseScore', { token, scorePoints });
+        const answer2 = await this.request('decreaseHealth', { token, healthPoints });
+        return true;
     }
 
     async getItems() {

@@ -55,6 +55,7 @@ CREATE TABLE `gamers` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
+  `health` int(11) DEFAULT NULL,
   `person_id` int(11) DEFAULT NULL,
   `x` int(11) DEFAULT NULL,
   `y` int(11) DEFAULT NULL,

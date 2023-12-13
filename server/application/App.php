@@ -105,6 +105,19 @@ class App {
         return [false, 1002];
     }
 
+    function changeHealth($params) {
+        $points = $params['points'];
+        $token = $params['token'];
+        if ($points && $token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeHealth($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
     function getItems() {
         return $this->game->getItems();
     }
@@ -153,7 +166,7 @@ class App {
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->setGamerStatus($user->id ,$statusId);
+                return $this->game->setGamerStatus($user->id, $statusId);
             }
             return [false, 4001];
         }

@@ -20,8 +20,8 @@ export const Gym = ({ changePlace, setCamera, userToken } ) => {
         })
     }, [])
 
-    async function increaseScore() {
-        const answer = await server.increaseScore(userToken, 10);
+    async function changePoints() {
+        const answer = await server.changePoints(userToken, 10, 5);
     }
 
     return (
