@@ -88,7 +88,12 @@ class DB {
 
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id) VALUES(?,?,?)", [$userId, 100, $personId]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id) VALUES(?,?,?,?)", [$userId, 100, 100, $personId]);
+        return true;
+    }
+
+    function deleteGamer($userId) {
+        $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
         return true;
     }
 
@@ -108,16 +113,16 @@ class DB {
         return $newScore;
     }
 
-    function updateGamerHash($hash) {
-        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
-        return true;
-    }
-
     function changeHealth($userId, $health) {
         $oldHealth = $this->query("SELECT health FROM gamers WHERE user_id = ?", [$userId]);
         $newHealth = $oldHealth->health + $health;
         $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$newHealth, $userId]);
         return $newHealth;
+    }
+
+    function updateGamerHash($hash) {
+        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+        return true;
     }
 
     function getItems() {
@@ -129,7 +134,7 @@ class DB {
     }
 
     function getGamerById($user_id) {
-        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status FROM gamers WHERE user_id=? ", [$user_id]);
+        return $this->query("SELECT id, user_id, score, health, person_id, x, y, status FROM gamers WHERE user_id=? ", [$user_id]);
     }
 
     function setPersonPositionX($id, $x, $y) {

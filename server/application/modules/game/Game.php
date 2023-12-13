@@ -48,26 +48,19 @@ class Game
         return $this->db->setGamerStatus($userId, $statusId);
     }
 
-    function deleteDeadGamers(){
-
-    }
-
     function updateScene($userId, $timestamp, $timeout) {
         $currentTimestamp = time();
-        if ($currentTimestamp - $timestamp >= $timeout) { // обновить игровую сцену
+        if ($currentTimestamp - $timestamp >= $timeout) {
             $this->db->updateTimestamp($currentTimestamp);
-            // удалить мёртвых игроков
-            $this->deleteDeadGamers();
 
-            // у игроков уменьшить очки
+            $this->db->deleteGamer($userId);
 
-            // если игрок умер, выставить ему статус "умер"
+            $this->db->changeScore($userId, 2);
             $user = $this->db->getGamerById($userId);
             if ($user->health <= 0) {
                 $this->setGamerStatus(2);
             }
 
-            // обновить хеш игроков
             $hash = md5('hashMessage'.rand(0, 100000));
             $this->db->updateGameHash($hash);
         }
