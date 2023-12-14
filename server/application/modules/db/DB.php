@@ -143,4 +143,9 @@ class DB {
         $this->post("UPDATE gamers SET status=? WHERE user_id=? ", [$statusId, $userId]);
         return true;
     }
+
+    function updateTimestamp($currentTimestamp) {
+        $this->post("UPDATE game SET timestamp=? WHERE id=? ", [$currentTimestamp, 1]);
+        return true;
+    }
 }

@@ -33,7 +33,7 @@ class Game
     }
 
     function setPersonPositionX($id, $x, $y) {
-        $user = $this->db->getGamerById($userId);
+        $user = $this->db->getGamerById($id);
         $currentTimestamp = time();
         if ($currentTimestamp - $user->timestamp >= $user->timeout) {
             $hash = md5('hashMessage'.rand(0, 100000));
@@ -51,7 +51,7 @@ class Game
         $currentTimestamp = time();
         if ($currentTimestamp - $timestamp >= $timeout) {
             $this->db->updateTimestamp($currentTimestamp);
-
+            $user = $this->db->getGamerById($userId);
             if($user->status === 2){
                 $this->db->deleteGamer($userId);
             }
@@ -59,7 +59,7 @@ class Game
             $this->db->changeScore($userId, 2);
             $user = $this->db->getGamerById($userId);
             if ($user->health <= 0) {
-                $this->setGamerStatus(2);
+                $this->setGamerStatus($userId, 2);
             }
 
             $hash = md5('hashMessage'.rand(0, 100000));
