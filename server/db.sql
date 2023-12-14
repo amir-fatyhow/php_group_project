@@ -60,6 +60,8 @@ CREATE TABLE `gamers` (
   `x` int(11) DEFAULT NULL,
   `y` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
+  `timestamp` int(11) NOT NULL,
+  `timeout` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -93,7 +95,7 @@ CREATE TABLE `items` (
   `length` int(11) DEFAULT NULL,
   `width` int(11) DEFAULT NULL,
   `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL
+  `y` int(11) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

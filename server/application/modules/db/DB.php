@@ -50,25 +50,22 @@ class DB {
         $this->post("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
-    function registration($login, $hash, $name, $surname) {
-        $token = md5($login.$hash.rand(0, 10000));
+    function registration($login, $hash, $name, $surname, $token) {
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
                     [$login, $hash, $name, $surname, $token]);
         return array($token);
     }
 
-    function login($login, $pass) {
-        $token = md5($login.$pass.rand(0, 100000));
+    function login($login, $pass, $token) {
         $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
-        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?",
-            [$login, $pass]);
+        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?", [$login, $pass]);
     }
 
-    function sendMessage($userId, $message) {
+    function sendMessage($userId, $message, $time) {
         $this->post("INSERT INTO 
             messages(user_id, message, created) 
-            VALUES (?, ?, now())",
-        [$userId, $message]);
+            VALUES (?, ?, ?)",
+        [$userId, $message, $time]);
     }
 
     function getMessages() {
@@ -130,7 +127,7 @@ class DB {
     }
 
     function getGamers() {
-        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status FROM gamers");
+        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status, timestamp, timeout FROM gamers");
     }
 
     function getGamerById($user_id) {

@@ -33,18 +33,17 @@ class Game
     }
 
     function setPersonPositionX($id, $x, $y) {
-        // для каждого игрока ввести свой timestamp
-        // и в игре держать таймаут на частоту обновления позиции
-        // если игрок обновляет свою позицию слишком часто, то игнорировать слишком частые запросы
-        $hash = md5('hashMessage'.rand(0, 100000));
-        $this->db->updateGamersHash($hash);
-        $this->db->setPersonPositionX($id, $x, $y);
+        $user = $this->db->getGamerById($userId);
+        $currentTimestamp = time();
+        if ($currentTimestamp - $user->timestamp >= $user->timeout) {
+            $hash = md5('hashMessage'.rand(0, 100000));
+            $this->db->updateGamersHash($hash);
+            $this->db->setPersonPositionX($id, $x, $y);
+        }
         return true;
     }
 
     function setGamerStatus($userId, $statusId) {
-        // проверить незанятость тренажера
-        // обновить items_hash
         return $this->db->setGamerStatus($userId, $statusId);
     }
 
@@ -53,7 +52,9 @@ class Game
         if ($currentTimestamp - $timestamp >= $timeout) {
             $this->db->updateTimestamp($currentTimestamp);
 
-            $this->db->deleteGamer($userId);
+            if($user->status === 2){
+                $this->db->deleteGamer($userId);
+            }
 
             $this->db->changeScore($userId, 2);
             $user = $this->db->getGamerById($userId);

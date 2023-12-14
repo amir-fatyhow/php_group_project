@@ -29,7 +29,7 @@ export const Gym = ({ changePlace, setCamera, userToken } ) => {
             {(inventar).map((item, idx) => (
                 <>
                     <Item
-                        onClick={() => increaseScore()}
+                        onClick={() => changePoints()}
                         key={`${item.name}-${idx}`}
                         item={item}
                     />

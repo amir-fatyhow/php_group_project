@@ -8,7 +8,8 @@ class Chat {
     }
 
     function sendMessage($userId, $message) {
-        $this->db->sendMessage($userId, $message);
+        $time = now();
+        $this->db->sendMessage($userId, $message, $time);
         $hash = md5('hashMessage'.rand(0, 100000));
         $this->db->updateGameHash($hash);
         return true;
