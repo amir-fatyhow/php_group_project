@@ -16,7 +16,7 @@ function router ($params) {
             // http://server/?method=getUsers
             case 'getUsers' : return $app->getUsers();
 
-            // http://server/?method=registration&login=&name=&surname=&hash=&$hashS=
+            // http://server/?method=registration&login=&name=&surname=&hash=&hashS=
             case 'registration' : return $app->registration($params);
 
             // http://server/?method=login&login=&pass=&hashS=

@@ -85,7 +85,7 @@ class DB {
 
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id) VALUES(?,?,?,?)", [$userId, 100, 100, $personId]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 0, 0, 1, 0, 300]);
         return true;
     }
 
@@ -103,9 +103,7 @@ class DB {
         return $this->query("SELECT * FROM game WHERE id=1");
     }
 
-    function changeScore($userId, $score) {
-        $oldScore = $this->query("SELECT score FROM gamers WHERE user_id = ?", [$userId]);
-        $newScore = $oldScore->score - $score;
+    function changeScore($userId, $newScore) {
         $this->post("UPDATE gamers SET score=? WHERE user_id=? ", [$newScore, $userId]);
         return $newScore;
     }
@@ -135,7 +133,7 @@ class DB {
     }
 
     function getGamerById($user_id) {
-        return $this->query("SELECT id, user_id, score, health, person_id, x, y, status FROM gamers WHERE user_id=? ", [$user_id]);
+        return $this->query("SELECT * FROM gamers WHERE user_id=? ", [$user_id]);
     }
 
     function setPersonPositionX($id, $x, $y) {

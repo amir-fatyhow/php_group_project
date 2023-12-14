@@ -95,18 +95,20 @@ CREATE TABLE `items` (
   `length` int DEFAULT NULL,
   `width` int DEFAULT NULL,
   `x` int DEFAULT NULL,
-  `y` int DEFAULT NULL
+  `y` int DEFAULT NULL,
+  `isUsed` int DEFAULT NULL,
+  `tiredness` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`) VALUES
-(1, 'barbell', 2, 2, 1, 3),
-(2, 'elliptical', 2, 2, 4, 4),
-(3, 'treadmill', 2, 2, 7, 3),
-(4, 'treadmill', 2, 2, 9, 3);
+INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`) VALUES
+(1, 'barbell', 2, 2, 1, 3, 0, 3),
+(2, 'elliptical', 2, 2, 4, 4, 0, 4),
+(3, 'treadmill', 2, 2, 7, 3, 0, 5),
+(4, 'treadmill', 2, 2, 9, 3, 0, 2);
 
 -- --------------------------------------------------------
 

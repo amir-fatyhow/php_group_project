@@ -41,7 +41,7 @@ class Game
         $currentTimestamp = time();
         if ($currentTimestamp - $user->timestamp >= $user->timeout) {
             $hash = md5('hashMessage'.rand(0, 100000));
-            $this->db->updateGamersHash($hash);
+            $this->db->updateGamerHash($hash);
             $this->db->setPersonPositionX($id, $x, $y);
         }
         return true;

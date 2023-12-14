@@ -37,7 +37,6 @@ class App {
         $name = $params['name'];
         $surname = $params['surname'];
         $hashS = $params['hashS'];
-
         if($login && $name && $surname) {
             return $this->user->registration($login, $hash, $name, $surname, $hashS);
         }
