@@ -24,9 +24,9 @@ class App {
     function login($params) {
         $login = $params['login'];
         $pass = $params['pass'];
-        $token = md5($login.$pass.rand(0, 100000));
-        if ($login && $pass) {
-            return $this->user->login($login, $pass, $token);
+        $hashS = $params['hashS'];
+        if ($login && $pass && $hashS) {
+            return $this->user->login($login, $pass, $hashS);
         }
         return array(false, 2001);
     }
@@ -36,10 +36,10 @@ class App {
         $hash = $params['hash'];
         $name = $params['name'];
         $surname = $params['surname'];
-        $token = md5($login.$hash.rand(0, 10000));
+        $hashS = $params['hashS'];
 
         if($login && $name && $surname) {
-            return $this->user->registration($login, $hash, $name, $surname, $token);
+            return $this->user->registration($login, $hash, $name, $surname, $hashS);
         }
         return array(false, 2003);
     }
@@ -68,6 +68,7 @@ class App {
     function getMessage($params) {
         $token = $params['token'];
         $hash = $params['hash'];
+
         if ($token && $hash) {
             $user = $this->user->getUser($token);
             if ($user) {

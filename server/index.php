@@ -16,10 +16,10 @@ function router ($params) {
             // http://server/?method=getUsers
             case 'getUsers' : return $app->getUsers();
 
-            // http://server/?method=registration&login=sheet&name=piece&surname=of&hash=c4ca4238a0b923820dcc509a6f75849b
+            // http://server/?method=registration&login=&name=&surname=&hash=&$hashS=
             case 'registration' : return $app->registration($params);
 
-            // http://server/?method=login&login=bobr&pass=c4ca4238a0b923820dcc509a6f75849b
+            // http://server/?method=login&login=&pass=&hashS=
             case 'login' : return $app->login($params);
 
             // http://server/?method=logout&token=

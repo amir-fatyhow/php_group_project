@@ -34,11 +34,12 @@ export default class Server {
 
     async login(
         login: string,
-        pass: string
+        pass: string,
+        hashS: number = 1
     ): Promise<TUser | null> {
         const answer = await this.request<TUser>(
             'login',
-            { login, pass }
+            { login, pass, hashS }
         );
 
         if (answer) {
@@ -53,8 +54,8 @@ export default class Server {
         this.token = null;
     }
 
-    async registration(login: string, hash: string, name: string, surname: string) : Promise<string | null> {
-        const answer = await this.request<string[]>('registration', { login, hash, name, surname });
+    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1) : Promise<string | null> {
+        const answer = await this.request<string[]>('registration', { login, hash, name, surname, hashS });
         if (answer) {
             this.token = answer[0];
         }
@@ -66,7 +67,7 @@ export default class Server {
     }
 
     async getMessage(token: string, hash: string) {
-        return await this.request<TMessage>('getMessages', { token, hash });
+        return await this.request('getMessages', { token, hash });
     }
 
     async choosePerson(token: string, personId: number) {

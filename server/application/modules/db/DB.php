@@ -61,11 +61,11 @@ class DB {
         return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?", [$login, $pass]);
     }
 
-    function sendMessage($userId, $message, $time) {
+    function sendMessage($userId, $message) {
         $this->post("INSERT INTO 
             messages(user_id, message, created) 
-            VALUES (?, ?, ?)",
-        [$userId, $message, $time]);
+            VALUES (?, ?, now())",
+        [$userId, $message]);
     }
 
     function getMessages() {
