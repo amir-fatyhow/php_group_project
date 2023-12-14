@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `game` (
-  `id` int(11) NOT NULL,
-  `version` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `version` int NOT NULL,
   `chat_hash` varchar(255) NOT NULL,
-  `gamers_hash` varchar(256) DEFAULT NULL,
-  `items_hash` varchar(256) DEFAULT NULL,
-  `timestamp` int(11) NOT NULL,
-  `timeout` int(11) NOT NULL
+  `gamers_hash` varchar(255) DEFAULT NULL,
+  `items_hash` varchar(255) DEFAULT NULL,
+  `timestamp` int NOT NULL,
+  `timeout` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -52,16 +52,16 @@ INSERT INTO `game` (`id`, `version`, `chat_hash`, `gamers_hash`, `items_hash`, `
 --
 
 CREATE TABLE `gamers` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL,
-  `health` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
-  `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL
-  `timestamp` int(11) NOT NULL,
-  `timeout` int(11) NOT NULL
+  `id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `score` int DEFAULT NULL,
+  `health` int DEFAULT NULL,
+  `person_id` int DEFAULT NULL,
+  `x` int DEFAULT NULL,
+  `y` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `timestamp` int NOT NULL,
+  `timeout` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -71,7 +71,7 @@ CREATE TABLE `gamers` (
 --
 
 CREATE TABLE `gamer_status` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -90,12 +90,12 @@ INSERT INTO `gamer_status` (`id`, `status`) VALUES
 --
 
 CREATE TABLE `items` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `length` int(11) DEFAULT NULL,
-  `width` int(11) DEFAULT NULL,
-  `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL,
+  `length` int DEFAULT NULL,
+  `width` int DEFAULT NULL,
+  `x` int DEFAULT NULL,
+  `y` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -115,8 +115,8 @@ INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`) VALUES
 --
 
 CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
   `created` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -128,7 +128,7 @@ CREATE TABLE `messages` (
 --
 
 CREATE TABLE `persons` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -148,7 +148,7 @@ INSERT INTO `persons` (`id`, `type`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `login` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -205,31 +205,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `game`
 --
 ALTER TABLE `game`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `gamers`
 --
 ALTER TABLE `gamers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
