@@ -16,10 +16,10 @@ function router ($params) {
             // http://server/?method=getUsers
             case 'getUsers' : return $app->getUsers();
 
-            // http://server/?method=registration&login=sheet&name=piece&surname=of&hash=c4ca4238a0b923820dcc509a6f75849b
+            // http://server/?method=registration&login=&name=&surname=&hash=&hashS=
             case 'registration' : return $app->registration($params);
 
-            // http://server/?method=login&login=bobr&pass=c4ca4238a0b923820dcc509a6f75849b
+            // http://server/?method=login&login=&pass=&hashS=
             case 'login' : return $app->login($params);
 
             // http://server/?method=logout&token=
@@ -40,6 +40,9 @@ function router ($params) {
             // http://server/?method=increaseScore&points=&token=
             case 'increaseScore' : return $app->changeScore($params);
 
+            // http://server/?method=decreaseHealth&points=&token=
+            case 'decreaseHealth' : return $app->changeHealth($params);
+
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
 
@@ -54,6 +57,12 @@ function router ($params) {
 
             // http://server/?method=setGamerStatus&token=&statusId=
             case 'setGamerStatus': return $app->setGamerStatus($params);
+
+            // http://server/?method=getScene&token=&gamersHash=&itemsHash=
+            case 'getScene': return $app->getScene($params);
+
+            // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
+            case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
 
             default : return array(false, 1002);
         }

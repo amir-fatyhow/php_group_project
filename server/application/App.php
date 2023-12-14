@@ -24,8 +24,9 @@ class App {
     function login($params) {
         $login = $params['login'];
         $pass = $params['pass'];
-        if ($login && $pass) {
-            return $this->user->login($login, $pass);
+        $hashS = $params['hashS'];
+        if ($login && $pass && $hashS) {
+            return $this->user->login($login, $pass, $hashS);
         }
         return array(false, 2001);
     }
@@ -35,9 +36,9 @@ class App {
         $hash = $params['hash'];
         $name = $params['name'];
         $surname = $params['surname'];
-
+        $hashS = $params['hashS'];
         if($login && $name && $surname) {
-            return $this->user->registration($login, $hash, $name, $surname);
+            return $this->user->registration($login, $hash, $name, $surname, $hashS);
         }
         return array(false, 2003);
     }
@@ -66,6 +67,7 @@ class App {
     function getMessage($params) {
         $token = $params['token'];
         $hash = $params['hash'];
+
         if ($token && $hash) {
             $user = $this->user->getUser($token);
             if ($user) {
@@ -99,6 +101,19 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 return $this->game->changeScore($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function changeHealth($params) {
+        $points = $params['points'];
+        $token = $params['token'];
+        if ($points && $token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeHealth($user->id, $points);
             }
             return [false, 4001];
         }
@@ -153,10 +168,42 @@ class App {
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->setGamerStatus($user->id ,$statusId);
+                return $this->game->setGamerStatus($user->id, $statusId);
             }
             return [false, 4001];
         }
         return [false, 1002];
+    }
+
+    function getScene($params) {
+        $token = $params['token'];
+        $gamersHash = $params['gamersHash'];
+        $itemsHash = $params['itemsHash'];
+        if ($token && $gamersHash && $itemsHash) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getScene($user->id, $gamersHash, $itemsHash);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function changeStatusOfItem($params) {
+        $token = $params['token'];
+        $isUsed = $params['isUsed'];
+        $itemId = $params['itemId'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            $item = $this->game->getItem($itemId);
+            $currentStatusOfItem = $this->game->getStatusOfItem($itemId);
+            if ($currentStatusOfItem->isUsed != $isUsed) {
+                if ($user && $item) {
+                    return $this->game->changeStatusOfItem($isUsed, $itemId);
+                }
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
     }
 }

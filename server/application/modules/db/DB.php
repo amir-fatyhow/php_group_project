@@ -50,25 +50,22 @@ class DB {
         $this->post("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
-    function registration($login, $hash, $name, $surname) {
-        $token = md5($login.$hash.rand(0, 10000));
+    function registration($login, $hash, $name, $surname, $token) {
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
-                    [$login, $hash, $name, $surname, $token]);
+            [$login, $hash, $name, $surname, $token]);
         return array($token);
     }
 
-    function login($login, $pass) {
-        $token = md5($login.$pass.rand(0, 100000));
+    function login($login, $pass, $token) {
         $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
-        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?",
-            [$login, $pass]);
+        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?", [$login, $pass]);
     }
 
     function sendMessage($userId, $message) {
         $this->post("INSERT INTO 
             messages(user_id, message, created) 
             VALUES (?, ?, now())",
-        [$userId, $message]);
+            [$userId, $message]);
     }
 
     function getMessages() {
@@ -88,13 +85,17 @@ class DB {
 
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, person_id) VALUES(?,?,?)", [$userId, 100, $personId]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 0, 0, 1, 0, 300]);
         return true;
     }
 
-    function updateChatHash() {
-        $hash = md5('hashMessage'.rand(0, 100000));
-        $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+    function deleteGamer($userId) {
+        $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
+        return true;
+    }
+
+    function updateGameHash($hash) {
+        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 
@@ -102,15 +103,37 @@ class DB {
         return $this->query("SELECT * FROM game WHERE id=1");
     }
 
-    function changeScore($userId, $score) {
-        $oldScore = $this->query("SELECT score FROM gamers WHERE user_id = ?", [$userId]);
-        $newScore = $oldScore->score + $score;
+    function changeScore($userId, $newScore) {
         $this->post("UPDATE gamers SET score=? WHERE user_id=? ", [$newScore, $userId]);
         return $newScore;
     }
 
+    function changeHealth($userId, $health) {
+        $oldHealth = $this->query("SELECT health FROM gamers WHERE user_id = ?", [$userId]);
+        $newHealth = $oldHealth->health + $health;
+        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$newHealth, $userId]);
+        return $newHealth;
+    }
+
+    function updateGamerHash($hash) {
+        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+        return true;
+    }
+
     function getItems() {
         return $this->queryAll("SELECT name, length, width, x, y FROM items");
+    }
+
+    function getItem($id) {
+        return $this->query("SELECT name, length, width, x, y FROM items WHERE id=?", [$id]);
+    }
+
+    function getGamers() {
+        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status, timestamp, timeout FROM gamers");
+    }
+
+    function getGamerById($user_id) {
+        return $this->query("SELECT * FROM gamers WHERE user_id=? ", [$user_id]);
     }
 
     function setPersonPositionX($id, $x, $y) {
@@ -120,6 +143,20 @@ class DB {
 
     function setGamerStatus($userId, $statusId) {
         $this->post("UPDATE gamers SET status=? WHERE user_id=? ", [$statusId, $userId]);
+        return true;
+    }
+
+    function updateTimestamp($currentTimestamp) {
+        $this->post("UPDATE game SET timestamp=? WHERE id=? ", [$currentTimestamp, 1]);
+        return true;
+    }
+
+    function getStatusOfItem($id) {
+        return $this->query("SELECT isUsed FROM items WHERE id=?", [$id]);
+    }
+
+    function changeStatusOfItem($isUsed, $id) {
+         $this->query("UPDATE items SET isUsed=? WHERE id=? ", [$isUsed, $id]);
         return true;
     }
 }

@@ -9,8 +9,8 @@ class Chat {
 
     function sendMessage($userId, $message) {
         $this->db->sendMessage($userId, $message);
-        $hash = md5(rand(0, 100000));
-        $this->db->updateChatHash($hash);
+        $hash = md5('hashMessage'.rand(0, 100000));
+        $this->db->updateGameHash($hash);
         return true;
     }
 
@@ -23,7 +23,8 @@ class Chat {
     }
 
     function changeChatHash() {
-        return $this->db->updateChatHash();
+        $hash = md5('hashMessage'.rand(0, 100000));
+        return $this->db->updateGameHash($hash);
     }
 
     function getChatHash() {
