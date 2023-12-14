@@ -24,8 +24,9 @@ class App {
     function login($params) {
         $login = $params['login'];
         $pass = $params['pass'];
+        $token = md5($login.$pass.rand(0, 100000));
         if ($login && $pass) {
-            return $this->user->login($login, $pass);
+            return $this->user->login($login, $pass, $token);
         }
         return array(false, 2001);
     }
@@ -35,9 +36,10 @@ class App {
         $hash = $params['hash'];
         $name = $params['name'];
         $surname = $params['surname'];
+        $token = md5($login.$hash.rand(0, 10000));
 
         if($login && $name && $surname) {
-            return $this->user->registration($login, $hash, $name, $surname);
+            return $this->user->registration($login, $hash, $name, $surname, $token);
         }
         return array(false, 2003);
     }
@@ -105,6 +107,19 @@ class App {
         return [false, 1002];
     }
 
+    function changeHealth($params) {
+        $points = $params['points'];
+        $token = $params['token'];
+        if ($points && $token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeHealth($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
     function getItems() {
         return $this->game->getItems();
     }
@@ -153,10 +168,24 @@ class App {
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->setGamerStatus($user->id ,$statusId);
+                return $this->game->setGamerStatus($user->id, $statusId);
             }
             return [false, 4001];
         }
         return [false, 1002];
+    }
+
+    function getScene($params) {
+        $token = $params['token'];
+        $gamersHash = $params['gamersHash'];
+        $itemsHash = $params['itemsHash'];
+        if ($token && $gamersHash && $itemsHash) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getScene($user->id, $gamersHash, $itemsHash);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
     }
 }

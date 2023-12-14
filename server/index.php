@@ -40,6 +40,9 @@ function router ($params) {
             // http://server/?method=increaseScore&points=&token=
             case 'increaseScore' : return $app->changeScore($params);
 
+            // http://server/?method=decreaseHealth&points=&token=
+            case 'decreaseHealth' : return $app->changeHealth($params);
+
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
 
@@ -54,6 +57,9 @@ function router ($params) {
 
             // http://server/?method=setGamerStatus&token=&statusId=
             case 'setGamerStatus': return $app->setGamerStatus($params);
+
+            // http://server/?method=getScene&token=&gamersHash=&itemsHash=
+            case 'getScene': return $app->getScene($params);
 
             default : return array(false, 1002);
         }
