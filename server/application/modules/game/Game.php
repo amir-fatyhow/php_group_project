@@ -93,4 +93,14 @@ class Game
     function changeStatusOfItem($isUsed, $id) {
         return $this->db->changeStatusOfItem($isUsed, $id);
     }
+
+    function updateGameHash() {
+        $hash = md5('hashGame'.rand(0, 100000));
+        return $this->db->updateGameHash($hash);
+    }
+
+    function updateItemsHash() {
+        $hash = md5('hashItem'.rand(0, 100000));
+        return $this->db->updateItemsHash($hash);
+    }
 }

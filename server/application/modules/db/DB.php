@@ -120,6 +120,11 @@ class DB {
         return true;
     }
 
+    function updateItemsHash($hash) {
+        $this->post("UPDATE game SET items_hash=? WHERE id=?", [$hash, 1]);
+        return true;
+    }
+
     function getItems() {
         return $this->queryAll("SELECT name, length, width, x, y FROM items");
     }
