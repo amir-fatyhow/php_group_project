@@ -61,6 +61,9 @@ function router ($params) {
             // http://server/?method=getScene&token=&gamersHash=&itemsHash=
             case 'getScene': return $app->getScene($params);
 
+            // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
+            case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
+
             default : return array(false, 1002);
         }
     }

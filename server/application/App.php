@@ -189,4 +189,22 @@ class App {
         }
         return [false, 4001];
     }
+
+    function changeStatusOfItem($params) {
+        $token = $params['token'];
+        $isUsed = $params['isUsed'];
+        $itemId = $params['itemId'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            $item = $this->game->getItem($itemId);
+            $currentStatusOfItem = $this->game->getStatusOfItem($itemId);
+            if ($currentStatusOfItem->isUsed != $isUsed) {
+                if ($user && $item) {
+                    return $this->game->changeStatusOfItem($isUsed, $itemId);
+                }
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

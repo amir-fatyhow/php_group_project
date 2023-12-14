@@ -27,7 +27,11 @@ class Game
     function getItems() {
         return $this->db->getItems();
     }
-    
+
+    function getItem($id) {
+        return $this->db->getItem($id);
+    }
+
     function getGamers() {
         return $this->db->getGamers();
     }
@@ -80,5 +84,13 @@ class Game
             $result['itemsHash'] = $game->items_hash;
         }
         return $result;
+    }
+
+    function getStatusOfItem($id) {
+        return $this->db->getStatusOfItem($id);
+    }
+
+    function changeStatusOfItem($isUsed, $id) {
+        return $this->db->changeStatusOfItem($isUsed, $id);
     }
 }

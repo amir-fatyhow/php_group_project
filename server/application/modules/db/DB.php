@@ -52,7 +52,7 @@ class DB {
 
     function registration($login, $hash, $name, $surname, $token) {
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
-                    [$login, $hash, $name, $surname, $token]);
+            [$login, $hash, $name, $surname, $token]);
         return array($token);
     }
 
@@ -65,7 +65,7 @@ class DB {
         $this->post("INSERT INTO 
             messages(user_id, message, created) 
             VALUES (?, ?, now())",
-        [$userId, $message]);
+            [$userId, $message]);
     }
 
     function getMessages() {
@@ -126,6 +126,10 @@ class DB {
         return $this->queryAll("SELECT name, length, width, x, y FROM items");
     }
 
+    function getItem($id) {
+        return $this->query("SELECT name, length, width, x, y FROM items WHERE id=?", [$id]);
+    }
+
     function getGamers() {
         return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status, timestamp, timeout FROM gamers");
     }
@@ -146,6 +150,15 @@ class DB {
 
     function updateTimestamp($currentTimestamp) {
         $this->post("UPDATE game SET timestamp=? WHERE id=? ", [$currentTimestamp, 1]);
+        return true;
+    }
+
+    function getStatusOfItem($id) {
+        return $this->query("SELECT isUsed FROM items WHERE id=?", [$id]);
+    }
+
+    function changeStatusOfItem($isUsed, $id) {
+         $this->query("UPDATE items SET isUsed=? WHERE id=? ", [$isUsed, $id]);
         return true;
     }
 }
