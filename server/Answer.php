@@ -15,7 +15,7 @@ class Answer
 
     static function response($data) {
         if ($data) {
-            /*if (count($data) === 2 && !$data[0]) {
+            if (count($data) === 2 && !$data[0]) {
                 $code = $data[1];
                 return array(
                     'result' => 'error',
@@ -24,7 +24,7 @@ class Answer
                         'text' => self::$CODES[$code]
                     )
                 );
-            }*/
+            }
             return array(
                 'result' => 'ok',
                 'data' => $data

@@ -83,9 +83,9 @@ class DB {
         return $this->queryAll("SELECT * FROM persons");
     }
 
-    function choosePerson($userId, $personId) {
+    function choosePerson($userId, $personId, $time) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id) VALUES(?,?,?,?)", [$userId, 100, 100, $personId]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 1, $time, 300]);
         return true;
     }
 

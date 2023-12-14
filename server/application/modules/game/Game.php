@@ -13,7 +13,8 @@ class Game
     }
 
     function choosePerson($userId, $personId) {
-        return $this->db->choosePerson($userId, $personId);
+        $time = time();
+        return $this->db->choosePerson($userId, $personId, $time);
     }
 
     function changeScore($userId, $points) {
@@ -56,7 +57,7 @@ class Game
                 $this->db->deleteGamer($userId);
             }
 
-            $this->db->changeScore($userId, 2);
+            $this->db->changeScore($userId, -2);
             $user = $this->db->getGamerById($userId);
             if ($user->health <= 0) {
                 $this->setGamerStatus(2);
