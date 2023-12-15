@@ -36,7 +36,7 @@ CREATE TABLE `game` (
   `items_hash` varchar(255) DEFAULT NULL,
   `timestamp` int NOT NULL,
   `timeout` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Дамп данных таблицы `game`
@@ -62,7 +62,7 @@ CREATE TABLE `gamers` (
   `status` int DEFAULT NULL,
   `timestamp` int NOT NULL,
   `timeout` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ CREATE TABLE `gamers` (
 CREATE TABLE `gamer_status` (
   `id` int NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Дамп данных таблицы `gamer_status`
@@ -98,7 +98,7 @@ CREATE TABLE `items` (
   `y` int DEFAULT NULL,
   `isUsed` int DEFAULT NULL,
   `tiredness` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Дамп данных таблицы `items`
@@ -121,7 +121,7 @@ CREATE TABLE `messages` (
   `user_id` int DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
   `created` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `persons` (
   `id` int NOT NULL,
   `type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Дамп данных таблицы `persons`
@@ -156,7 +156,7 @@ CREATE TABLE `users` (
   `name` varchar(255) DEFAULT NULL,
   `surname` varchar(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Индексы сохранённых таблиц
