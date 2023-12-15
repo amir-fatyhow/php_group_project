@@ -155,6 +155,7 @@ class App {
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
+                $this->game->updateGameHash();
                 return $this->game->setPersonPositionX($user->id ,$x, $y);
             }
             return [false, 4001];
@@ -199,6 +200,7 @@ class App {
             $currentStatusOfItem = $this->game->getStatusOfItem($itemId);
             if ($currentStatusOfItem->isUsed != $isUsed) {
                 if ($user && $item) {
+                    $this->game->updateItemsHash();
                     return $this->game->changeStatusOfItem($isUsed, $itemId);
                 }
             }

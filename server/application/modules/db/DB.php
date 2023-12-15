@@ -109,14 +109,17 @@ class DB {
     }
 
     function changeHealth($userId, $health) {
-        $oldHealth = $this->query("SELECT health FROM gamers WHERE user_id = ?", [$userId]);
-        $newHealth = $oldHealth->health + $health;
-        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$newHealth, $userId]);
-        return $newHealth;
+        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$health, $userId]);
+        return $health;
     }
 
     function updateGamerHash($hash) {
         $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+        return true;
+    }
+
+    function updateItemsHash($hash) {
+        $this->post("UPDATE game SET items_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 
