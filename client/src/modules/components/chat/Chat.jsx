@@ -67,7 +67,7 @@ const Chat = ({ userToken }) => {
                                 <div className="enter">
                                     <form ref={formMsg} className="enter__textarea">
                                         <input ref={message} className="input-send" name="enterMessage" id="enterMessage"
-                                                  placeholder="Say message..."></input>
+                                                  placeholder="Type a message"></input>
                                     </form>
                                     <div className="btn-box">
                                         <button className="send-btn" onClick={() => sendMessage(token, message.current.value)}>

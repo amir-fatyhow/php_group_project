@@ -11,7 +11,7 @@ function App() {
     const server = useServer(HOST);
     let user = useRef("");
     let userToken = useRef("");
-    const [state, setState] = useState('authorization');
+    const [state, setState] = useState('authorization'); //!!! change to authorisation after dones
 
     function setMenu(login: string, token: string | null) {
         user.current = login;
