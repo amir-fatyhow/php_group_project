@@ -1,48 +1,117 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Html } from "@react-three/drei";
 import { ServerContext } from "../../../App";
-import Game from "./Game";
+import useCanvas from "./useCanvas";
+import Point from "./Point";
+import Gamer from "./elements/Gamer";
 
 export const Gym = ({ changePlace, setCamera, userToken }) => {
-    //const [inventar, setInvetar] = useState([]);
     const server = useContext(ServerContext);
 
-    useEffect(() => {
-        setCamera();
-        
-    }, [])
+    window.requestAnimFrame = (function () {
+        return (
+            window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (callback) {
+                window.setTimeout(callback, 100 / 6);
+            }
+        );
+    })();
+
+    //TODO
+    /*
+    клиент двигает перса
+    перс прыгает
+    добавить платформы
+    добавить тренажёры
+    перс тренит за тренажёром
+    */
+
+    const WIN = {
+        LEFT: -10,
+        BOTTOM: -10,
+        WIDTH: 20,
+        HEIGHT: 20,
+    };
+    const Canvas = useCanvas(render);
+    let canvas = null;
+    let gamer = null;
+    const height = 600;
+
+    function startGame() {
+        canvas = Canvas({
+            id: "canvas",
+            width: 800,
+            height: height,
+            WIN,
+        });
+
+        gamer = new Gamer(119, 152, new Point(0, height));
+    }
 
     async function increaseScore() {
         const answer = await server.increaseScore(userToken, 10);
     }
 
-    let game = new Game();
-    game.render();
-
-    function exitGame(){
-        game.exit();
+    function exitGame() {
+        canvas = null;
         changePlace("Lobby");
     }
 
+    function printGamer(){
+        let image = document.createElement('img');
+        image.src = "https://i.pinimg.com/736x/0b/f2/9d/0bf29d758dd4ac4b3d296f65de699952.jpg";
+        canvas.image(image, gamer.printPoint.x, gamer.printPoint.y);
+    }
+
+    function render() {
+        if (canvas) {
+            canvas.clear("#C7CFFF");
+            let backgroundImg = document.createElement('img');
+            backgroundImg.src = "https://morefitness.pro/wp-content/uploads/2023/03/velvet-almaty.jpg";
+            canvas.image(backgroundImg, 0, 0);
+            canvas.clear("#abc8");
+
+            printGamer();
+
+            canvas.render();
+        }
+    }
+
     return (
-        <Html
-            position={[3.5, 0, 6.11]}
-            transform
-            center
-            scale={0.2}
-        >
-            <div
-                onClick={() => exitGame()}
-                className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+        <>
+            <Html
+                center
             >
-                <p className="text-uppercase font-bold text-lg">
-                    EXIT
-                </p>
+                <div id="content" style={{ display: 'block' }}></div>
                 <div
-                    className={"w-4 h-4 rounded-full bg-red-500"}
-                ></div>
-            </div>
-        </Html>
+                    onClick={() => exitGame()}
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                    <p className="text-uppercase font-bold text-lg">
+                        EXIT
+                    </p>
+                    <div
+                        className={"w-4 h-4 rounded-full bg-red-500"}
+                    ></div>
+                </div>
+
+                <div
+                    onClick={() => startGame()}
+                    className="p-4 flex gap-3 items-center bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                    <p className="text-uppercase font-bold text-lg">
+                        START GAME
+                    </p>
+                    <div
+                        className={"w-4 h-4 rounded-full bg-red-500"}
+                    ></div>
+                </div>
+                <canvas id="canvas"></canvas>
+            </Html>
+        </>
     );
 };

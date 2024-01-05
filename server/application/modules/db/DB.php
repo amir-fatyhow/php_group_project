@@ -4,8 +4,8 @@ class DB {
     private $db;
     function __construct() {
         $host = '127.0.0.1';
-        $port = 4200;
-        //$port = 3306;
+        //$port = 4200;
+        $port = 3306;
         $user = 'root';
         $pass = '';
         $db = 'gym';
