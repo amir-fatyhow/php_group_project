@@ -76,7 +76,7 @@ const Menu = ({ logOut, token }: {logOut: () => void, token: string}) => {
                                 three: 0,
                             }}
                         />
-                        {currentPlace === "Gym" && <Gym changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
+                        {currentPlace === "Gym" && <Gym changePlace={changePlace} userToken={token}/>}
                         {currentPlace === "Persons" && <Persons changePlace={changePlace} setCamera={setCamera} userToken={token}/>}
                     </>
                 </Canvas>}{currentPlace === "Gym" && <Chat userToken={token} />}

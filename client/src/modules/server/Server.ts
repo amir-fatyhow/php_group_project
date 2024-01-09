@@ -1,4 +1,4 @@
-import {IChatHash, TMessage, TUser} from './types';
+import { IChatHash, TMessage, TUser } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -54,7 +54,7 @@ export default class Server {
         this.token = null;
     }
 
-    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1) : Promise<string | null> {
+    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1): Promise<string | null> {
         const answer = await this.request<string[]>('registration', { login, hash, name, surname, hashS });
         if (answer) {
             this.token = answer[0];
@@ -92,5 +92,9 @@ export default class Server {
 
     async changeChatHash(token: string) {
         await this.request('changeChatHash', { token });
+    }
+
+    async setPersonPosition(token: string, x: number, y: number) {
+        await this.request('setPersonPosition', { token, x, y });
     }
 }

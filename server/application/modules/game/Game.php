@@ -36,13 +36,13 @@ class Game
         return $this->db->getGamers();
     }
 
-    function setPersonPositionX($id, $x, $y) {
+    function setPersonPosition($id, $x, $y) {
         $user = $this->db->getGamerById($id);
         $currentTimestamp = time();
         if ($currentTimestamp - $user->timestamp >= $user->timeout) {
             $hash = md5('hashMessage'.rand(0, 100000));
             $this->db->updateGamerHash($hash);
-            $this->db->setPersonPositionX($id, $x, $y);
+            $this->db->setPersonPosition($id, $x, $y);
         }
         return true;
     }

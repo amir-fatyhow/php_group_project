@@ -53,7 +53,7 @@ function router ($params) {
             case 'getChatHash': return $app->getChatHash($params);
 
             // http://server/?method=setPersonPosition&token=&x=&y=
-            case 'setPersonPosition': return $app->setPersonPositionX($params);
+            case 'setPersonPosition': return $app->setPersonPosition($params);
 
             // http://server/?method=setGamerStatus&token=&statusId=
             case 'setGamerStatus': return $app->setGamerStatus($params);

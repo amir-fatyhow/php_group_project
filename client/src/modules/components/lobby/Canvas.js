@@ -94,7 +94,7 @@ export default class Canvas {
         this.ctxV.fillText(text, x, y);
     }
 
-    image(image, x, y){
+    image(image, x, y) {
         this.ctxV.drawImage(image, x, y);
     }
 

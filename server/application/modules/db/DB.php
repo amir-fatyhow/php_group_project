@@ -139,7 +139,7 @@ class DB {
         return $this->query("SELECT * FROM gamers WHERE user_id=? ", [$user_id]);
     }
 
-    function setPersonPositionX($id, $x, $y) {
+    function setPersonPosition($id, $x, $y) {
         $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
         return true;
     }

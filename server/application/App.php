@@ -148,7 +148,7 @@ class App {
         return [false, 1002];
     }
 
-    function setPersonPositionX($params) {
+    function setPersonPosition($params) {
         $token = $params['token'];
         $x = $params['x'];
         $y = $params['y'];
@@ -156,7 +156,7 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 $this->game->updateGameHash();
-                return $this->game->setPersonPositionX($user->id ,$x, $y);
+                return $this->game->setPersonPosition($user->id ,$x, $y);
             }
             return [false, 4001];
         }
