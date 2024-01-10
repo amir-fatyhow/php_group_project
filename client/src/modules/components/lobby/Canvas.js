@@ -92,10 +92,9 @@ export default class Canvas {
     }
 
     text(text, x, y) {
-        this.ctxV.fillStyle = '#003366';
-        this.ctxV.font = 'bold 30px Comic Sans MC';
-        //this.ctxV.textAlign = 'left';
-        this.ctxV.fillText(text, this.xs(x), this.ys(y));
+        this.ctxV.fillStyle = '#123';
+        this.ctxV.font = 'bold 20px Comic Sans MC';
+        this.ctxV.fillText(text, x, y);
     }
 
     textCanvas(text, x, y) {
