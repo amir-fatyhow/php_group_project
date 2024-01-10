@@ -5,6 +5,7 @@ import { ServerContext } from "../../../App";
 import useCanvas from "./useCanvas";
 import Point from "./Point";
 import Gamer from "./elements/Gamer";
+import Plate from "./elements/Plate";
 
 export const Gym = ({ changePlace, userToken }) => {
     const server = useContext(ServerContext);
@@ -40,6 +41,7 @@ export const Gym = ({ changePlace, userToken }) => {
     let canvas = null;
     let gamer = null;
     const height = 600;
+    const plates = [];
 
     function startGame() {
         canvas = Canvas({
@@ -50,11 +52,16 @@ export const Gym = ({ changePlace, userToken }) => {
         });
 
         gamer = new Gamer(119, 152, new Point(0, height));
+
+        plates.push(new Plate(30, 230, height - 140, height - 160));
+        plates.push(new Plate(180, 350, height - 260, height - 280));
+        plates.push(new Plate(320, 580, height - 400, height - 420));
+        plates.push(new Plate(610, 780, height - 400, height - 420));
+        plates.push(new Plate(500, 620, height - 230, height - 250));
+        plates.push(new Plate(600, 770, height - 110, height - 130));
     }
 
     async function keyDown(event) {
-        console.log(event.key);
-
         const key = event.key;
         switch (key) {
             case 'd': {
@@ -68,7 +75,11 @@ export const Gym = ({ changePlace, userToken }) => {
                 return;
             }
             case 'w': {
-                gamer.move('y', -200);
+                if (gamer.isStanding) {
+                    gamer.move('y', -200);
+                    const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y - 200);
+                    gamer.isStanding = false;
+                }
                 return;
             }
             default: {
@@ -92,7 +103,40 @@ export const Gym = ({ changePlace, userToken }) => {
         canvas.image(image, gamer.printPoint.x, gamer.printPoint.y);
     }
 
+    function printPlates() {
+        plates.forEach(plate => {
+            canvas.rectangle(plate.left, plate.bottom, plate.right, plate.top);
+        })
+    }
+
+    async function getScene() {
+        const md5 = require('md5');
+        const gamersHash = md5(Math.random() + 'gamersHash');
+        const itemsHash = md5(Math.random() + 'itemsHash');
+        const answer = await server.getScene(userToken, gamersHash, itemsHash);
+    }
+
     function render() {
+        if (gamer) {
+            if (!gamer.isStanding) {
+                gamer.move('y', 6);
+                const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y + 6);
+            }
+            let isOnPlate = false;
+            plates.forEach(plate => {
+                let g = gamer.center;
+                if (g.x > plate.left && g.x < plate.right && g.y < plate.bottom && g.y > plate.top || g.y >= height) {
+                    gamer.isStanding = true;
+                    isOnPlate = true;
+                }
+            })
+            if (!isOnPlate) {
+                gamer.isStanding = false;
+            }
+        }
+
+        getScene();
+
         if (canvas) {
             canvas.clear("#C7CFFF");
             let backgroundImg = document.createElement('img');
@@ -100,6 +144,7 @@ export const Gym = ({ changePlace, userToken }) => {
             canvas.image(backgroundImg, 0, 0);
             canvas.clear("#abc8");
 
+            printPlates();
             printGamer();
 
             canvas.render();

@@ -64,10 +64,10 @@ function router ($params) {
             // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
             case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
 
-            default : return array(false, 1002);
+            default : return array('error', 1002);
         }
     }
-    return array(false, 1001);
+    return array('error', 1001);
 }
 
 echo json_encode(Answer::response(router($_GET)));

@@ -15,10 +15,8 @@ function App() {
 
     function setMenu(login: string, token: string | null) {
         user.current = login;
-        console.log(1002, token);
         if (token != null) {
             userToken.current = token;
-            console.log(1001, token);
         }
         setState('menu')
     }

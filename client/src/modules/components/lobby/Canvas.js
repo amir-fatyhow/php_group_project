@@ -67,6 +67,17 @@ export default class Canvas {
         this.ctxV.fill();
     }
 
+    rectangle(x1, y1, x2, y2, color = '#1239') {
+        this.ctxV.beginPath();
+        this.ctxV.moveTo(x1, y1);
+        this.ctxV.lineTo(x1, y2);
+        this.ctxV.lineTo(x2, y2);
+        this.ctxV.lineTo(x2, y1);
+        this.ctxV.lineTo(x1, y1);
+        this.ctxV.fillStyle = color;
+        this.ctxV.fill();
+    }
+
     polygon(points = [], color = '#0f05') {
         if (points.length >= 3) {
             this.ctxV.beginPath();

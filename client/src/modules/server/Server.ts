@@ -41,7 +41,6 @@ export default class Server {
             'login',
             { login, pass, hashS }
         );
-
         if (answer) {
             this.token = answer.token;
             return answer;
@@ -96,5 +95,9 @@ export default class Server {
 
     async setPersonPosition(token: string, x: number, y: number) {
         await this.request('setPersonPosition', { token, x, y });
+    }
+
+    async getScene(token: string, gamersHash: string, itemsHash: string) {
+        await this.request('getScene', { token, gamersHash, itemsHash });
     }
 }

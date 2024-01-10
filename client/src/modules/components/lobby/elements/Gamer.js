@@ -6,6 +6,7 @@ export default class Gamer {
         this.health = health;
         this.points = points;
         this.printPoint = new Point(center.x - width / 2, center.y - height);
+        this.isStanding = true;
     }
 
     move(d, num) {

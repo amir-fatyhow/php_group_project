@@ -28,7 +28,7 @@ class App {
         if ($login && $pass && $hashS) {
             return $this->user->login($login, $pass, $hashS);
         }
-        return array(false, 2001);
+        return array('error', 2001);
     }
 
     function registration($params) {
@@ -40,7 +40,7 @@ class App {
         if($login && $name && $surname) {
             return $this->user->registration($login, $hash, $name, $surname, $hashS);
         }
-        return array(false, 2003);
+        return array('error', 2003);
     }
 
     function logout($params) {
@@ -48,7 +48,7 @@ class App {
         if($token){
             return $this->user->logout($token);
         }
-        return array(false, 4001);
+        return array('error', 4001);
     }
 
     function sendMessage($params) {
@@ -59,9 +59,9 @@ class App {
             if ($user) {
                 return $this->chat->sendMessage($user->id, $message);
             }
-            return array(false, 9000);
+            return array('error', 9000);
         }
-        return array(false, 4001);
+        return array('error', 4001);
     }
 
     function getMessage($params) {
@@ -74,7 +74,7 @@ class App {
                 return $this->chat->getMessages($hash);
             }
         }
-        return [false, 9000];
+        return ['error', 9000];
     }
 
     function getPersons() {
@@ -89,9 +89,9 @@ class App {
             if ($user) {
                 return $this->game->choosePerson($user->id, $personId);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function changeScore($params) {
@@ -102,9 +102,9 @@ class App {
             if ($user) {
                 return $this->game->changeScore($user->id, $points);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function changeHealth($params) {
@@ -115,9 +115,9 @@ class App {
             if ($user) {
                 return $this->game->changeHealth($user->id, $points);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function getItems() {
@@ -131,9 +131,9 @@ class App {
             if ($user) {
                 return $this->chat->changeChatHash();
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function getChatHash($params) {
@@ -143,9 +143,9 @@ class App {
             if ($user) {
                 return $this->chat->getChatHash();
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function setPersonPosition($params) {
@@ -158,9 +158,9 @@ class App {
                 $this->game->updateGameHash();
                 return $this->game->setPersonPosition($user->id ,$x, $y);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function setGamerStatus($params) {
@@ -171,9 +171,9 @@ class App {
             if ($user) {
                 return $this->game->setGamerStatus($user->id, $statusId);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 1002];
+        return ['error', 1002];
     }
 
     function getScene($params) {
@@ -185,9 +185,9 @@ class App {
             if ($user) {
                 return $this->game->getScene($user->id, $gamersHash, $itemsHash);
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 4001];
+        return ['error', 4001];
     }
 
     function changeStatusOfItem($params) {
@@ -204,8 +204,8 @@ class App {
                     return $this->game->changeStatusOfItem($isUsed, $itemId);
                 }
             }
-            return [false, 4001];
+            return ['error', 4001];
         }
-        return [false, 4001];
+        return ['error', 4001];
     }
 }
