@@ -13,7 +13,6 @@ const scaledCanvas = {
     height: canvasHeight / 3
 }
 
-
 const keys = {
     right: {
         pressed: false
@@ -48,7 +47,7 @@ function makeCollision() {
         })
     })
 }
-makeCollision();
+
 
 const platformCollision2D = []
 const platformCollisionBlocks = [];
@@ -71,7 +70,7 @@ function makePlatformCollision() {
         })
     })
 }
-makePlatformCollision();
+
 const player = new Player({
     position:{ x: 100, y: 300},
     canvas:{width: canvasWidth, height:canvasHeight},
@@ -95,6 +94,10 @@ const camera = {
 const Gym = ( {changePlace, userToken} ) => {
     const canvas = useRef(null);
 
+    useEffect(() => {
+        makeCollision();
+        makePlatformCollision();
+    }, [])
 
     function animate(context) {
         window.requestAnimationFrame(() => animate(context));
