@@ -37,11 +37,11 @@ function router ($params) {
             // http://server/?method=choosePerson&token=&personId=1
             case 'choosePerson' : return $app->choosePerson($params);
 
-            // http://server/?method=changeScore&points=&token=
-            case 'changeScore' : return $app->changeScore($params);
+            // http://server/?method=increaseScore&points=&token=
+            case 'increaseScore' : return $app->changeScore($params);
 
-            // http://server/?method=changeHealth&points=&token=
-            case 'changeHealth' : return $app->changeHealth($params);
+            // http://server/?method=decreaseHealth&points=&token=
+            case 'decreaseHealth' : return $app->changeHealth($params);
 
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
@@ -64,10 +64,10 @@ function router ($params) {
             // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
             case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
 
-            default : return array('error', 1002);
+            default : return array(false, 1002);
         }
     }
-    return array('error', 1001);
+    return array(false, 1001);
 }
 
 echo json_encode(Answer::response(router($_GET)));
