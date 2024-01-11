@@ -37,11 +37,11 @@ function router ($params) {
             // http://server/?method=choosePerson&token=&personId=1
             case 'choosePerson' : return $app->choosePerson($params);
 
-            // http://server/?method=increaseScore&points=&token=
-            case 'increaseScore' : return $app->changeScore($params);
+            // http://server/?method=changeScore&points=&token=
+            case 'changeScore' : return $app->changeScore($params);
 
-            // http://server/?method=decreaseHealth&points=&token=
-            case 'decreaseHealth' : return $app->changeHealth($params);
+            // http://server/?method=changeHealth&points=&token=
+            case 'changeHealth' : return $app->changeHealth($params);
 
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();

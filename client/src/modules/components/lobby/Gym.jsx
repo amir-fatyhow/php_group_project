@@ -6,6 +6,15 @@ import useCanvas from "./useCanvas";
 import Point from "./Point";
 import Gamer from "./elements/Gamer";
 import Plate from "./elements/Plate";
+import Item from "./elements/Item";
+import gymgirl from './assets/gymgirl.png';
+import gymBackground from './assets/gym.png';
+import item1 from './assets/item1.png';
+import item2 from './assets/item2.png';
+import item3 from './assets/item3.png';
+import item4 from './assets/item4.png';
+import item5 from './assets/item5.png';
+import item6 from './assets/item6.png';
 
 export const Gym = ({ changePlace, userToken }) => {
     const server = useContext(ServerContext);
@@ -24,8 +33,9 @@ export const Gym = ({ changePlace, userToken }) => {
 
     //TODO
     /*
-    добавить тренажёры
-    перс тренит за тренажёром
+    список очков у всех игроков
+    printGamer -> s
+    создавать нового gamer при перезапуске игры / не давать возможность перезагрузки
     */
 
     const WIN = {
@@ -37,10 +47,52 @@ export const Gym = ({ changePlace, userToken }) => {
     const Canvas = useCanvas(render);
     let canvas = null;
     let gamer = null;
-    const height = 600, width = 800;
-    const plates = [];
+    const height = 650, width = 800;
 
-    function startGame() {
+    const plates = [];
+    const items = [];
+    const itemImages = [];
+
+    itemImages.push(item1);
+    itemImages.push(item2);
+    itemImages.push(item3);
+    itemImages.push(item4);
+    itemImages.push(item5);
+    itemImages.push(item6);
+
+    plates.push(new Plate(30, 230, height - 140, height - 160));
+    plates.push(new Plate(180, 350, height - 280, height - 300));
+    plates.push(new Plate(320, 580, height - 450, height - 470));
+    plates.push(new Plate(610, 780, height - 450, height - 470));
+    plates.push(new Plate(500, 620, height - 210, height - 230));
+    plates.push(new Plate(600, 770, height - 110, height - 130));
+
+    plates.forEach((plate, i) => {
+        let left = ((plate.right - plate.left) / 2 + plate.left - 80);
+        let right = left + 160;
+        let bottom = plate.bottom;
+        let top = bottom - 160;
+        items.push(new Item(itemImages[i], left, right, bottom, top));
+    })
+
+    items[0].score = 2;
+    items[1].score = 5;
+    items[2].score = 8;
+    items[3].score = 10;
+    items[4].score = 3;
+    items[5].score = 1;
+
+    items[0].health = -7;
+    items[1].health = -6;
+    items[2].health = -2;
+    items[3].health = -1;
+    items[4].health = -9;
+    items[5].health = -10;
+
+    gamer = new Gamer(119, 152, new Point(0, height));
+    const gamers = [];
+
+    async function startGame() {
         canvas = Canvas({
             id: "canvas",
             width: width,
@@ -48,71 +100,96 @@ export const Gym = ({ changePlace, userToken }) => {
             WIN
         });
 
-        gamer = new Gamer(119, 152, new Point(0, height));
-
-        plates.splice(0, plates.length);
-        plates.push(new Plate(30, 230, height - 140, height - 160));
-        plates.push(new Plate(180, 350, height - 280, height - 300));
-        plates.push(new Plate(320, 580, height - 450, height - 470));
-        plates.push(new Plate(610, 780, height - 450, height - 470));
-        plates.push(new Plate(500, 620, height - 210, height - 230));
-        plates.push(new Plate(600, 770, height - 110, height - 130));
-
         const interval = setInterval(() => {
-            if (!gamer.isStanding) {
-                gamer.move('y', 6);
-                const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y + 6);
-            }
-            let isOnPlate = false;
-            plates.forEach(plate => {
-                let g = gamer.center;
-                if (g.x > plate.left && g.x < plate.right && g.y < plate.bottom && g.y > plate.top || g.y >= height) {
-                    gamer.isStanding = true;
-                    isOnPlate = true;
-                }
+            items.forEach(item => {
+                item.isFree = true;
             })
-            if (!isOnPlate) {
-                gamer.isStanding = false;
+            if (gamer.isAlive) {
+                if (!gamer.isStanding) {
+                    gamer.move('y', 6);
+                    //const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y + 6);
+                }
+                let isOnPlate = false;
+                let g = gamer.center;
+                plates.forEach(plate => {
+                    if (g.x >= plate.left && g.x <= plate.right && g.y <= plate.bottom && g.y >= plate.top || g.y >= height) {
+                        gamer.isStanding = true;
+                        isOnPlate = true;
+                    }
+                })
+                if (!isOnPlate) {
+                    gamer.isStanding = false;
+                }
+
+                items.forEach(item => {
+                    if (gamer.isStanding && g.x >= item.left && g.x <= item.right && g.y <= item.bottom && g.y >= item.top) {
+                        item.isFree = false;
+                    }
+                })
+
+                if (gamer.health < 100) {
+                    gamer.health += 0.03;
+                }
+
+                if (gamer.health <= 0) {
+                    gamer.isAlive = false;
+                }
             }
 
-            getScene();
+            /*let scene = getScene();
+            gamers.splice(0, gamers.length);
+            scene.gamers.forEach(gamer => {
+                gamers.push(gamer);
+            })*/
         }, 30);
     }
 
-    async function keyDown(event) {
-        const key = event.key;
-        switch (key) {
-            case 'd': {
-                console.log(gamer.center.x, width)
-                if (gamer.center.x <= width) {
-                    gamer.move('x', 10);
-                    const answer = server.setPersonPosition(userToken, gamer.center.x + 10, gamer.center.y);
-                }
-                return;
-            };
-            case 'a': {
-                if (gamer.center.x >= 0) {
-                    gamer.move('x', -10);
-                    const answer = server.setPersonPosition(userToken, gamer.center.x - 10, gamer.center.y);
-                }
-                return;
-            }
-            case 'w': {
-                if (gamer.isStanding) {
-                    gamer.move('y', -200);
-                    const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y - 200);
-                    gamer.isStanding = false;
-                }
-                return;
-            }
-            default: {
-                return;
-            }
-        }
+    async function changePoints(item) {
+        console.log(gamer.score, item.score);
+        gamer.score += item.score;
+        gamer.health += item.health;
+        //const answer1 = server.changeScore(userToken, gamer.score);
+        //const answer2 = server.changeHealth(userToken, gamer.health);
     }
 
-    async function increaseScore() {
-        const answer = await server.increaseScore(userToken, 10);
+    async function keyDown(event) {
+        if (gamer.isAlive) {
+            const key = event.key;
+            switch (key) {
+                case 'd': {
+                    if (gamer.center.x <= width) {
+                        gamer.move('x', 10);
+                        //const answer = server.setPersonPosition(userToken, gamer.center.x + 10, gamer.center.y);
+                    }
+                    return;
+                };
+                case 'a': {
+                    if (gamer.center.x >= 0) {
+                        gamer.move('x', -10);
+                        //const answer = server.setPersonPosition(userToken, gamer.center.x - 10, gamer.center.y);
+                    }
+                    return;
+                }
+                case 'w': {
+                    if (gamer.isStanding) {
+                        gamer.move('y', -200);
+                        //const answer = server.setPersonPosition(userToken, gamer.center.x, gamer.center.y - 200);
+                        gamer.isStanding = false;
+                    }
+                    return;
+                }
+                case 't': {
+                    items.forEach(item => {
+                        if (!item.isFree) {
+                            changePoints(item);
+                        }
+                    })
+                }
+                default: {
+                    return;
+                }
+            }
+        }
     }
 
     function exitGame() {
@@ -122,15 +199,25 @@ export const Gym = ({ changePlace, userToken }) => {
 
     function printGamer() {
         let image = document.createElement('img');
-        image.src = "https://i.pinimg.com/736x/0b/f2/9d/0bf29d758dd4ac4b3d296f65de699952.jpg";
+        image.src = gymgirl;
         canvas.image(image, gamer.printPoint.x, gamer.printPoint.y);
 
-        canvas.text(gamer.points, gamer.printPoint.x, gamer.printPoint.y - 20);
+        canvas.text('score: ' + gamer.score, 10, 30);
+        canvas.text('health: ' + gamer.health.toFixed(0), 10, 60, '#aca');
     }
 
     function printPlates() {
         plates.forEach(plate => {
-            canvas.rectangle(plate.left, plate.bottom, plate.right, plate.top);
+            canvas.rectangle(plate.left, plate.bottom, plate.right, plate.top, '#1239');
+        })
+    }
+
+    function printItems() {
+        items.forEach(item => {
+            if (!item.isFree) {
+                canvas.rectangle(item.left, item.top, item.right, item.bottom, '#0c66');
+            }
+            canvas.image(item.image, item.left, item.top);
         })
     }
 
@@ -139,18 +226,27 @@ export const Gym = ({ changePlace, userToken }) => {
         const gamersHash = md5(Math.random() + 'gamersHash');
         const itemsHash = md5(Math.random() + 'itemsHash');
         const answer = await server.getScene(userToken, gamersHash, itemsHash);
+        return answer;
     }
 
     function render() {
         if (canvas) {
             canvas.clear("#C7CFFF");
             let backgroundImg = document.createElement('img');
-            backgroundImg.src = "https://morefitness.pro/wp-content/uploads/2023/03/velvet-almaty.jpg";
+            backgroundImg.src = gymBackground;
             canvas.image(backgroundImg, 0, 0);
             canvas.clear("#abcb");
 
             printPlates();
-            printGamer();
+            printItems();
+
+            if (gamer.isAlive) {
+                printGamer();
+            }
+            else {
+                canvas.clear('#b88b');
+                canvas.bigText('GAME OVER', width / 2, height / 2);
+            }
 
             canvas.render();
         }
@@ -187,7 +283,7 @@ export const Gym = ({ changePlace, userToken }) => {
                 </div>
                 <canvas id="canvas"></canvas>
                 <input
-                    placeholder="[a,w,d]"
+                    placeholder="[a,w,d,t]"
                     onKeyDown={(event) => keyDown(event)}
                     maxLength={0}
                 />

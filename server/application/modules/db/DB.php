@@ -50,9 +50,9 @@ class DB {
         $this->post("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
-    function registration($login, $hash, $name, $surname, $token) {
+    function registration($login, $pass, $name, $surname, $token) {
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
-            [$login, $hash, $name, $surname, $token]);
+            [$login, $pass, $name, $surname, $token]);
         return array($token);
     }
 

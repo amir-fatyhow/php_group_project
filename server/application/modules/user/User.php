@@ -16,11 +16,7 @@ class User {
     }
 
     public function registration($login, $pass, $name, $surname, $hashS) {
-        $user = $this->db->getUserByLogin($login);
         $token = $this->genToken($login, $hashS);
-        if ($user) {
-            return ['error', 9000];
-        }
         return $this->db->registration($login, $pass, $name, $surname, $token);
     }
 
@@ -36,9 +32,9 @@ class User {
                     'token' => $token,
                 );
             }
-            return ['error', 9000];
+            return ['error', 2002];
         }
-        return ['error', 9000];
+        return ['error', 4001];
     }
 
     function logout($token) {

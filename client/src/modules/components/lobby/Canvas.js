@@ -67,7 +67,7 @@ export default class Canvas {
         this.ctxV.fill();
     }
 
-    rectangle(x1, y1, x2, y2, color = '#1239') {
+    rectangle(x1, y1, x2, y2, color = '#123') {
         this.ctxV.beginPath();
         this.ctxV.moveTo(x1, y1);
         this.ctxV.lineTo(x1, y2);
@@ -93,14 +93,14 @@ export default class Canvas {
 
     text(text, x, y) {
         this.ctxV.fillStyle = '#123';
-        this.ctxV.font = 'bold 20px Comic Sans MC';
+        this.ctxV.font = 'bold 30px Comic Sans MC';
         this.ctxV.fillText(text, x, y);
     }
 
-    textCanvas(text, x, y) {
-        this.ctxV.fillStyle = '#003366';
-        this.ctxV.font = 'bold 30px Comic Sans MC';
-        //this.ctxV.textAlign = 'left';
+    bigText(text, x, y) {
+        this.ctxV.fillStyle = '#123';
+        this.ctxV.font = 'bold 100px Comic Sans MC';
+        this.ctxV.textAlign = 'center';
         this.ctxV.fillText(text, x, y);
     }
 

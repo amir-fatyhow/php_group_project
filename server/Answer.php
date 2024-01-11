@@ -26,7 +26,7 @@ class Answer
                 );
             }
             return array(
-                'result' => 'AAA',
+                'result' => 'ok',
                 'data' => $data
             );
         }

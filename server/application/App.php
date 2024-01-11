@@ -59,7 +59,7 @@ class App {
             if ($user) {
                 return $this->chat->sendMessage($user->id, $message);
             }
-            return array('error', 9000);
+            return array('error', 4001);
         }
         return array('error', 4001);
     }
@@ -74,7 +74,7 @@ class App {
                 return $this->chat->getMessages($hash);
             }
         }
-        return ['error', 9000];
+        return ['error', 4001];
     }
 
     function getPersons() {
