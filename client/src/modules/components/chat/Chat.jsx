@@ -8,13 +8,12 @@ const Chat = ({ userToken }) => {
     const formMsg = useRef(null);
     const [messages, setMessages] = useState([]);
     const server = useContext(ServerContext);
-    let currentChatHash = "hash";
+    let currentChatHash = useRef("hash");
 
     async function sendMessage(token, msg) {
         if (msg) {
+            currentChatHash.current = Math.random().toString();
             await server.changeChatHash(token.current);
-            const answer = await server.getChatHash(token.current);
-            currentChatHash = answer.chat_hash;
             formMsg.current.reset();
             await server.sendMessage(token.current, msg);
             await getMessage(token.current)
@@ -22,13 +21,17 @@ const Chat = ({ userToken }) => {
     }
 
     async function getMessage(token) {
-        let data = await server.getMessage(token, currentChatHash);
-        let arr = [];
-        if (data) {
-            for (let el of data) {
-                arr.push(el);
+        let chatHash = await server.getChatHash(token);
+        if (chatHash && currentChatHash.current !== chatHash.chat_hash) {
+            let data = await server.getMessage(token, currentChatHash.current);
+            currentChatHash.current = chatHash.chat_hash;
+            let arr = [];
+            if (data) {
+                for (let el of data) {
+                    arr.push(el);
+                }
+                setMessages(arr);
             }
-            setMessages(arr);
         }
     }
 
@@ -49,7 +52,7 @@ const Chat = ({ userToken }) => {
                             <div className="chatbox__row chatbox__row_fullheight">
                                 <div className="chatbox__content">
                                     {messages.length !== 0 && messages.map((m) => (
-                                        <div className="message">
+                                        <div className="message" key={m + Math.random()}>
                                             <div className="message__base">
                                                 <div className="message__textbox">
                                                     <span className="message__text">{m.message}</span>

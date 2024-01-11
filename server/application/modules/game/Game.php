@@ -13,7 +13,8 @@ class Game
     }
 
     function choosePerson($userId, $personId) {
-        return $this->db->choosePerson($userId, $personId);
+        $this->db->choosePerson($userId, $personId);
+        return true;
     }
 
     function changeScore($userId, $points) {

@@ -4,8 +4,8 @@ class DB {
     private $db;
     function __construct() {
         $host = '127.0.0.1';
-        //$port = 4200;
-        $port = 3306;
+        $port = 4200;
+        //$port = 3306;
         $user = 'root';
         $pass = '';
         $db = 'gym';
@@ -86,7 +86,6 @@ class DB {
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
         $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 0, 0, 1, 0, 300]);
-        return true;
     }
 
     function deleteGamer($userId) {
@@ -94,8 +93,8 @@ class DB {
         return true;
     }
 
-    function updateGameHash($hash) {
-        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+    function updateChatHash($hash) {
+        $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 

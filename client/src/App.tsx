@@ -1,6 +1,6 @@
 import { createContext, useRef, useState } from "react";
 import Authorization from "./modules/components/authorization/Authorization";
-import Menu from "./modules/components/lobby/Menu";
+import Menu from "./modules/components/game/Menu";
 import { Server } from "./modules/server";
 import { HOST } from "./config";
 import useServer from "./modules/server";
@@ -15,10 +15,8 @@ function App() {
 
     function setMenu(login: string, token: string | null) {
         user.current = login;
-        console.log(1002, token);
         if (token != null) {
             userToken.current = token;
-            console.log(1001, token);
         }
         setState('menu')
     }
