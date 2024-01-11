@@ -41,7 +41,8 @@ export default class Server {
             'login',
             { login, pass, hashS }
         );
-        if (answer) {
+
+        if (answer && answer.token) {
             this.token = answer.token;
             return answer;
         }
@@ -55,10 +56,12 @@ export default class Server {
 
     async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1): Promise<string | null> {
         const answer = await this.request<string[]>('registration', { login, hash, name, surname, hashS });
-        if (answer) {
+
+        if (answer && answer[0]) {
             this.token = answer[0];
+            return answer[0];
         }
-        return this.token;
+        return null;
     }
 
     async sendMessage(token: string, message: string) {
@@ -66,19 +69,15 @@ export default class Server {
     }
 
     async getMessage(token: string, hash: string) {
-        return await this.request('getMessages', { token, hash });
+        return await this.request<string[] | false>('getMessages', { token, hash });
     }
 
     async choosePerson(token: string, personId: number) {
-        return await this.request('choosePerson', { token, personId });
+        return await this.request<boolean>('choosePerson', { token, personId });
     }
 
-    async changeScore(token: string, points: number) {
-        const answer = await this.request('changeScore', { token, points })
-    }
-
-    async changeHealth(token: string, points: number) {
-        const answer = await this.request('changeHealth', { token, points })
+    async increaseScore(token: string, points: number) {
+        const answer = await this.request('increaseScore', { token, points })
     }
 
     async getItems() {
@@ -87,7 +86,7 @@ export default class Server {
 
     async getChatHash(token: string) {
         const answer = await this.request<IChatHash>('getChatHash', { token });
-        if (answer) {
+        if (answer && answer.chat_hash) {
             return answer;
         }
         return null;
@@ -99,9 +98,5 @@ export default class Server {
 
     async setPersonPosition(token: string, x: number, y: number) {
         await this.request('setPersonPosition', { token, x, y });
-    }
-
-    async getScene(token: string, gamersHash: string, itemsHash: string) {
-        await this.request('getScene', { token, gamersHash, itemsHash });
     }
 }

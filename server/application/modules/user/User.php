@@ -16,7 +16,11 @@ class User {
     }
 
     public function registration($login, $pass, $name, $surname, $hashS) {
+        $user = $this->db->getUserByLogin($login);
         $token = $this->genToken($login, $hashS);
+        if ($user) {
+            return [false, 9000];
+        }
         return $this->db->registration($login, $pass, $name, $surname, $token);
     }
 
@@ -32,9 +36,9 @@ class User {
                     'token' => $token,
                 );
             }
-            return ['error', 2002];
+            return [false, 9000];
         }
-        return ['error', 4001];
+        return [false, 9000];
     }
 
     function logout($token) {
@@ -43,7 +47,7 @@ class User {
             $this->db->updateToken($user->id, null);
             return true;
         }
-        return array('error', 4002);
+        return array(false, 4002);
     }
 
 

@@ -2,6 +2,7 @@ import { SyntheticEvent, useContext, useRef, useState } from 'react';
 import $ from 'jquery'
 import './Authorization.css'
 import { ServerContext } from "../../../App";
+import {randInt} from "three/src/math/MathUtils";
 
 const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | null) => void}) => {
     const server = useContext(ServerContext);
@@ -25,10 +26,10 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
             if (user) {
                 setMenu(login, user.token);
             }
-            setError("login or password incorrect   !");
+            setError("data is incorrect!");
             return;
         }
-        setError("login or password is empty!");
+        setError("some field is empty!");
     }
 
     async function registration(event: SyntheticEvent,
@@ -40,9 +41,14 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
             let token = await server.registration(login, pass, name, surname);
-            setMenu(login, token);
+            console.log(token)
+            if (token) {
+                setMenu(login, token);
+            }
+            setError("login already exists!");
+        } else {
+            setError("some field is empty!");
         }
-        setError("login or password is empty!");
     }
 
     return (
