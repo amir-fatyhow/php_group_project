@@ -1,4 +1,4 @@
-import {IChatHash, TMessage, TUser} from './types';
+import { IChatHash, TMessage, TUser } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -42,7 +42,7 @@ export default class Server {
             { login, pass, hashS }
         );
 
-        if (answer) {
+        if (answer && answer.token) {
             this.token = answer.token;
             return answer;
         }
@@ -54,12 +54,14 @@ export default class Server {
         this.token = null;
     }
 
-    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1) : Promise<string | null> {
+    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1): Promise<string | null> {
         const answer = await this.request<string[]>('registration', { login, hash, name, surname, hashS });
-        if (answer) {
+
+        if (answer && answer[0]) {
             this.token = answer[0];
+            return answer[0];
         }
-        return this.token;
+        return null;
     }
 
     async sendMessage(token: string, message: string) {
@@ -67,11 +69,11 @@ export default class Server {
     }
 
     async getMessage(token: string, hash: string) {
-        return await this.request('getMessages', { token, hash });
+        return await this.request<string[] | false>('getMessages', { token, hash });
     }
 
     async choosePerson(token: string, personId: number) {
-        return await this.request('choosePerson', { token, personId });
+        return await this.request<boolean>('choosePerson', { token, personId });
     }
 
     async increaseScore(token: string, points: number) {
@@ -84,7 +86,7 @@ export default class Server {
 
     async getChatHash(token: string) {
         const answer = await this.request<IChatHash>('getChatHash', { token });
-        if (answer) {
+        if (answer && answer.chat_hash) {
             return answer;
         }
         return null;
@@ -92,5 +94,9 @@ export default class Server {
 
     async changeChatHash(token: string) {
         await this.request('changeChatHash', { token });
+    }
+
+    async setPersonPosition(token: string, x: number, y: number) {
+        await this.request('setPersonPosition', { token, x, y });
     }
 }

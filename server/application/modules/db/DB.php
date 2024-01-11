@@ -86,7 +86,6 @@ class DB {
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
         $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 0, 0, 1, 0, 300]);
-        return true;
     }
 
     function deleteGamer($userId) {
@@ -94,8 +93,8 @@ class DB {
         return true;
     }
 
-    function updateGameHash($hash) {
-        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+    function updateChatHash($hash) {
+        $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 
@@ -139,7 +138,7 @@ class DB {
         return $this->query("SELECT * FROM gamers WHERE user_id=? ", [$user_id]);
     }
 
-    function setPersonPositionX($id, $x, $y) {
+    function setPersonPosition($id, $x, $y) {
         $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
         return true;
     }
