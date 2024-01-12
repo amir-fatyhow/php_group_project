@@ -14,7 +14,7 @@ export function Persons({ changePlace, userToken } :
 
     return (
         <>
-            <span className={css}>Кто ты воин?</span>
+            <span className={css}>Кто ты, воин?</span>
             <button
                 onClick={(event) => setPerson(event, 1)}
             >

@@ -11,6 +11,7 @@ import {
     makePlatformCollision,
     player
 } from "../constants";
+import {delay} from "framer-motion";
 
 
 
@@ -33,17 +34,23 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
             player.velocity.x = 0;
             if (keys.right.pressed) {
-                player.velocity.x = 3;
+                player.switchSprite('Run');
+                player.velocity.x = 2;
                 player.shouldPanCameraToTheLeft({camera});
             }
             else if (keys.left.pressed) {
                 player.velocity.x = -3;
                 player.shouldPanCameraToTheRight({camera});
             }
+            else if (player.velocity.y === 0) {
+                player.switchSprite('Idle');
+            }
 
             if (player.velocity.y < 0) {
+                player.switchSprite('Jump');
                 player.shouldPanCameraToTheDown({camera})
             } else if (player.velocity.y > 0) {
+                player.switchSprite('Fall')
                 player.shouldPanCameraToTheUp({camera})
             }
 
@@ -79,9 +86,7 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
     useEffect(() => {
         makeCollision();
         makePlatformCollision();
-
         let context = canvas.current ? canvas.current.getContext('2d') :null;
-
         animate(context);
 
         window.addEventListener('keydown', (e) => handleKeyDown(e))
@@ -91,7 +96,6 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
             window.removeEventListener('keyup', (e) => handleKeyUp(e));
         };
     }, [])
-
 
     return (
         <div>

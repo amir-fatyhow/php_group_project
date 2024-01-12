@@ -9,7 +9,8 @@ export class Player {
                     frameBuffer = 3,
                     scale = 0.5,
                     src,
-                    platformCollisionBlocks}) {
+                    platformCollisionBlocks,
+                    animations}) {
         this.position = position;
         this.scale = scale;
         this.velocity = {
@@ -36,6 +37,7 @@ export class Player {
             height: 10
         }
         this.src = src;
+        this.loaded = false;
         this.image = this.imgCreate(this.src);
         this.cameraBox = {
             position: {
@@ -45,15 +47,28 @@ export class Player {
             width: 200,
             height: 80
         }
+
+        this.animations = animations;
+        for (let key in this.animations) {
+            const image = this.imgFrameCreate(this.animations[key].srcFrame)
+            this.animations[key].image = image
+        }
+    }
+
+    imgFrameCreate(src, alt, title) {
+        let img = document.createElement('img');
+        img.src = src;
+        return img;
     }
 
     imgCreate(src, alt, title) {
         let img = document.createElement('img');
         img.src = src;
-        this.width = (img.width / this.frameRate) * this.scale;
-        this.height = img.height * this.scale;
-        if ( alt != null ) img.alt = alt;
-        if ( title != null ) img.title = title;
+        img.onload = () => {
+            this.width = (img.width / this.frameRate) * this.scale;
+            this.height = img.height * this.scale;
+            this.loaded = true;
+        }
         return img;
     }
 
@@ -82,7 +97,7 @@ export class Player {
         this.updateFrames();
         this.updateHitbox();
         this.updateCameraBox()
-        this.draw(context)
+        this.draw(context);
         this.position.x += this.velocity.x;
         this.updateHitbox();
         this.checkForHorizontalCollision();
@@ -131,8 +146,8 @@ export class Player {
     }
 
     applyGravity() {
-        this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
+        this.position.y += this.velocity.y;
     }
 
     collision({ object1, object2 }) {
@@ -233,5 +248,13 @@ export class Player {
             this.hitbox.position.x + this.velocity.x <= 0) {
             this.velocity.x = 0;
         }
+    }
+
+    switchSprite(key) {
+        //console.log(this.image === this.animations[key])
+        if (this.image === this.animations[key] || !this.loaded) return
+        this.image = this.animations[key].image;
+        this.frameBuffer = this.animations[key].framebuffer;
+        this.frameRate = this.animations[key].framerate;
     }
 }

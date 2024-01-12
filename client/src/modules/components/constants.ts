@@ -78,7 +78,29 @@ export const player = new Player({
     frameRate: 8,
     frameBuffer: 4,
     scale: 0.5,
-    src: './assets/warrior/Idle.png'
+    src: './assets/warrior/Idle.png',
+    animations: {
+        Idle: {
+            framerate: 8,
+            srcFrame: './assets/warrior/Idle.png',
+            framebuffer: 4
+        },
+        Run: {
+            framerate: 8,
+            srcFrame: './assets/warrior/Run.png',
+            framebuffer: 5
+        },
+        Jump: {
+            framerate: 2,
+            srcFrame: './assets/warrior/Jump.png',
+            framebuffer: 3
+        },
+        Fall: {
+            framerate: 2,
+            srcFrame: './assets/warrior/Fall.png',
+            framebuffer: 3
+        },
+    }
 });
 
 export const camera = {
