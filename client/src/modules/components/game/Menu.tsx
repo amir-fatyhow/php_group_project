@@ -1,15 +1,15 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import { Persons } from "./Persons";
 import {ServerContext} from "../../../App";
 import './styles/Lobby.css'
 import Gym from "./Gym";
 
 
-const Menu = ({ logOut, token }) => {
+const Menu = ({ logOut, token } : { logOut : () => void, token: string}) => {
     const[place, setPlace] = useState("");
     const server = useContext(ServerContext);
 
-    function changePlace(place) {
+    function changePlace(place: string) {
         setPlace(place);
     }
 

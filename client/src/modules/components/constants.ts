@@ -1,5 +1,5 @@
 import {Sprite} from "./game/classes/Sprite";
-import {floorCollisions, platformCollisions} from "./game/data/collisions";
+import {floorCollisions, platformCollisions} from "./game/classes/data/collisions";
 import {CollisionBlock} from "./game/classes/CollisionBlock";
 import {Player} from "./game/classes/Player";
 
@@ -28,8 +28,8 @@ export const background = new Sprite({
     }
 })
 
-export const floorCollision2D = []
-const collisionBlocks = [];
+export const floorCollision2D: number[][] = []
+export const collisionBlocks: CollisionBlock[] = [];
 export const makeCollision = () => {
     for (let i = 0; i < floorCollisions.length; i+= 36) {
         floorCollision2D.push(floorCollisions.slice(i, i + 36))
@@ -48,8 +48,8 @@ export const makeCollision = () => {
 }
 
 
-export const platformCollision2D = []
-export const platformCollisionBlocks = [];
+export const platformCollision2D: number[][] = []
+export const platformCollisionBlocks: CollisionBlock[] = [];
 export const makePlatformCollision = () => {
     for (let i = 0; i < platformCollisions.length; i+= 36) {
         platformCollision2D.push(platformCollisions.slice(i, i + 36))

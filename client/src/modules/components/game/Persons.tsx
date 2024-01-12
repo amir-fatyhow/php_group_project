@@ -3,6 +3,7 @@ import { ServerContext } from "../../../App";
 
 export function Persons({ changePlace, userToken } :
                             { changePlace : (param : string) => void, userToken: string}) {
+    const css = 'inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mb-4';
     const server = useContext(ServerContext);
 
     async function setPerson(event: React.MouseEvent<HTMLButtonElement>, typeId: number) {
@@ -13,20 +14,21 @@ export function Persons({ changePlace, userToken } :
 
     return (
         <>
+            <span className={css}>Кто ты воин?</span>
             <button
                 onClick={(event) => setPerson(event, 1)}
             >
-                NERD
+                ботан с бутова
             </button>
             <button
                 onClick={(event) => setPerson(event, 2)}
             >
-                SPORTYMAN
+                типа спортсмэн
             </button>
             <button
                 onClick={(event) => setPerson(event, 3)}
             >
-                WOMAN
+                не скажу
             </button>
         </>
     );
