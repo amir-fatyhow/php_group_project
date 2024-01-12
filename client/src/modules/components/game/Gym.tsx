@@ -36,21 +36,33 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
             if (keys.right.pressed) {
                 player.switchSprite('Run');
                 player.velocity.x = 2;
+                player.lastDirection = 'right'
                 player.shouldPanCameraToTheLeft({camera});
             }
             else if (keys.left.pressed) {
-                player.velocity.x = -3;
+                player.switchSprite('RunLeft');
+                player.velocity.x = -2;
+                player.lastDirection = 'left'
                 player.shouldPanCameraToTheRight({camera});
             }
             else if (player.velocity.y === 0) {
-                player.switchSprite('Idle');
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Idle');
+                else
+                    player.switchSprite('IdleLeft')
             }
 
             if (player.velocity.y < 0) {
-                player.switchSprite('Jump');
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Jump');
+                else
+                    player.switchSprite('JumpLeft')
                 player.shouldPanCameraToTheDown({camera})
             } else if (player.velocity.y > 0) {
-                player.switchSprite('Fall')
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Fall')
+                else
+                    player.switchSprite('FallLeft')
                 player.shouldPanCameraToTheUp({camera})
             }
 

@@ -53,17 +53,20 @@ export class Player {
             const image = this.imgFrameCreate(this.animations[key].srcFrame)
             this.animations[key].image = image
         }
+        this.lastDirection = 'right';
     }
 
     imgFrameCreate(src, alt, title) {
         let img = document.createElement('img');
         img.src = src;
+        img.title = src;
         return img;
     }
 
     imgCreate(src, alt, title) {
         let img = document.createElement('img');
         img.src = src;
+        img.title = src;
         img.onload = () => {
             this.width = (img.width / this.frameRate) * this.scale;
             this.height = img.height * this.scale;
@@ -251,8 +254,9 @@ export class Player {
     }
 
     switchSprite(key) {
-        //console.log(this.image === this.animations[key])
-        if (this.image === this.animations[key] || !this.loaded) return
+        if (this.image.title === this.animations[key].srcFrame || !this.loaded) return
+
+        this.currentFrame = 0;
         this.image = this.animations[key].image;
         this.frameBuffer = this.animations[key].framebuffer;
         this.frameRate = this.animations[key].framerate;

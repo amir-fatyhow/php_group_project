@@ -100,6 +100,26 @@ export const player = new Player({
             srcFrame: './assets/warrior/Fall.png',
             framebuffer: 3
         },
+        FallLeft: {
+            framerate: 2,
+            srcFrame: './assets/warrior/FallLeft.png',
+            framebuffer: 3
+        },
+        RunLeft: {
+            framerate: 8,
+            srcFrame: './assets/warrior/RunLeft.png',
+            framebuffer: 5
+        },
+        IdleLeft: {
+            framerate: 8,
+            srcFrame: './assets/warrior/IdleLeft.png',
+            framebuffer: 3
+        },
+        JumpLeft: {
+            framerate: 2,
+            srcFrame: './assets/warrior/JumpLeft.png',
+            framebuffer: 3
+        },
     }
 });
 
