@@ -14,43 +14,44 @@ import {
 
 
 
-const Gym = ( {changePlace, userToken} ) => {
-    const canvas = useRef(null);
+const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
+    const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
 
-    function animate(context) {
-        window.requestAnimationFrame(() => animate(context));
-        context.fillStyle = 'white'
-        context.fillRect(0, 0, canvasWidth, canvasHeight);
+    function animate(context: CanvasRenderingContext2D | null) {
+        if (context) {
+            window.requestAnimationFrame(() => animate(context));
+            context.fillStyle = 'white'
+            context.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        context.save();
-        context.scale(3, 3)
-        context.translate(camera.position.x, camera.position.y)
-        background.update(context);
+            context.save();
+            context.scale(3, 3)
+            context.translate(camera.position.x, camera.position.y)
+            background.update(context);
 
-        player.checkForHorizontalCanvasCollision();
-        player.update(context);
+            player.checkForHorizontalCanvasCollision();
+            player.update(context);
 
-        player.velocity.x = 0;
-        if (keys.right.pressed) {
-            player.velocity.x = 3;
-            player.shouldPanCameraToTheLeft({camera});
+            player.velocity.x = 0;
+            if (keys.right.pressed) {
+                player.velocity.x = 3;
+                player.shouldPanCameraToTheLeft({camera});
+            }
+            else if (keys.left.pressed) {
+                player.velocity.x = -3;
+                player.shouldPanCameraToTheRight({camera});
+            }
+
+            if (player.velocity.y < 0) {
+                player.shouldPanCameraToTheDown({camera})
+            } else if (player.velocity.y > 0) {
+                player.shouldPanCameraToTheUp({camera})
+            }
+
+            context.restore();
         }
-        else if (keys.left.pressed) {
-            player.velocity.x = -3;
-            player.shouldPanCameraToTheRight({camera});
-        }
-
-        if (player.velocity.y < 0) {
-            player.shouldPanCameraToTheDown({camera})
-        } else if (player.velocity.y > 0) {
-            player.shouldPanCameraToTheUp({camera})
-        }
-
-        context.restore();
     }
 
-    function handleKeyDown(e) {
-        //console.log(e);
+    function handleKeyDown(e: KeyboardEvent) {
         switch (e.key) {
             case 'ArrowRight':
                 keys.right.pressed = true;
@@ -64,7 +65,7 @@ const Gym = ( {changePlace, userToken} ) => {
         }
     }
 
-    function handleKeyUp(e) {
+    function handleKeyUp(e: KeyboardEvent) {
         switch (e.key) {
             case 'ArrowRight':
                 keys.right.pressed = false;
@@ -79,7 +80,8 @@ const Gym = ( {changePlace, userToken} ) => {
         makeCollision();
         makePlatformCollision();
 
-        let context = canvas.current.getContext('2d');
+        let context = canvas.current ? canvas.current.getContext('2d') :null;
+
         animate(context);
 
         window.addEventListener('keydown', (e) => handleKeyDown(e))

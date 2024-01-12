@@ -48,7 +48,6 @@ export class Sprite {
 
     updateFrames() {
         this.elapsedFrames++;
-
         if (this.elapsedFrames % this.frameBuffer === 0) {
             if (this.currentFrame < this.framerate - 1)
                 this.currentFrame ++;

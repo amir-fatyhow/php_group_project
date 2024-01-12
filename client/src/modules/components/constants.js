@@ -3,9 +3,6 @@ import {floorCollisions, platformCollisions} from "./game/data/collisions";
 import {CollisionBlock} from "./game/classes/CollisionBlock";
 import {Player} from "./game/classes/Player";
 
-export const NERD = "https://models.readyplayer.me/64f0265b1db75f90dcfd9e2c.glb?meshlod=1&quality=medium";
-export const SPORTYMAN = "https://models.readyplayer.me/6548a089e42e04abf89a867d.glb?meshlod=1&quality=medium";
-export const WOMAN = "https://models.readyplayer.me/6548a28c8ef6ede9493ce30d.glb?meshlod=1&quality=medium";
 
 export const canvasHeight = 576;
 export const canvasWidth = 1024;
@@ -33,7 +30,6 @@ export const background = new Sprite({
 
 export const floorCollision2D = []
 const collisionBlocks = [];
-
 export const makeCollision = () => {
     for (let i = 0; i < floorCollisions.length; i+= 36) {
         floorCollision2D.push(floorCollisions.slice(i, i + 36))
