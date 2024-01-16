@@ -208,4 +208,41 @@ class App {
         }
         return [false, 4001];
     }
+
+    function decreaseTiredness($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->decreaseTiredness($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function increaseTiredness($params) {
+        $token = $params['token'];
+        $points = $params['points'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->increaseTiredness($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getTiredness($params) {
+         $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getTirednessByUserId($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

@@ -18,7 +18,9 @@ class Game
     }
 
     function changeScore($userId, $points) {
-        return $this->db->changeScore($userId, $points);
+        $currentScore = $this->db->getScoreByUserId($userId)->score;
+        $score = $currentScore + $points;
+        return $this->db->changeScore($userId, $score);
     }
 
     function changeHealth($userId, $points) {
@@ -103,5 +105,25 @@ class Game
     function updateItemsHash() {
         $hash = md5('hashItem'.rand(0, 100000));
         return $this->db->updateItemsHash($hash);
+    }
+
+    function decreaseTiredness($userId) {
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        if ($currentTiredness > 10) {
+            $tiredness = $currentTiredness - 10;
+            return $this->db->decreaseTirednessByUserId($userId, $tiredness);
+        } else {
+            return $this->db->decreaseTirednessByUserId($userId, 0);
+        }
+    }
+
+    function increaseTiredness($userId, $points) {
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        $tiredness = $currentTiredness + $points;
+        return $this->db->increaseTirednessByUserId($userId, $tiredness);
+    }
+
+    function getTirednessByUserId($userId) {
+        return $this->db->getTirednessByUserId($userId)->health;
     }
 }

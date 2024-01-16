@@ -37,11 +37,11 @@ function router ($params) {
             // http://server/?method=choosePerson&token=&personId=1
             case 'choosePerson' : return $app->choosePerson($params);
 
-            // http://server/?method=increaseScore&points=&token=
-            case 'increaseScore' : return $app->changeScore($params);
+            // http://server/?method=decreaseScore&points=&token=
+            case 'decreaseScore' : return $app->changeScore($params);
 
             // http://server/?method=decreaseHealth&points=&token=
-            case 'decreaseHealth' : return $app->changeHealth($params);
+            //case 'decreaseHealth' : return $app->changeHealth($params);
 
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
@@ -63,6 +63,15 @@ function router ($params) {
 
             // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
             case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
+
+            // http://server/?method=decreaseTiredness&token=
+            case 'decreaseTiredness' : return $app->decreaseTiredness($params);
+
+            // http://server/?method=increaseTiredness&token=&points=
+            case 'increaseTiredness' : return $app->increaseTiredness($params);
+
+            // http://server/?method=getTiredness&token=
+            case 'getTiredness' : return $app->getTiredness($params);
 
             default : return array(false, 1002);
         }

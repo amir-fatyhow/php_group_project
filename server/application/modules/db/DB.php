@@ -161,4 +161,22 @@ class DB {
          $this->query("UPDATE items SET isUsed=? WHERE id=? ", [$isUsed, $id]);
         return true;
     }
+
+    function getTirednessByUserId($userId) {
+        return $this->query("SELECT health FROM gamers WHERE user_id=?", [$userId]);
+    }
+
+    function decreaseTirednessByUserId($userId, $tiredness) {
+        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
+        return true;
+    }
+
+    function increaseTirednessByUserId($userId, $tiredness) {
+        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
+        return true;
+    }
+
+    function getScoreByUserId($userId) {
+        return  $this->query("SELECT score FROM gamers WHERE user_id=?", [$userId]);
+    }
 }
