@@ -49,8 +49,17 @@ function router ($params) {
             // http://server/?method=changeChatHash&token=
             case 'changeChatHash' : return $app->changeChatHash($params);
 
+            // http://server/?method=changeGamerHash&token=
+            case 'changeGamerHash' : return $app->changeGamerHash($params);
+
+            // http://server/?method=changeItemsHash&token=
+            case 'changeItemsHash' : return $app->changeItemsHash($params);
+
             // http://server/?method=getChatHash&token=
             case 'getChatHash': return $app->getChatHash($params);
+
+            // http://server/?method=getItemsHash&token=
+            case 'getItemsHash': return $app->getItemsHash($params);
 
             // http://server/?method=setPersonPosition&token=&x=&y=
             case 'setPersonPosition': return $app->setPersonPosition($params);
@@ -72,6 +81,9 @@ function router ($params) {
 
             // http://server/?method=getTiredness&token=
             case 'getTiredness' : return $app->getTiredness($params);
+
+            // http://server/?method=getScore&token=
+            case 'getScore' : return $app->getScore($params);
 
             default : return array(false, 1002);
         }

@@ -115,4 +115,28 @@ export default class Server {
     async getTiredness(token: string) {
         return await this.request<number>('getTiredness', { token });
     }
+
+    async getScore(token: string) {
+        return await this.request<number>('getScore', { token });
+    }
+
+    async changeGamerStatusDeath(token: string, statusId = 2) {
+        return await this.request('setGamerStatus', { token, statusId });
+    }
+
+    async changeGamerHash(token: string) {
+        return await this.request('changeGamerHash', { token });
+    }
+
+    async changedStatusItemToUse(token: string, itemId: number, isUsed: number) {
+        await this.request('changeStatusOfItem', { token, itemId, isUsed });
+    }
+
+    async changeItemsHash(token: string) {
+        await this.request('changeItemsHash', { token });
+    }
+
+    async getItemsHash(token: string) {
+        return this.request('getItemsHash', { token });
+    }
 }

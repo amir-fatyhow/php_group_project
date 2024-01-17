@@ -179,4 +179,6 @@ class DB {
     function getScoreByUserId($userId) {
         return  $this->query("SELECT score FROM gamers WHERE user_id=?", [$userId]);
     }
+
+
 }

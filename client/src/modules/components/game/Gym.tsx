@@ -19,6 +19,19 @@ import {ServerContext} from "../../../App";
 const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
+    let currentUsingExerciser = useRef(0);
+    let currentItemsHash = useRef('itemsHash');
+
+    async function changeStatusItem(token: string, itemId: number, isUsed: number) {
+        await server.changeItemsHash(token);
+        await server.changedStatusItemToUse(token, itemId, isUsed);
+    }
+
+    async function getItemsHash(token: string) {
+        let answer = await server.getItemsHash(token);
+
+    }
+
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
             window.requestAnimationFrame(() => animate(context));
@@ -34,8 +47,18 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
             let value = player.training();
             if (value) {
+                console.log(currentUsingExerciser.current)
+                currentUsingExerciser.current = value[2];
                 server.training(userToken, value[0]);
                 server.increaseTiredness(userToken, value[1]);
+                changeStatusItem(userToken, value[2], 1);
+            } else {
+                if (currentUsingExerciser.current) {
+                    console.log('undo')
+                    changeStatusItem(userToken, currentUsingExerciser.current, 0);
+                    currentUsingExerciser.current = 0;
+                }
+                getItemsHash(userToken);
             }
 
             player.velocity.x = 0;

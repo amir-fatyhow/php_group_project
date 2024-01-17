@@ -136,12 +136,48 @@ class App {
         return [false, 1002];
     }
 
+    function changeGamerHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeGamerHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function changeItemsHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeItemsHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
     function getChatHash($params) {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
                 return $this->chat->getChatHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function getItemsHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getItemsHash();
             }
             return [false, 4001];
         }
@@ -240,6 +276,18 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 return $this->game->getTirednessByUserId($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getScore($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getScoreByUserId($user->id);
             }
             return [false, 4001];
         }

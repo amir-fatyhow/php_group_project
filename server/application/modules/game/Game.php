@@ -126,4 +126,22 @@ class Game
     function getTirednessByUserId($userId) {
         return $this->db->getTirednessByUserId($userId)->health;
     }
+
+    function getScoreByUserId($userId) {
+        return $this->db->getScoreByUserId($userId)->score;
+    }
+
+    function changeGamerHash() {
+        $hash = md5('changeGamerHash'.rand(0, 100000));
+        return $this->db->updateGamerHash($hash);
+    }
+
+    function changeItemsHash() {
+        $hash = md5('changeItemsHash'.rand(0, 100000));
+        return $this->db->updateItemsHash($hash);
+    }
+
+    function getItemsHash() {
+        return $this->db->getHashes()->items_hash;
+    }
 }
