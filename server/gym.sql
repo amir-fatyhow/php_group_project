@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Дек 12 2023 г., 08:53
--- Версия сервера: 10.3.13-MariaDB-log
--- Версия PHP: 7.1.32
+-- Хост: 127.0.0.1:4200
+-- Время создания: Янв 17 2024 г., 23:27
+-- Версия сервера: 8.0.30
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `best_gamers`
+--
+
+CREATE TABLE `best_gamers` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `score` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `game`
 --
 
@@ -36,14 +47,14 @@ CREATE TABLE `game` (
   `items_hash` varchar(255) DEFAULT NULL,
   `timestamp` int NOT NULL,
   `timeout` int NOT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `game`
 --
 
 INSERT INTO `game` (`id`, `version`, `chat_hash`, `gamers_hash`, `items_hash`, `timestamp`, `timeout`) VALUES
-(1, 1, '7166ddf9c0cdc8f2397ef95a1cb1e4aa', NULL, NULL, 0, 300);
+(1, 1, '7796ae789826691a9277552720194713', 'f880410bc441710de8ee669fc72443ad', 'ff1d0c2a272286dc58fab33626f56f11', 1704921710, 300);
 
 -- --------------------------------------------------------
 
@@ -62,7 +73,7 @@ CREATE TABLE `gamers` (
   `status` int DEFAULT NULL,
   `timestamp` int NOT NULL,
   `timeout` int NOT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -73,7 +84,7 @@ CREATE TABLE `gamers` (
 CREATE TABLE `gamer_status` (
   `id` int NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `gamer_status`
@@ -98,7 +109,7 @@ CREATE TABLE `items` (
   `y` int DEFAULT NULL,
   `isUsed` int DEFAULT NULL,
   `tiredness` int DEFAULT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `items`
@@ -107,7 +118,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`) VALUES
 (1, 'barbell', 2, 2, 1, 3, 0, 3),
 (2, 'elliptical', 2, 2, 4, 4, 0, 4),
-(3, 'treadmill', 2, 2, 7, 3, 0, 5),
+(3, 'treadmill', 2, 2, 7, 3, 1, 5),
 (4, 'treadmill', 2, 2, 9, 3, 0, 2);
 
 -- --------------------------------------------------------
@@ -121,7 +132,7 @@ CREATE TABLE `messages` (
   `user_id` int DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
   `created` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -132,7 +143,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `persons` (
   `id` int NOT NULL,
   `type` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `persons`
@@ -156,11 +167,17 @@ CREATE TABLE `users` (
   `name` varchar(255) DEFAULT NULL,
   `surname` varchar(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `best_gamers`
+--
+ALTER TABLE `best_gamers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `game`
@@ -204,6 +221,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `best_gamers`
+--
+ALTER TABLE `best_gamers`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
 -- AUTO_INCREMENT для таблицы `game`
 --
 ALTER TABLE `game`
@@ -213,7 +236,7 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT для таблицы `gamers`
 --
 ALTER TABLE `gamers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=458;
 
 --
 -- AUTO_INCREMENT для таблицы `items`
@@ -225,13 +248,13 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
