@@ -14,8 +14,6 @@ export class Sprite {
         img.src = './assets/background.png';
         this.width = img.width / this.framerate;
         this.height = img.height;
-        if ( alt != null ) img.alt = alt;
-        if ( title != null ) img.title = title;
         return img;
     }
 
@@ -48,7 +46,6 @@ export class Sprite {
 
     updateFrames() {
         this.elapsedFrames++;
-
         if (this.elapsedFrames % this.frameBuffer === 0) {
             if (this.currentFrame < this.framerate - 1)
                 this.currentFrame ++;

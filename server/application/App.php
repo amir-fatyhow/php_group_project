@@ -136,12 +136,48 @@ class App {
         return [false, 1002];
     }
 
+    function changeGamerHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeGamerHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function changeItemsHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->changeItemsHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
     function getChatHash($params) {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
                 return $this->chat->getChatHash();
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function getItemsHash($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getItemsHash();
             }
             return [false, 4001];
         }
@@ -203,6 +239,117 @@ class App {
                     $this->game->updateItemsHash();
                     return $this->game->changeStatusOfItem($isUsed, $itemId);
                 }
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function decreaseTiredness($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->decreaseTiredness($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function increaseTiredness($params) {
+        $token = $params['token'];
+        $points = $params['points'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->increaseTiredness($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getTiredness($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getTirednessByUserId($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getScore($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getScoreByUserId($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getStatusOfItem($params) {
+        $token = $params['token'];
+        $itemId = $params['itemId'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getStatusOfItem($itemId);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getStatusAllItems($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getStatusAllItems();
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function setBestGamers($params) {
+        $token = $params['token'];
+        $points = $params['score'];
+        if ($token && $points) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->setBestGamers($user->id, $points);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function setInitialStateGamer($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->setInitialStateGamer($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function getBestGamers($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getBestGamers();
             }
             return [false, 4001];
         }

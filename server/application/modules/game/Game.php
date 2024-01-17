@@ -18,7 +18,9 @@ class Game
     }
 
     function changeScore($userId, $points) {
-        return $this->db->changeScore($userId, $points);
+        $currentScore = $this->db->getScoreByUserId($userId)->score;
+        $score = $currentScore + $points;
+        return $this->db->changeScore($userId, $score);
     }
 
     function changeHealth($userId, $points) {
@@ -88,7 +90,7 @@ class Game
     }
 
     function getStatusOfItem($id) {
-        return $this->db->getStatusOfItem($id);
+        return $this->db->getStatusOfItem($id)->isUsed;
     }
 
     function changeStatusOfItem($isUsed, $id) {
@@ -103,5 +105,66 @@ class Game
     function updateItemsHash() {
         $hash = md5('hashItem'.rand(0, 100000));
         return $this->db->updateItemsHash($hash);
+    }
+
+    function decreaseTiredness($userId) {
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        if ($currentTiredness > 10) {
+            $tiredness = $currentTiredness - 10;
+            return $this->db->decreaseTirednessByUserId($userId, $tiredness);
+        } else {
+            return $this->db->decreaseTirednessByUserId($userId, 1);
+        }
+    }
+
+    function increaseTiredness($userId, $points) {
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        $tiredness = $currentTiredness + $points;
+        return $this->db->increaseTirednessByUserId($userId, $tiredness);
+    }
+
+    function getTirednessByUserId($userId) {
+        return $this->db->getTirednessByUserId($userId)->health;
+    }
+
+    function getScoreByUserId($userId) {
+        return $this->db->getScoreByUserId($userId)->score;
+    }
+
+    function changeGamerHash() {
+        $hash = md5('changeGamerHash'.rand(0, 100000));
+        return $this->db->updateGamerHash($hash);
+    }
+
+    function changeItemsHash() {
+        $hash = md5('changeItemsHash'.rand(0, 100000));
+        return $this->db->updateItemsHash($hash);
+    }
+
+    function getItemsHash() {
+        return $this->db->getHashes()->items_hash;
+    }
+
+    function getStatusAllItems() {
+        return $this->db->getStatusAllItems();
+    }
+
+    function setBestGamers($userId, $points) {
+        $oldScore = $this->db->getBestGamerById($userId)->score;
+        if ($oldScore < $points) {
+            $this->db->deleteBestGamerById($userId);
+            return $this->db->setBestGamers($userId, $points);
+        }
+        return false;
+    }
+
+    function setInitialStateGamer($userId) {
+        $this->db->setInitialStateGamer($userId);
+        return true;
+    }
+
+    function getBestGamers() {
+        $gamers = $this->db->getBestGamers();
+        return $gamers;
     }
 }
