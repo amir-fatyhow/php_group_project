@@ -85,7 +85,7 @@ class DB {
 
     function choosePerson($userId, $personId) {
         $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 100, 100, $personId, 0, 0, 1, 0, 300]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, $personId, 0, 0, 1, 0, 300]);
     }
 
     function deleteGamer($userId) {

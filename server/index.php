@@ -37,8 +37,8 @@ function router ($params) {
             // http://server/?method=choosePerson&token=&personId=1
             case 'choosePerson' : return $app->choosePerson($params);
 
-            // http://server/?method=decreaseScore&points=&token=
-            case 'decreaseScore' : return $app->changeScore($params);
+            // http://server/?method=increaseScore&points=&token=
+            case 'increaseScore' : return $app->changeScore($params);
 
             // http://server/?method=decreaseHealth&points=&token=
             //case 'decreaseHealth' : return $app->changeHealth($params);

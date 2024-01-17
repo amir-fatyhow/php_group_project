@@ -113,7 +113,7 @@ class Game
             $tiredness = $currentTiredness - 10;
             return $this->db->decreaseTirednessByUserId($userId, $tiredness);
         } else {
-            return $this->db->decreaseTirednessByUserId($userId, 0);
+            return $this->db->decreaseTirednessByUserId($userId, 1);
         }
     }
 

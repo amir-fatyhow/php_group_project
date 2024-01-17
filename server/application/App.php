@@ -235,7 +235,7 @@ class App {
     }
 
     function getTiredness($params) {
-         $token = $params['token'];
+        $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
