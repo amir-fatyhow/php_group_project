@@ -1,4 +1,4 @@
-import { IChatHash, TMessage, TUser } from './types';
+import {IChatHash, IItem, IToken, TBestGamers, TMessage, TUser} from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -41,7 +41,6 @@ export default class Server {
             'login',
             { login, pass, hashS }
         );
-
         if (answer && answer.token) {
             this.token = answer.token;
             return answer;
@@ -55,13 +54,7 @@ export default class Server {
     }
 
     async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1): Promise<string | null> {
-        const answer = await this.request<string[]>('registration', { login, hash, name, surname, hashS });
-
-        if (answer && answer[0]) {
-            this.token = answer[0];
-            return answer[0];
-        }
-        return null;
+        return await this.request<string | null>('registration', { login, hash, name, surname, hashS });
     }
 
     async sendMessage(token: string, message: string) {
@@ -128,7 +121,7 @@ export default class Server {
         return await this.request('changeGamerHash', { token });
     }
 
-    async changedStatusItemToUse(token: string, itemId: number, isUsed: number) {
+    async changedStatusItem(token: string, itemId: number, isUsed: number) {
         await this.request('changeStatusOfItem', { token, itemId, isUsed });
     }
 
@@ -137,6 +130,26 @@ export default class Server {
     }
 
     async getItemsHash(token: string) {
-        return this.request('getItemsHash', { token });
+        return await this.request('getItemsHash', { token });
+    }
+
+    async getItemStatus(token: string, itemId: number) {
+        return await this.request<number>('getStatusOfItem', { token, itemId });
+    }
+
+    async getStatusAllItems(token: string) {
+        return await this.request<IItem[]>('getStatusAllItems', { token });
+    }
+
+    async setPlayerInBestGamers(token: string, score: number) {
+        await this.request('setBestGamers', { token, score });
+    }
+
+    async setInitialStateGamer(token: string) {
+        await this.request('setInitialStateGamer', { token });
+    }
+
+    async getBestGamers(token: string) {
+        return this.request<TBestGamers[]>('getBestGamers', { token })
     }
 }

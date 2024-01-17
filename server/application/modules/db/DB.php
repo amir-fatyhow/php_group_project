@@ -53,7 +53,10 @@ class DB {
     function registration($login, $hash, $name, $surname, $token) {
         $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
             [$login, $hash, $name, $surname, $token]);
-        return array($token);
+    }
+
+    function getToken($userId) {
+        return $this->query("SELECT token FROM users WHERE id=?", [$userId]);
     }
 
     function login($login, $pass, $token) {
@@ -83,9 +86,16 @@ class DB {
         return $this->queryAll("SELECT * FROM persons");
     }
 
+    function setInitialStateGamer($userId) {
+        $this->post("UPDATE gamers SET score=?, health=?, status=? WHERE user_id=?", [1, 1, 1, $userId]);
+    }
+
+    function setInitialScoreAndTiredness($userId) {
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, null, 0, 0, 1, 0, 300]);
+    }
+
     function choosePerson($userId, $personId) {
-        $this->post("DELETE FROM gamers WHERE user_id=?", [$userId]);
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, $personId, 0, 0, 1, 0, 300]);
+        $this->post("UPDATE gamers SET person_id=? WHERE user_id=?", [$personId, $userId]);
     }
 
     function deleteGamer($userId) {
@@ -180,5 +190,25 @@ class DB {
         return  $this->query("SELECT score FROM gamers WHERE user_id=?", [$userId]);
     }
 
+    function getStatusAllItems() {
+        return  $this->queryAll("SELECT isUsed FROM items", []);
+    }
 
+    function getBestGamerById($userId) {
+        return $this->query("SELECT score FROM best_gamers WHERE user_id=?", [$userId]);
+    }
+
+    function deleteBestGamerById($userId) {
+        $this->post("DELETE FROM best_gamers WHERE user_id=?", [$userId]);
+        return true;
+    }
+
+    function setBestGamers($userId, $points) {
+        $this->post("INSERT INTO best_gamers(user_id, score)  VALUES(?,?)", [$userId, $points]);
+        return true;
+    }
+
+    function getBestGamers() {
+        return $this->queryAll("SELECT u.name, u.surname, bg.score FROM best_gamers AS bg JOIN users AS u WHERE u.id = bg.user_id ORDER BY score DESC", []);
+    }
 }

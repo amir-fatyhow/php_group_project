@@ -19,9 +19,12 @@ class User {
         $user = $this->db->getUserByLogin($login);
         $token = $this->genToken($login, $hashS);
         if ($user) {
-            return [false, 9000];
+            return null;
         }
-        return $this->db->registration($login, $pass, $name, $surname, $token);
+        $this->db->registration($login, $pass, $name, $surname, $token);
+        $currentUser = $this->db->getUserByToken($token);
+        $this->db->setInitialScoreAndTiredness($currentUser->id);
+        return $this->db->getToken($currentUser->id)->token;
     }
 
     public function login($login, $pass, $hashS) {

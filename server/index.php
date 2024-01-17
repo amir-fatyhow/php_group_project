@@ -46,6 +46,9 @@ function router ($params) {
             // http://server/?method=getItems
             case 'getItems' : return $app->getItems();
 
+            // http://server/?method=getStatusAllItems&token=
+            case 'getStatusAllItems' : return $app->getStatusAllItems($params);
+
             // http://server/?method=changeChatHash&token=
             case 'changeChatHash' : return $app->changeChatHash($params);
 
@@ -73,6 +76,9 @@ function router ($params) {
             // http://server/?method=changeStatusOfItem&token=&itemId=&isUsed=
             case 'changeStatusOfItem' : return $app->changeStatusOfItem($params);
 
+            // http://server/?method=getStatusOfItem&token=&itemId=
+            case 'getStatusOfItem' : return $app->getStatusOfItem($params);
+
             // http://server/?method=decreaseTiredness&token=
             case 'decreaseTiredness' : return $app->decreaseTiredness($params);
 
@@ -84,6 +90,15 @@ function router ($params) {
 
             // http://server/?method=getScore&token=
             case 'getScore' : return $app->getScore($params);
+
+            // http://server/?method=setBestGamers&token=&score=
+            case 'setBestGamers' : return $app->setBestGamers($params);
+
+            // http://server/?method=setInitialStateGamer&token=
+            case 'setInitialStateGamer' : return $app->setInitialStateGamer($params);
+
+            // http://server/?method=getBestGamers&token=
+            case 'getBestGamers' : return $app->getBestGamers($params);
 
             default : return array(false, 1002);
         }

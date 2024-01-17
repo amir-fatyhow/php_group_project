@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Chat from "../chat/Chat";
 import Rate from "./Rate";
 import {
@@ -17,24 +17,46 @@ import {ServerContext} from "../../../App";
 
 
 const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
+    const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
     let currentUsingExerciser = useRef(0);
+    const [exersicer, setExerciser] = useState<number[]>([])
     let currentItemsHash = useRef('itemsHash');
 
-    async function changeStatusItem(token: string, itemId: number, isUsed: number) {
+    async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
+        let status = await server.getItemStatus(token, value[2]);
+        if (!status) {
+            await server.changeItemsHash(token);
+            await server.changedStatusItem(token, value[2], isUsed);
+
+            await server.training(userToken, value[0]);
+            await server.increaseTiredness(userToken, value[1]);
+        }
+    }
+
+    async function changeStatusItemToUnuse(token: string, value: number, isUsed: number) {
         await server.changeItemsHash(token);
-        await server.changedStatusItemToUse(token, itemId, isUsed);
+        await server.changedStatusItem(token, value, isUsed)
     }
 
     async function getItemsHash(token: string) {
         let answer = await server.getItemsHash(token);
+        let items = await server.getStatusAllItems(userToken);
+        if (answer !== currentItemsHash.current) {
+            if (items) {
+                let arr = [];
+                for (let it of items) {
+                    arr.push(it.isUsed);
+                }
+                setExerciser(arr);
+            }
+        }
 
     }
 
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
-            window.requestAnimationFrame(() => animate(context));
             context.fillStyle = 'white'
             context.fillRect(0, 0, canvasWidth, canvasHeight);
             context.save();
@@ -47,18 +69,11 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
             let value = player.training();
             if (value) {
-                console.log(currentUsingExerciser.current)
                 currentUsingExerciser.current = value[2];
-                server.training(userToken, value[0]);
-                server.increaseTiredness(userToken, value[1]);
-                changeStatusItem(userToken, value[2], 1);
-            } else {
-                if (currentUsingExerciser.current) {
-                    console.log('undo')
-                    changeStatusItem(userToken, currentUsingExerciser.current, 0);
-                    currentUsingExerciser.current = 0;
-                }
-                getItemsHash(userToken);
+                changeStatusItemToUse(userToken, value, 1);
+            } else if (currentUsingExerciser.current) {
+                changeStatusItemToUnuse(userToken, currentUsingExerciser.current, 0);
+                currentUsingExerciser.current = 0;
             }
 
             player.velocity.x = 0;
@@ -127,8 +142,6 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
     useEffect(() => {
         makeCollision();
         makePlatformCollision();
-        let context = canvas.current ? canvas.current.getContext('2d') :null;
-        animate(context);
 
         window.addEventListener('keydown', (e) => handleKeyDown(e))
         window.addEventListener('keyup', (e) => handleKeyUp(e));
@@ -140,7 +153,17 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
     useEffect(() => {
         const timer = setInterval(() => {
-           server.decreaseTiredness(userToken);
+            let context = canvas.current ? canvas.current.getContext('2d') :null;
+            animate(context);
+        }, 20);
+
+        return () => clearInterval(timer);
+    });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            getItemsHash(userToken);
+            server.decreaseTiredness(userToken);
         }, 1000);
 
         return () => clearInterval(timer);
@@ -149,11 +172,24 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
     return (
         <div>
             <div className='pt-16 pl-2 flex-col'>
-                <div>
-                    <span>&larr; &uarr; &rarr; управление игроком</span>
+                <div className='flex p-1'>
+                    <button className='mr-2 text-sm font-semibold text-red-800'
+                        onClick={() => changePlace('Menu')}
+                    >
+                        EXIT
+                    </button>
+                    <span className='mr-3'>&larr; &uarr; &rarr; управление игроком</span>
                 </div>
                 <canvas ref={canvas} width={canvasWidth} height={canvasHeight}></canvas>
-                <Rate userToken={userToken}/>
+                <div className="flex">
+                    <Rate userToken={userToken} changePlace={changePlace}/>
+                    <div className="flex">
+                        <span className={css}>barbell (upper left) is {exersicer[0] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>elliptical (lower left) is {exersicer[1] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>treadmill (upper right) is {exersicer[2] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>treadmill (lower right) is {exersicer[3] == 0 ? <>free</> : <>using</>}</span>
+                    </div>
+                </div>
             </div>
             <Chat userToken={userToken}/>
         </div>

@@ -90,7 +90,7 @@ class Game
     }
 
     function getStatusOfItem($id) {
-        return $this->db->getStatusOfItem($id);
+        return $this->db->getStatusOfItem($id)->isUsed;
     }
 
     function changeStatusOfItem($isUsed, $id) {
@@ -143,5 +143,28 @@ class Game
 
     function getItemsHash() {
         return $this->db->getHashes()->items_hash;
+    }
+
+    function getStatusAllItems() {
+        return $this->db->getStatusAllItems();
+    }
+
+    function setBestGamers($userId, $points) {
+        $oldScore = $this->db->getBestGamerById($userId)->score;
+        if ($oldScore < $points) {
+            $this->db->deleteBestGamerById($userId);
+            return $this->db->setBestGamers($userId, $points);
+        }
+        return false;
+    }
+
+    function setInitialStateGamer($userId) {
+        $this->db->setInitialStateGamer($userId);
+        return true;
+    }
+
+    function getBestGamers() {
+        $gamers = $this->db->getBestGamers();
+        return $gamers;
     }
 }

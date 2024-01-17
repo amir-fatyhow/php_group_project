@@ -41,7 +41,6 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
             let token = await server.registration(login, pass, name, surname);
-            console.log(token)
             if (token) {
                 setMenu(login, token);
             }

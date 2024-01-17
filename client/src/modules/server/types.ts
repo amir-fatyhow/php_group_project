@@ -28,3 +28,17 @@ export interface IChatHash {
     version: number,
     chat_hash: string
 }
+
+export interface IItem {
+    isUsed: number
+}
+
+export type IToken = {
+    token: string
+}
+
+export type TBestGamers = {
+    name: string,
+    surname: string,
+    score: number
+}
