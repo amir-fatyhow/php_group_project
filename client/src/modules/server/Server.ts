@@ -99,4 +99,20 @@ export default class Server {
     async setPersonPosition(token: string, x: number, y: number) {
         await this.request('setPersonPosition', { token, x, y });
     }
+
+    async training(token: string, points: number) {
+        await this.request('increaseScore', { token, points });
+    }
+
+    async increaseTiredness(token: string, points: number) {
+        await this.request('increaseTiredness', { token, points });
+    }
+
+    async decreaseTiredness(token: string) {
+        await this.request('decreaseTiredness', { token });
+    }
+
+    async getTiredness(token: string) {
+        return await this.request<number>('getTiredness', { token });
+    }
 }

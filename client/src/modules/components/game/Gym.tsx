@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import Chat from "../chat/Chat";
 import Rate from "./Rate";
 import {
@@ -11,19 +11,19 @@ import {
     makePlatformCollision,
     player
 } from "../constants";
-import {delay} from "framer-motion";
+import {ServerContext} from "../../../App";
+
 
 
 
 const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
-
+    const server = useContext(ServerContext);
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
             window.requestAnimationFrame(() => animate(context));
             context.fillStyle = 'white'
             context.fillRect(0, 0, canvasWidth, canvasHeight);
-
             context.save();
             context.scale(3, 3)
             context.translate(camera.position.x, camera.position.y)
@@ -31,6 +31,12 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
+
+            let value = player.training();
+            if (value) {
+                server.training(userToken, value[0]);
+                server.increaseTiredness(userToken, value[1]);
+            }
 
             player.velocity.x = 0;
             if (keys.right.pressed) {
@@ -109,11 +115,22 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
         };
     }, [])
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+           server.decreaseTiredness(userToken);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    });
+
     return (
         <div>
             <div className='pt-16 pl-2 flex-col'>
+                <div>
+                    <span>&larr; &uarr; &rarr; управление игроком</span>
+                </div>
                 <canvas ref={canvas} width={canvasWidth} height={canvasHeight}></canvas>
-                <Rate />
+                <Rate userToken={userToken}/>
             </div>
             <Chat userToken={userToken}/>
         </div>

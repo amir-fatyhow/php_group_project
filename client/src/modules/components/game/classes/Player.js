@@ -261,4 +261,29 @@ export class Player {
         this.frameBuffer = this.animations[key].framebuffer;
         this.frameRate = this.animations[key].framerate;
     }
+
+    // [score, tiredness]
+    training() {
+        if (this.position.x > -36 && this.position.y > 9 && this.position.x < 4 && this.position.y < 12) // upper left "barbell"
+            return [2, 1];
+        if (this.position.x > 56 && this.position.y > 250 && this.position.x < 100 && this.position.y < 252) // lower left "elliptical"
+            return [1, 2];
+        if (this.position.x > 446 && this.position.y > 9 && this.position.x < 480 && this.position.y < 12) // upper right "treadmill id = 3"
+            return [2, 1];
+        if (this.position.x > 396 && this.position.y > 282 && this.position.x < 438 && this.position.y < 284) // lower right "treadmill id = 4"
+            return [1, 2];
+        return null;
+    }
+
+
+    printCurrentPosition() {
+        if (this.position.x > -36 && this.position.y > 9 && this.position.x < 4 && this.position.y < 12) // upper left
+            console.log('x = ' + this.position.x + ' y = ' + this.position.y);
+        if (this.position.x > 56 && this.position.y > 250 && this.position.x < 100 && this.position.y < 252) // lower
+            console.log('x = ' + this.position.x + ' y = ' + this.position.y);
+        if (this.position.x > 446 && this.position.y > 9 && this.position.x < 480 && this.position.y < 12) // upper right
+            console.log('x = ' + this.position.x + ' y = ' + this.position.y);
+        if (this.position.x > 396 && this.position.y > 282 && this.position.x < 438 && this.position.y < 284) // upper right
+            console.log('x = ' + this.position.x + ' y = ' + this.position.y)
+    }
 }
