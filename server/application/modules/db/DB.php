@@ -3,12 +3,13 @@
 class DB {
     private $db;
     function __construct() {
-        $host = '127.0.0.1';
-        $port = 4200;
-        //$port = 3306;
-        $user = 'root';
-        $pass = '';
-        $db = 'gym';
+        $host = 'server134.hosting.reg.ru';
+        //$host = '127.0.0.1';
+        //$port = 4200;
+        $port = 3306;
+        $user = 'u2442148_default';
+        $pass = 'au56SxBJse9EE8SG';
+        $db = 'u2442148_gym';
 
         $connect = "mysql:host=$host;port=$port;dbname=$db;charset=utf8";
         $this->db = new PDO($connect, $user, $pass);
