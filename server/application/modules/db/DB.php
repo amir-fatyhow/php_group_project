@@ -4,8 +4,8 @@ class DB {
     private $db;
     function __construct() {
         $host = '127.0.0.1';
-        //$port = 4200;
-        $port = 3306;
+        $port = 4200;
+        //$port = 3306;
         $user = "root";
         $pass = "";
         $db = "gym";
@@ -105,6 +105,11 @@ class DB {
 
     function updateChatHash($hash) {
         $this->post("UPDATE game SET chat_hash=? WHERE id=?", [$hash, 1]);
+        return true;
+    }
+
+    function updateGameHash($hash) {
+        $this->post("UPDATE game SET game_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 

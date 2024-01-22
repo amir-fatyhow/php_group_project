@@ -133,12 +133,12 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
 
-            gamers.forEach(gamer => {
+            /*gamers.forEach(gamer => {
                 let p = createGamer();
                 p.position.x = gamer.x;
                 p.position.y = gamer.y;
-                p.update();
-            })
+               // p.update();
+            })*/
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
@@ -230,7 +230,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     useEffect(() => {
         const timer = setInterval(() => {
             let context = canvas.current ? canvas.current.getContext('2d') : null;
-            getGamers(userToken);
+            //getGamers(userToken);
             animate(context);
         }, 20);
 
@@ -245,6 +245,15 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
         return () => clearInterval(timer);
     });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            getItemsHash(userToken);
+            server.setPersonPosition(userToken, player.position.x, player.position.y);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    })
 
     return (
         <div>
