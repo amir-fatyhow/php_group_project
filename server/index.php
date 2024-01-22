@@ -100,6 +100,9 @@ function router ($params) {
             // http://server/?method=getBestGamers&token=
             case 'getBestGamers' : return $app->getBestGamers($params);
 
+            // http://server/?method=getGamers&token=
+            case 'getGamers' : return $app->getGamers($params);
+
             default : return array(false, 1002);
         }
     }

@@ -1,4 +1,4 @@
-import {IChatHash, IItem, IToken, TBestGamers, TMessage, TUser} from './types';
+import { IChatHash, IItem, IToken, TBestGamers, TMessage, TUser, TGamer } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -151,5 +151,9 @@ export default class Server {
 
     async getBestGamers(token: string) {
         return this.request<TBestGamers[]>('getBestGamers', { token })
+    }
+
+    async getGamers(token: string) {
+        return this.request<TGamer[]>('getGamers', { token });
     }
 }
