@@ -44,7 +44,7 @@ export type TBestGamers = {
 }
 
 export type TGamer = {
-    name: string,
+    login: string,
     x: number,
     y: number
 }

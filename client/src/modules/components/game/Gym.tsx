@@ -16,7 +16,6 @@ import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
 
 
-
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
@@ -24,7 +23,9 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     let currentUsingExerciser = useRef(0);
     const [exersicer, setExerciser] = useState<number[]>([])
     let currentItemsHash = useRef('itemsHash');
-    const [gamers, setGamers] = useState<TGamer[]>([]);
+    let currentGamerHash = useRef('gamerHash');
+    let gamers = useRef<TGamer[]>([]);
+    let players: Player[] = []
     const [bestPlayers, setBestGamers] = useState<TBestGamers[]>([]);
 
     async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
@@ -60,18 +61,18 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
     async function getGamers(token: string) {
         let answer = await server.getGamers(token);
-        let arr = [];
         if (answer) {
+            players = [];
             for (let gamer of answer) {
-                arr.push(gamer);
+               let p = createGamer(gamer.x, gamer.y);
+               players.push(p);
             }
-            setGamers(arr);
         }
     }
 
-    function createGamer() {
+    function createGamer(x: number, y: number) {
         return new Player({
-            position: { x: 100, y: 300 },
+            position: { x, y },
             canvas: { width: canvasWidth, height: canvasHeight },
             collisionBlocks: [],
             platformCollisionBlocks: [],
@@ -133,12 +134,9 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
 
-            /*gamers.forEach(gamer => {
-                let p = createGamer();
-                p.position.x = gamer.x;
-                p.position.y = gamer.y;
-               // p.update();
-            })*/
+            players.forEach(value => {
+                value.update(context);
+            })
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
@@ -230,7 +228,6 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     useEffect(() => {
         const timer = setInterval(() => {
             let context = canvas.current ? canvas.current.getContext('2d') : null;
-            //getGamers(userToken);
             animate(context);
         }, 20);
 
@@ -250,6 +247,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         const timer = setInterval(() => {
             getItemsHash(userToken);
             server.setPersonPosition(userToken, player.position.x, player.position.y);
+            getGamers(userToken);
         }, 1000);
 
         return () => clearInterval(timer);
