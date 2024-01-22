@@ -24,8 +24,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     const [exersicer, setExerciser] = useState<number[]>([])
     let currentItemsHash = useRef('itemsHash');
     let currentGamerHash = useRef('gamerHash');
-    let gamers = useRef<TGamer[]>([]);
-    let players: Player[] = []
+    let gamers = useRef<Player[]>([]);
     const [bestPlayers, setBestGamers] = useState<TBestGamers[]>([]);
 
     async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
@@ -62,10 +61,10 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     async function getGamers(token: string) {
         let answer = await server.getGamers(token);
         if (answer) {
-            players = [];
+            gamers.current = [];
             for (let gamer of answer) {
                let p = createGamer(gamer.x, gamer.y);
-               players.push(p);
+               gamers.current.push(p);
             }
         }
     }
@@ -80,48 +79,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             frameBuffer: 4,
             scale: 0.5,
             src: './assets/warrior/Idle.png',
-            animations: {
-                Idle: {
-                    framerate: 8,
-                    srcFrame: './assets/warrior/Idle.png',
-                    framebuffer: 4
-                },
-                Run: {
-                    framerate: 8,
-                    srcFrame: './assets/warrior/Run.png',
-                    framebuffer: 5
-                },
-                Jump: {
-                    framerate: 2,
-                    srcFrame: './assets/warrior/Jump.png',
-                    framebuffer: 3
-                },
-                Fall: {
-                    framerate: 2,
-                    srcFrame: './assets/warrior/Fall.png',
-                    framebuffer: 3
-                },
-                FallLeft: {
-                    framerate: 2,
-                    srcFrame: './assets/warrior/FallLeft.png',
-                    framebuffer: 3
-                },
-                RunLeft: {
-                    framerate: 8,
-                    srcFrame: './assets/warrior/RunLeft.png',
-                    framebuffer: 5
-                },
-                IdleLeft: {
-                    framerate: 8,
-                    srcFrame: './assets/warrior/IdleLeft.png',
-                    framebuffer: 3
-                },
-                JumpLeft: {
-                    framerate: 2,
-                    srcFrame: './assets/warrior/JumpLeft.png',
-                    framebuffer: 3
-                },
-            }
+            animations: {}
         });
     }
 
@@ -134,8 +92,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
 
-            players.forEach(value => {
-                value.update(context);
+            gamers.current.forEach(p => {
+                p.drawOnlinePerson(context);
             })
 
             player.checkForHorizontalCanvasCollision();
@@ -214,9 +172,9 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     }
 
     useEffect(() => {
+       getGamers(userToken);
         makeCollision();
         makePlatformCollision();
-
         window.addEventListener('keydown', (e) => handleKeyDown(e))
         window.addEventListener('keyup', (e) => handleKeyUp(e));
         return () => {
@@ -252,6 +210,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
         return () => clearInterval(timer);
     })
+
 
     return (
         <div>

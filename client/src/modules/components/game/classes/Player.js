@@ -109,6 +109,10 @@ export class Player {
         this.checkForVerticalCollision();
     }
 
+    drawOnlinePerson(context) {
+        this.draw(context);
+    }
+
     updateHitbox() {
         this.hitbox = {
             position: {
