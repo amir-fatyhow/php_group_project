@@ -1,5 +1,4 @@
 // UdSU
-//const DOMAIN = 'https://api.gym-game.ru/';
 const DOMAIN = 'http://server/';
 const PORT = null;
 

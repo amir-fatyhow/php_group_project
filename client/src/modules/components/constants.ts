@@ -1,7 +1,7 @@
-import {Sprite} from "./game/classes/Sprite";
-import {floorCollisions, platformCollisions} from "./game/classes/data/collisions";
-import {CollisionBlock} from "./game/classes/CollisionBlock";
-import {Player} from "./game/classes/Player";
+import { Sprite } from "./game/classes/Sprite";
+import { floorCollisions, platformCollisions } from "./game/classes/data/collisions";
+import { CollisionBlock } from "./game/classes/CollisionBlock";
+import { Player } from "./game/classes/Player";
 
 
 export const canvasHeight = 576;
@@ -31,17 +31,19 @@ export const background = new Sprite({
 export const floorCollision2D: number[][] = []
 export const collisionBlocks: CollisionBlock[] = [];
 export const makeCollision = () => {
-    for (let i = 0; i < floorCollisions.length; i+= 36) {
+    for (let i = 0; i < floorCollisions.length; i += 36) {
         floorCollision2D.push(floorCollisions.slice(i, i + 36))
     }
 
     floorCollision2D.forEach((row, y) => {
         row.forEach((symbol, x) => {
             if (symbol === 202) {
-                collisionBlocks.push(new CollisionBlock({position: {
+                collisionBlocks.push(new CollisionBlock({
+                    position: {
                         x: x * 16,
                         y: y * 16
-                    }}))
+                    }
+                }))
             }
         })
     })
@@ -51,7 +53,7 @@ export const makeCollision = () => {
 export const platformCollision2D: number[][] = []
 export const platformCollisionBlocks: CollisionBlock[] = [];
 export const makePlatformCollision = () => {
-    for (let i = 0; i < platformCollisions.length; i+= 36) {
+    for (let i = 0; i < platformCollisions.length; i += 36) {
         platformCollision2D.push(platformCollisions.slice(i, i + 36))
     }
 
@@ -71,10 +73,10 @@ export const makePlatformCollision = () => {
 }
 
 export const player = new Player({
-    position:{ x: 100, y: 300},
-    canvas:{width: canvasWidth, height:canvasHeight},
+    position: { x: 100, y: 300 },
+    canvas: { width: canvasWidth, height: canvasHeight },
     collisionBlocks,
-    platformCollisionBlocks ,
+    platformCollisionBlocks,
     frameRate: 8,
     frameBuffer: 4,
     scale: 0.5,

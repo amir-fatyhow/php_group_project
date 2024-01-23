@@ -35,15 +35,15 @@ class Game
         return $this->db->getItem($id);
     }
 
-    function getGamers() {
-        return $this->db->getGamers();
+    function getGamers($token) {
+        return $this->db->getGamers($token);
     }
 
     function setPersonPosition($id, $x, $y) {
         $user = $this->db->getGamerById($id);
         $currentTimestamp = time();
         if ($currentTimestamp - $user->timestamp >= $user->timeout) {
-            $hash = md5('hashMessage'.rand(0, 100000));
+            $hash = md5('gamerHash'.rand(0, 100000));
             $this->db->updateGamerHash($hash);
             $this->db->setPersonPosition($id, $x, $y);
         }

@@ -355,4 +355,16 @@ class App {
         }
         return [false, 4001];
     }
+
+    function getGamers($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getGamers($token);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

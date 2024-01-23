@@ -6,9 +6,9 @@ class DB {
         $host = '127.0.0.1';
         $port = 4200;
         //$port = 3306;
-        $user = 'root';
-        $pass = '';
-        $db = 'gym';
+        $user = "root";
+        $pass = "";
+        $db = "gym";
 
         $connect = "mysql:host=$host;port=$port;dbname=$db;charset=utf8";
         $this->db = new PDO($connect, $user, $pass);
@@ -108,6 +108,11 @@ class DB {
         return true;
     }
 
+    function updateGameHash($hash) {
+        $this->post("UPDATE game SET game_hash=? WHERE id=?", [$hash, 1]);
+        return true;
+    }
+
     function getHashes() {
         return $this->query("SELECT * FROM game WHERE id=1");
     }
@@ -139,76 +144,76 @@ class DB {
     function getItem($id) {
         return $this->query("SELECT name, length, width, x, y FROM items WHERE id=?", [$id]);
     }
-
-    function getGamers() {
-        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status, timestamp, timeout FROM gamers");
-    }
-
+    
     function getGamerById($user_id) {
         return $this->query("SELECT * FROM gamers WHERE user_id=? ", [$user_id]);
     }
-
+    
     function setPersonPosition($id, $x, $y) {
         $this->post("UPDATE gamers SET x=?, y=? WHERE user_id=? ", [$x, $y, $id]);
         return true;
     }
-
+    
     function setGamerStatus($userId, $statusId) {
         $this->post("UPDATE gamers SET status=? WHERE user_id=? ", [$statusId, $userId]);
         return true;
     }
-
+    
     function updateTimestamp($currentTimestamp) {
         $this->post("UPDATE game SET timestamp=? WHERE id=? ", [$currentTimestamp, 1]);
         return true;
     }
-
+    
     function getStatusOfItem($id) {
         return $this->query("SELECT isUsed FROM items WHERE id=?", [$id]);
     }
-
+    
     function changeStatusOfItem($isUsed, $id) {
-         $this->query("UPDATE items SET isUsed=? WHERE id=? ", [$isUsed, $id]);
+        $this->query("UPDATE items SET isUsed=? WHERE id=? ", [$isUsed, $id]);
         return true;
     }
-
+    
     function getTirednessByUserId($userId) {
         return $this->query("SELECT health FROM gamers WHERE user_id=?", [$userId]);
     }
-
+    
     function decreaseTirednessByUserId($userId, $tiredness) {
         $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
         return true;
     }
-
+    
     function increaseTirednessByUserId($userId, $tiredness) {
         $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
         return true;
     }
-
+    
     function getScoreByUserId($userId) {
         return  $this->query("SELECT score FROM gamers WHERE user_id=?", [$userId]);
     }
-
+    
     function getStatusAllItems() {
         return  $this->queryAll("SELECT isUsed FROM items", []);
     }
-
+    
     function getBestGamerById($userId) {
         return $this->query("SELECT score FROM best_gamers WHERE user_id=?", [$userId]);
     }
-
+    
     function deleteBestGamerById($userId) {
         $this->post("DELETE FROM best_gamers WHERE user_id=?", [$userId]);
         return true;
     }
-
+    
     function setBestGamers($userId, $points) {
         $this->post("INSERT INTO best_gamers(user_id, score)  VALUES(?,?)", [$userId, $points]);
         return true;
     }
-
+    
     function getBestGamers() {
         return $this->queryAll("SELECT u.name, u.surname, bg.score FROM best_gamers AS bg JOIN users AS u WHERE u.id = bg.user_id ORDER BY score DESC", []);
+    }
+    
+    function getGamers($token) {
+        return $this->queryAll("SELECT u.login, g.x, g.y FROM gamers AS g JOIN users AS u WHERE u.id = g.user_id AND u.token != ?", [$token]);
     }
 }

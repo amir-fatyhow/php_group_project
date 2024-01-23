@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Chat from "../chat/Chat";
 import Rate from "./Rate";
 import {
@@ -11,18 +11,21 @@ import {
     makePlatformCollision,
     player
 } from "../constants";
-import {ServerContext} from "../../../App";
+import { ServerContext } from "../../../App";
+import { TGamer, TBestGamers } from '../../server/types';
+import { Player } from './classes/Player';
 
 
-
-
-const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
+const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
     let currentUsingExerciser = useRef(0);
     const [exersicer, setExerciser] = useState<number[]>([])
     let currentItemsHash = useRef('itemsHash');
+    let currentGamerHash = useRef('gamerHash');
+    let gamers = useRef<Player[]>([]);
+    const [bestPlayers, setBestGamers] = useState<TBestGamers[]>([]);
 
     async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
         let status = await server.getItemStatus(token, value[2]);
@@ -55,6 +58,31 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
     }
 
+    async function getGamers(token: string) {
+        let answer = await server.getGamers(token);
+        if (answer) {
+            gamers.current = [];
+            for (let gamer of answer) {
+               let p = createGamer(gamer.x, gamer.y);
+               gamers.current.push(p);
+            }
+        }
+    }
+
+    function createGamer(x: number, y: number) {
+        return new Player({
+            position: { x, y },
+            canvas: { width: canvasWidth, height: canvasHeight },
+            collisionBlocks: [],
+            platformCollisionBlocks: [],
+            frameRate: 8,
+            frameBuffer: 4,
+            scale: 0.5,
+            src: './assets/warrior/Idle.png',
+            animations: {}
+        });
+    }
+
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
             context.fillStyle = 'white'
@@ -63,6 +91,10 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
             context.scale(3, 3)
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
+
+            gamers.current.forEach(p => {
+                p.drawOnlinePerson(context);
+            })
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
@@ -81,13 +113,13 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
                 player.switchSprite('Run');
                 player.velocity.x = 2;
                 player.lastDirection = 'right'
-                player.shouldPanCameraToTheLeft({camera});
+                player.shouldPanCameraToTheLeft({ camera });
             }
             else if (keys.left.pressed) {
                 player.switchSprite('RunLeft');
                 player.velocity.x = -2;
                 player.lastDirection = 'left'
-                player.shouldPanCameraToTheRight({camera});
+                player.shouldPanCameraToTheRight({ camera });
             }
             else if (player.velocity.y === 0) {
                 if (player.lastDirection === 'right')
@@ -101,13 +133,13 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
                     player.switchSprite('Jump');
                 else
                     player.switchSprite('JumpLeft')
-                player.shouldPanCameraToTheDown({camera})
+                player.shouldPanCameraToTheDown({ camera })
             } else if (player.velocity.y > 0) {
                 if (player.lastDirection === 'right')
                     player.switchSprite('Fall')
                 else
                     player.switchSprite('FallLeft')
-                player.shouldPanCameraToTheUp({camera})
+                player.shouldPanCameraToTheUp({ camera })
             }
 
             context.restore();
@@ -140,9 +172,9 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
     }
 
     useEffect(() => {
+       getGamers(userToken);
         makeCollision();
         makePlatformCollision();
-
         window.addEventListener('keydown', (e) => handleKeyDown(e))
         window.addEventListener('keyup', (e) => handleKeyUp(e));
         return () => {
@@ -153,7 +185,7 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
 
     useEffect(() => {
         const timer = setInterval(() => {
-            let context = canvas.current ? canvas.current.getContext('2d') :null;
+            let context = canvas.current ? canvas.current.getContext('2d') : null;
             animate(context);
         }, 20);
 
@@ -169,6 +201,17 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
         return () => clearInterval(timer);
     });
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            getItemsHash(userToken);
+            server.setPersonPosition(userToken, player.position.x, player.position.y);
+            getGamers(userToken);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    })
+
+
     return (
         <div>
             <div className='pt-16 pl-2 flex-col'>
@@ -182,7 +225,7 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
                 </div>
                 <canvas ref={canvas} width={canvasWidth} height={canvasHeight}></canvas>
                 <div className="flex">
-                    <Rate userToken={userToken} changePlace={changePlace}/>
+                    <Rate userToken={userToken} changePlace={changePlace} />
                     <div className="flex">
                         <span className={css}>barbell (upper left) is {exersicer[0] == 0 ? <>free</> : <>using</>}</span>
                         <span className={css}>elliptical (lower left) is {exersicer[1] == 0 ? <>free</> : <>using</>}</span>
@@ -191,7 +234,7 @@ const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => voi
                     </div>
                 </div>
             </div>
-            <Chat userToken={userToken}/>
+            <Chat userToken={userToken} />
         </div>
     );
 };
