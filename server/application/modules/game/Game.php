@@ -23,8 +23,8 @@ class Game
         return $this->db->changeScore($userId, $score);
     }
 
-    function changeHealth($userId, $points) {
-        return $this->db->changeHealth($userId, $points);
+    function changeTiredness($userId, $points) {
+        return $this->db->changeTiredness($userId, $points);
     }
 
     function getItems() {
@@ -65,7 +65,7 @@ class Game
 
             $this->db->changeScore($userId, 2);
             $user = $this->db->getGamerById($userId);
-            if ($user->health <= 0) {
+            if ($user->tiredness <= 0) {
                 $this->setGamerStatus($userId, 2);
             }
 
@@ -108,7 +108,7 @@ class Game
     }
 
     function decreaseTiredness($userId) {
-        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->tiredness;
         if ($currentTiredness > 10) {
             $tiredness = $currentTiredness - 10;
             return $this->db->decreaseTirednessByUserId($userId, $tiredness);
@@ -118,13 +118,13 @@ class Game
     }
 
     function increaseTiredness($userId, $points) {
-        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->tiredness;
         $tiredness = $currentTiredness + $points;
         return $this->db->increaseTirednessByUserId($userId, $tiredness);
     }
 
     function getTirednessByUserId($userId) {
-        return $this->db->getTirednessByUserId($userId)->health;
+        return $this->db->getTirednessByUserId($userId)->tiredness;
     }
 
     function getScoreByUserId($userId) {
