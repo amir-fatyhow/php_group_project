@@ -109,7 +109,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`) VALUES
                                                                                            (1, 'barbell', 2, 2, 1, 3, 0, 3),
                                                                                            (2, 'elliptical', 2, 2, 4, 4, 0, 4),
-                                                                                           (3, 'treadmill', 2, 2, 7, 3, 1, 5),
+                                                                                           (3, 'treadmill', 2, 2, 7, 3, 0, 5),
                                                                                            (4, 'treadmill', 2, 2, 9, 3, 0, 2);
 
 -- --------------------------------------------------------
