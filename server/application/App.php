@@ -361,7 +361,7 @@ class App {
         if ($token) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->getGamers();
+                return $this->game->getGamers($token);
             }
             return [false, 4001];
         }

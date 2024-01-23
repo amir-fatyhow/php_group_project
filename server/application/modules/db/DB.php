@@ -213,7 +213,7 @@ class DB {
         return $this->queryAll("SELECT u.name, u.surname, bg.score FROM best_gamers AS bg JOIN users AS u WHERE u.id = bg.user_id ORDER BY score DESC", []);
     }
     
-    function getGamers() {
-        return $this->queryAll("SELECT u.name, g.x, g.y FROM gamers AS g JOIN users AS u WHERE u.id = g.user_id", []);
+    function getGamers($token) {
+        return $this->queryAll("SELECT u.login, g.x, g.y FROM gamers AS g JOIN users AS u WHERE u.id = g.user_id AND u.token != ?", [$token]);
     }
 }
