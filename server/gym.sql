@@ -66,7 +66,7 @@ CREATE TABLE `gamers` (
                           `id` int NOT NULL,
                           `user_id` int DEFAULT NULL,
                           `score` int DEFAULT NULL,
-                          `health` int DEFAULT NULL,
+                          `tiredness` int DEFAULT NULL,
                           `person_id` int DEFAULT NULL,
                           `x` int DEFAULT NULL,
                           `y` int DEFAULT NULL,
