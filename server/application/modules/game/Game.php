@@ -8,13 +8,17 @@ class Game
         $this->db = $db;
     }
 
-    function getPersons() {
-        return $this->db->getPersons();
+    function getPerson($id) {
+        return $this->db->getPerson($id);
     }
 
-    function choosePerson($userId, $personId) {
-        $this->db->choosePerson($userId, $personId);
+    function chooseSkin($userId, $skinId) {
+        $this->db->chooseSkin($userId, $skinId);
         return true;
+    }
+
+    function setSkin($userId) {
+        return $this->db->setSkin($userId);;
     }
 
     function changeScore($userId, $points) {

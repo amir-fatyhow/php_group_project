@@ -32,15 +32,8 @@ export default class Server {
         }
     }
 
-    async login(
-        login: string,
-        pass: string,
-        hashS: number = 1
-    ): Promise<TUser | null> {
-        const answer = await this.request<TUser>(
-            'login',
-            { login, pass, hashS }
-        );
+    async login(login: string, hashPass: string, rnd: number): Promise<TUser | null> {
+        const answer = await this.request<TUser>('login', { login, hashPass, rnd });
         if (answer && answer.token) {
             this.token = answer.token;
             return answer;
@@ -53,8 +46,8 @@ export default class Server {
         this.token = null;
     }
 
-    async registration(login: string, hash: string, name: string, surname: string, hashS: number = 1): Promise<string | null> {
-        return await this.request<string | null>('registration', { login, hash, name, surname, hashS });
+    async registration(login: string, hashPass: string, name: string, surname: string): Promise<string | null> {
+        return await this.request<string | null>('registration', { login, hashPass, name, surname });
     }
 
     async sendMessage(token: string, message: string) {
@@ -65,8 +58,12 @@ export default class Server {
         return await this.request<string[] | false>('getMessages', { token, hash });
     }
 
-    async choosePerson(token: string, personId: number) {
-        return await this.request<boolean>('choosePerson', { token, personId });
+    async chooseSkin(token: string, skinId: number) {
+        return await this.request<boolean>('chooseSkin', { token, skinId });
+    }
+
+    async setSkin(token: string) {
+        return await this.request<boolean>('setSkin', { token });
     }
 
     async increaseScore(token: string, points: number) {
