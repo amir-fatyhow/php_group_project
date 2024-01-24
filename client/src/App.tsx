@@ -7,6 +7,7 @@ import useServer from "./modules/server";
 
 
 export const ServerContext = createContext<Server>(null!);
+
 function App() {
     const server = useServer(HOST);
     let user = useRef("");

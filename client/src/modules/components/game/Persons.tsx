@@ -8,7 +8,7 @@ export function Persons({ changePlace, userToken } :
 
     async function setPerson(event: React.MouseEvent<HTMLButtonElement>, typeId: number) {
         event.preventDefault();
-        let answer = await server.choosePerson(userToken, typeId);
+        let answer = await server.chooseSkin(userToken, typeId);
         changePlace("Gym");
     }
 
@@ -18,7 +18,7 @@ export function Persons({ changePlace, userToken } :
             <button
                 onClick={(event) => setPerson(event, 1)}
             >
-                ботан с бутова
+                Мстислав Дуболюбов
             </button>
             <button
                 onClick={(event) => setPerson(event, 2)}

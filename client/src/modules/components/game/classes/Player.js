@@ -176,6 +176,23 @@ export class Player {
         )
     }
 
+    isStand() {
+        for (let i = 0; i < this.platformCollisionBlocks.length; i++) {
+            const collBlock = this.platformCollisionBlocks[i];
+            if (this.collision({ object1: this.hitbox, object2: collBlock })) {
+                return true;
+            }
+        }
+
+        // platforms for items
+        for (let i = 0; i < this.collisionBlocks.length; i++) {
+            const collBlock = this.collisionBlocks[i];
+            if (this.platformCollision({ object1: this.hitbox, object2: collBlock })) {
+                return true;
+            }
+        }
+    }
+
     checkForVerticalCollision() {
         for (let i = 0; i < this.platformCollisionBlocks.length; i++) {
             const collBlock = this.platformCollisionBlocks[i];

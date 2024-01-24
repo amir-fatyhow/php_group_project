@@ -23,22 +23,21 @@ class App {
 
     function login($params) {
         $login = $params['login'];
-        $pass = $params['pass'];
-        $hashS = $params['hashS'];
-        if ($login && $pass && $hashS) {
-            return $this->user->login($login, $pass, $hashS);
+        $hashPass = $params['hashPass'];
+        $rnd = $params['rnd'];
+        if ($login && $hashPass && $rnd) {
+            return $this->user->login($login, $hashPass, $rnd);
         }
         return array(false, 2001);
     }
 
     function registration($params) {
         $login = $params['login'];
-        $hash = $params['hash'];
+        $hashPass = $params['hashPass'];
         $name = $params['name'];
         $surname = $params['surname'];
-        $hashS = $params['hashS'];
         if($login && $name && $surname) {
-            return $this->user->registration($login, $hash, $name, $surname, $hashS);
+            return $this->user->registration($login, $hashPass, $name, $surname);
         }
         return array(false, 2003);
     }
@@ -77,17 +76,30 @@ class App {
         return [false, 9000];
     }
 
-    function getPersons() {
-        return $this->game->getPersons();
+    function getPerson($params) {
+        $id = $params['id'];
+        return $this->game->getPerson($id);
     }
 
-    function choosePerson($params) {
+    function chooseSkin($params) {
         $token = $params['token'];
-        $personId = $params['personId'];
-        if ($token && $personId) {
+        $skinId = $params['skinId'];
+        if ($token && $skinId) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->choosePerson($user->id, $personId);
+                return $this->game->chooseSkin($user->id, $skinId);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function setSkin($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->setSkin($user->id);
             }
             return [false, 4001];
         }
@@ -350,18 +362,6 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 return $this->game->getBestGamers();
-            }
-            return [false, 4001];
-        }
-        return [false, 4001];
-    }
-
-    function getGamers($params) {
-        $token = $params['token'];
-        if ($token) {
-            $user = $this->user->getUser($token);
-            if ($user) {
-                return $this->game->getGamers($token);
             }
             return [false, 4001];
         }

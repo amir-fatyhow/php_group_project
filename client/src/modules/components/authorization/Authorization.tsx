@@ -2,9 +2,9 @@ import { SyntheticEvent, useContext, useRef, useState } from 'react';
 import $ from 'jquery'
 import './Authorization.css'
 import { ServerContext } from "../../../App";
-import {randInt} from "three/src/math/MathUtils";
+import { randInt } from "three/src/math/MathUtils";
 
-const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | null) => void}) => {
+const Authorization = ({ setMenu }: { setMenu: (login: string, token: string | null) => void }) => {
     const server = useContext(ServerContext);
     const md5 = require('md5');
     const loginSign = useRef<HTMLInputElement>(null);
@@ -17,12 +17,14 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
     const [error, setError] = useState("");
 
     async function login(event: SyntheticEvent,
-                         login: string,
-                         pass: string,
-                         setMenu: (login: string, token: string) => void) {
+        login: string,
+        pass: string,
+        setMenu: (login: string, token: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '') {
-            let user = await server.login(login, pass);
+            const rnd = Math.round(283 * Math.random());
+            let hashPass = md5(md5(login + pass) + rnd);
+            let user = await server.login(login, hashPass, rnd);
             if (user) {
                 setMenu(login, user.token);
             }
@@ -33,14 +35,15 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
     }
 
     async function registration(event: SyntheticEvent,
-                                login: string,
-                                pass: string,
-                                name: string,
-                                surname: string,
-                                setMenu: (login: string, token: string | null) => void) {
+        login: string,
+        pass: string,
+        name: string,
+        surname: string,
+        setMenu: (login: string, token: string | null) => void) {
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
-            let token = await server.registration(login, pass, name, surname);
+            let hashPass = md5(login + pass);
+            let token = await server.registration(login, hashPass, name, surname);
             if (token) {
                 setMenu(login, token);
             }
@@ -80,7 +83,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                             registration(
                                 event,
                                 loginSign.current === null ? '' : loginSign.current.value,
-                                passwordSign.current === null ? '' : md5(passwordSign.current.value),
+                                passwordSign.current === null ? '' : passwordSign.current.value,
                                 surnameCreate.current === null ? '' : surnameCreate.current.value,
                                 nameCreate.current === null ? '' : nameCreate.current.value,
                                 setMenu)
@@ -105,7 +108,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                         onClick={(event) => login(
                             event,
                             loginCreate.current === null ? '' : loginCreate.current.value,
-                            passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
+                            passwordCreate.current === null ? '' : passwordCreate.current.value,
                             setMenu
                         )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>
@@ -118,6 +121,6 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
 export default Authorization;
 
 const handler = () => {
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
 }
 

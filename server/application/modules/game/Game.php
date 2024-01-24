@@ -8,13 +8,17 @@ class Game
         $this->db = $db;
     }
 
-    function getPersons() {
-        return $this->db->getPersons();
+    function getPerson($id) {
+        return $this->db->getPerson($id);
     }
 
-    function choosePerson($userId, $personId) {
-        $this->db->choosePerson($userId, $personId);
+    function chooseSkin($userId, $skinId) {
+        $this->db->chooseSkin($userId, $skinId);
         return true;
+    }
+
+    function setSkin($userId) {
+        return $this->db->setSkin($userId);;
     }
 
     function changeScore($userId, $points) {
@@ -35,15 +39,15 @@ class Game
         return $this->db->getItem($id);
     }
 
-    function getGamers($token) {
-        return $this->db->getGamers($token);
+    function getGamers() {
+        return $this->db->getGamers();
     }
 
     function setPersonPosition($id, $x, $y) {
         $user = $this->db->getGamerById($id);
         $currentTimestamp = time();
         if ($currentTimestamp - $user->timestamp >= $user->timeout) {
-            $hash = md5('gamerHash'.rand(0, 100000));
+            $hash = md5('hashMessage'.rand(0, 100000));
             $this->db->updateGamerHash($hash);
             $this->db->setPersonPosition($id, $x, $y);
         }

@@ -9,12 +9,13 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
-    player
+    persons
 } from "../constants";
 import { ServerContext } from "../../../App";
 import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
 
+const skin = 'slav';
 
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
@@ -96,10 +97,10 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 p.drawOnlinePerson(context);
             })
 
-            player.checkForHorizontalCanvasCollision();
-            player.update(context);
+            persons[skin].checkForHorizontalCanvasCollision();
+            persons[skin].update(context);
 
-            let value = player.training();
+            let value = persons[skin].training();
             if (value) {
                 currentUsingExerciser.current = value[2];
                 changeStatusItemToUse(userToken, value, 1);
@@ -108,38 +109,38 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 currentUsingExerciser.current = 0;
             }
 
-            player.velocity.x = 0;
+            persons[skin].velocity.x = 0;
             if (keys.right.pressed) {
-                player.switchSprite('Run');
-                player.velocity.x = 2;
-                player.lastDirection = 'right'
-                player.shouldPanCameraToTheLeft({ camera });
+                persons[skin].switchSprite('Run');
+                persons[skin].velocity.x = 2;
+                persons[skin].lastDirection = 'right'
+                persons[skin].shouldPanCameraToTheLeft({ camera });
             }
             else if (keys.left.pressed) {
-                player.switchSprite('RunLeft');
-                player.velocity.x = -2;
-                player.lastDirection = 'left'
-                player.shouldPanCameraToTheRight({ camera });
+                persons[skin].switchSprite('RunLeft');
+                persons[skin].velocity.x = -2;
+                persons[skin].lastDirection = 'left'
+                persons[skin].shouldPanCameraToTheRight({ camera });
             }
-            else if (player.velocity.y === 0) {
-                if (player.lastDirection === 'right')
-                    player.switchSprite('Idle');
+            else if (persons[skin].velocity.y === 0) {
+                if (persons[skin].lastDirection === 'right')
+                    persons[skin].switchSprite('Idle');
                 else
-                    player.switchSprite('IdleLeft')
+                    persons[skin].switchSprite('IdleLeft')
             }
 
-            if (player.velocity.y < 0) {
-                if (player.lastDirection === 'right')
-                    player.switchSprite('Jump');
+            if (persons[skin].velocity.y < 0) {
+                if (persons[skin].lastDirection === 'right')
+                    persons[skin].switchSprite('Jump');
                 else
-                    player.switchSprite('JumpLeft')
-                player.shouldPanCameraToTheDown({ camera })
-            } else if (player.velocity.y > 0) {
-                if (player.lastDirection === 'right')
-                    player.switchSprite('Fall')
+                    persons[skin].switchSprite('JumpLeft')
+                persons[skin].shouldPanCameraToTheDown({ camera })
+            } else if (persons[skin].velocity.y > 0) {
+                if (persons[skin].lastDirection === 'right')
+                    persons[skin].switchSprite('Fall')
                 else
-                    player.switchSprite('FallLeft')
-                player.shouldPanCameraToTheUp({ camera })
+                    persons[skin].switchSprite('FallLeft')
+                persons[skin].shouldPanCameraToTheUp({ camera })
             }
 
             context.restore();
@@ -148,25 +149,27 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
     function handleKeyDown(e: KeyboardEvent) {
         switch (e.key) {
-            case 'ArrowRight':
-                keys.right.pressed = true;
+            case 'w':
+                if(persons[skin].isStand()){
+                    persons[skin].velocity.y = -4;
+                }
                 break;
-            case 'ArrowLeft':
+            case 'a':
                 keys.left.pressed = true;
                 break;
-            case 'ArrowUp':
-                player.velocity.y = -4;
+            case 'd':
+                keys.right.pressed = true;
                 break;
         }
     }
 
     function handleKeyUp(e: KeyboardEvent) {
         switch (e.key) {
-            case 'ArrowRight':
-                keys.right.pressed = false;
-                break;
-            case 'ArrowLeft':
+            case 'a':
                 keys.left.pressed = false;
+                break;
+            case 'd':
+                keys.right.pressed = false;
                 break;
         }
     }
@@ -204,7 +207,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     useEffect(() => {
         const timer = setInterval(() => {
             getItemsHash(userToken);
-            server.setPersonPosition(userToken, player.position.x, player.position.y);
+            server.setPersonPosition(userToken, persons[skin].position.x, persons[skin].position.y);
             getGamers(userToken);
         }, 1000);
 

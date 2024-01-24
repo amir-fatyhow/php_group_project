@@ -31,11 +31,14 @@ function router ($params) {
             // http://server/?method=getMessages&token=&hash=
             case 'getMessages' : return $app->getMessage($params);
 
-            // http://server/?method=getPersons
-            case 'getPersons' : return $app->getPersons();
+            // http://server/?method=getPerson
+            case 'getPerson' : return $app->getPerson($params);
 
-            // http://server/?method=choosePerson&token=&personId=1
-            case 'choosePerson' : return $app->choosePerson($params);
+            // http://server/?method=chooseSkin&token=&skinId=1
+            case 'chooseSkin' : return $app->chooseSkin($params);
+
+            // http://server/?method=setSkin&token=
+            case 'setSkin' : return $app->setSkin($params);
 
             // http://server/?method=increaseScore&points=&token=
             case 'increaseScore' : return $app->changeScore($params);
@@ -99,9 +102,6 @@ function router ($params) {
 
             // http://server/?method=getBestGamers&token=
             case 'getBestGamers' : return $app->getBestGamers($params);
-
-            // http://server/?method=getGamers&token=
-            case 'getGamers' : return $app->getGamers($params);
 
             default : return array(false, 1002);
         }
