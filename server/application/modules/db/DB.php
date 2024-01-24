@@ -50,17 +50,18 @@ class DB {
         $this->post("UPDATE users SET token=? WHERE id=?", [$token, $userId]);
     }
 
-    function registration($login, $hashPass, $name, $surname, $token) {
-        $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)", [$login, $hashPass, $name, $surname, $token]);
+    function registration($login, $hash, $name, $surname, $token) {
+        $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
+            [$login, $hash, $name, $surname, $token]);
     }
 
     function getToken($userId) {
         return $this->query("SELECT token FROM users WHERE id=?", [$userId]);
     }
 
-    function login($login, $hashPass, $token) {
+    function login($login, $pass, $token) {
         $this->post("UPDATE users SET token=? WHERE login=? ", [$token, $login]);
-        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?", [$login, $hashPass]);
+        return $this->queryAll("SELECT * FROM users WHERE login=? AND password=?", [$login, $pass]);
     }
 
     function sendMessage($userId, $message) {
@@ -81,25 +82,20 @@ class DB {
             ORDER BY m.created DESC");
     }
 
+    function getPersons() {
+        return $this->queryAll("SELECT * FROM persons");
+    }
+
     function setInitialStateGamer($userId) {
         $this->post("UPDATE gamers SET score=?, health=?, status=? WHERE user_id=?", [1, 1, 1, $userId]);
     }
 
     function setInitialScoreAndTiredness($userId) {
-        $this->post("INSERT INTO gamers(user_id, score, health, skin_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, null, 0, 0, 1, 0, 300]);
+        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, null, 0, 0, 1, 0, 300]);
     }
 
-    function getPerson($id) {
-        return $this->query("SELECT type FROM persons WHERE id=?", [$id])->type;
-    }
-
-    function chooseSkin($userId, $skinId) {
-        $this->post("UPDATE gamers SET person_id=? WHERE user_id=?", [$skinId, $userId]);
-    }
-
-    function setSkin($userId) {
-        $skinID = $this->query("SELECT person_id FROM gamers WHERE user_id=?", [$userId])->person_id;
-        return $this->getPerson($skinID);
+    function choosePerson($userId, $personId) {
+        $this->post("UPDATE gamers SET person_id=? WHERE user_id=?", [$personId, $userId]);
     }
 
     function deleteGamer($userId) {
@@ -145,7 +141,7 @@ class DB {
     }
 
     function getGamers() {
-        return $this->queryAll("SELECT id, user_id, score, health, skin_id, x, y, status, timestamp, timeout FROM gamers");
+        return $this->queryAll("SELECT id, user_id, score, health, person_id, x, y, status, timestamp, timeout FROM gamers");
     }
 
     function getGamerById($user_id) {

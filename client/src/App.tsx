@@ -6,8 +6,8 @@ import { Server } from "./modules/server";
 import { HOST } from "./config";
 import useServer from "./modules/server";
 
-export const ServerContext = createContext<Server>(null!);
 
+export const ServerContext = createContext<Server>(null!);
 function App() {
     const server = useServer(HOST);
     let user = useRef("");
@@ -29,14 +29,14 @@ function App() {
     }
 
     return (
-        <ServerContext.Provider value={server}>
-            {
-                state === 'authorization' ?
-                    <Authorization setMenu={setMenu} /> :
-                    state === 'menu' ? <Menu logOut={logOut} token={userToken.current} />
-                        : <></>
-            }
-        </ServerContext.Provider>
+     <ServerContext.Provider value={server}>
+          {
+          state === 'authorization' ?
+              <Authorization setMenu={setMenu}/> :
+              state === 'menu' ? <Menu logOut={logOut} token={userToken.current}/>
+               : <></>
+          }
+      </ServerContext.Provider>
     );
 }
 

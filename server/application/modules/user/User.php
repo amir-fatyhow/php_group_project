@@ -15,24 +15,23 @@ class User {
         return $this->db->getUsers();
     }
 
-    public function registration($login, $hashPass, $name, $surname) {
+    public function registration($login, $pass, $name, $surname, $hashS) {
         $user = $this->db->getUserByLogin($login);
-        $token = $this->genToken($login, $hashPass);
+        $token = $this->genToken($login, $hashS);
         if ($user) {
             return null;
         }
-        $this->db->registration($login, $hashPass, $name, $surname, $token);
+        $this->db->registration($login, $pass, $name, $surname, $token);
         $currentUser = $this->db->getUserByToken($token);
         $this->db->setInitialScoreAndTiredness($currentUser->id);
         return $this->db->getToken($currentUser->id)->token;
     }
 
-    public function login($login, $hashPass, $rnd) {
+    public function login($login, $pass, $hashS) {
         $user = $this->db->getUserByLogin($login);
         if ($user) {
-            $checker = md5($user->password.$rnd);
-            if ($checker === $hashPass) {
-                $token = $this->genToken($login, $hashPass);
+            if ($user->password === $pass) {
+                $token = $this->genToken($login, $hashS);
                 $this->db->updateToken($user->id, $token);
                 return array(
                     'name' => $user->name,

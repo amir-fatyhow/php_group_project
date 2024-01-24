@@ -22,9 +22,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                          setMenu: (login: string, token: string) => void) {
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '') {
-            const rnd = Math.round(283 * Math.random());
-            let hashPass = md5(md5(login + pass) + rnd);
-            let user = await server.login(login, hashPass, rnd);
+            let user = await server.login(login, pass);
             if (user) {
                 setMenu(login, user.token);
             }
@@ -42,8 +40,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                                 setMenu: (login: string, token: string | null) => void) {
         event.preventDefault();
         if (login.trim() !== '' && pass.trim() !== '' && name.trim() !== '' && surname.trim() !== '') {
-            let hashPass = md5(login + pass);
-            let token = await server.registration(login, hashPass, name, surname);
+            let token = await server.registration(login, pass, name, surname);
             if (token) {
                 setMenu(login, token);
             }
@@ -83,7 +80,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                             registration(
                                 event,
                                 loginSign.current === null ? '' : loginSign.current.value,
-                                passwordSign.current === null ? '' : passwordSign.current.value,
+                                passwordSign.current === null ? '' : md5(passwordSign.current.value),
                                 surnameCreate.current === null ? '' : surnameCreate.current.value,
                                 nameCreate.current === null ? '' : nameCreate.current.value,
                                 setMenu)
@@ -108,7 +105,7 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                         onClick={(event) => login(
                             event,
                             loginCreate.current === null ? '' : loginCreate.current.value,
-                            passwordCreate.current === null ? '' : passwordCreate.current.value,
+                            passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
                             setMenu
                         )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Chat from "../chat/Chat";
 import Rate from "./Rate";
-import { ServerContext } from "../../../App";
 import {
     background,
     camera,
@@ -10,12 +9,14 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
-    persons
+    player
 } from "../constants";
+import {ServerContext} from "../../../App";
 
-const skin = 'slav';
 
-const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string}) => {
+
+
+const Gym = ( {changePlace, userToken} : { changePlace : (param : string) => void, userToken: string}) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
@@ -51,6 +52,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 setExerciser(arr);
             }
         }
+
     }
 
     function animate(context: CanvasRenderingContext2D | null) {
@@ -62,10 +64,10 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
 
-            persons[skin].checkForHorizontalCanvasCollision();
-            persons[skin].update(context);
+            player.checkForHorizontalCanvasCollision();
+            player.update(context);
 
-            let value = persons[skin].training();
+            let value = player.training();
             if (value) {
                 currentUsingExerciser.current = value[2];
                 changeStatusItemToUse(userToken, value, 1);
@@ -74,67 +76,65 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 currentUsingExerciser.current = 0;
             }
 
-            persons[skin].velocity.x = 0;
+            player.velocity.x = 0;
             if (keys.right.pressed) {
-                persons[skin].switchSprite('Run');
-                persons[skin].velocity.x = 2;
-                persons[skin].lastDirection = 'right'
-                persons[skin].shouldPanCameraToTheLeft({ camera });
+                player.switchSprite('Run');
+                player.velocity.x = 2;
+                player.lastDirection = 'right'
+                player.shouldPanCameraToTheLeft({camera});
             }
             else if (keys.left.pressed) {
-                persons[skin].switchSprite('RunLeft');
-                persons[skin].velocity.x = -2;
-                persons[skin].lastDirection = 'left'
-                persons[skin].shouldPanCameraToTheRight({ camera });
+                player.switchSprite('RunLeft');
+                player.velocity.x = -2;
+                player.lastDirection = 'left'
+                player.shouldPanCameraToTheRight({camera});
             }
-            else if (persons[skin].velocity.y === 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Idle');
+            else if (player.velocity.y === 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Idle');
                 else
-                    persons[skin].switchSprite('IdleLeft')
+                    player.switchSprite('IdleLeft')
             }
 
-            if (persons[skin].velocity.y < 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Jump');
+            if (player.velocity.y < 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Jump');
                 else
-                    persons[skin].switchSprite('JumpLeft')
-                persons[skin].shouldPanCameraToTheDown({ camera })
-            } else if (persons[skin].velocity.y > 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Fall')
+                    player.switchSprite('JumpLeft')
+                player.shouldPanCameraToTheDown({camera})
+            } else if (player.velocity.y > 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Fall')
                 else
-                    persons[skin].switchSprite('FallLeft')
-                persons[skin].shouldPanCameraToTheUp({ camera })
+                    player.switchSprite('FallLeft')
+                player.shouldPanCameraToTheUp({camera})
             }
 
             context.restore();
         }
     }
 
-    async function handleKeyDown(e: KeyboardEvent) {
+    function handleKeyDown(e: KeyboardEvent) {
         switch (e.key) {
-            case 'w':
-                if(persons[skin].isStand()){
-                    persons[skin].velocity.y = -4;
-                }
+            case 'ArrowRight':
+                keys.right.pressed = true;
                 break;
-            case 'a':
+            case 'ArrowLeft':
                 keys.left.pressed = true;
                 break;
-            case 'd':
-                keys.right.pressed = true;
+            case 'ArrowUp':
+                player.velocity.y = -4;
                 break;
         }
     }
 
     function handleKeyUp(e: KeyboardEvent) {
         switch (e.key) {
-            case 'a':
-                keys.left.pressed = false;
-                break;
-            case 'd':
+            case 'ArrowRight':
                 keys.right.pressed = false;
+                break;
+            case 'ArrowLeft':
+                keys.left.pressed = false;
                 break;
         }
     }
@@ -153,7 +153,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
     useEffect(() => {
         const timer = setInterval(() => {
-            let context = canvas.current ? canvas.current.getContext('2d') : null;
+            let context = canvas.current ? canvas.current.getContext('2d') :null;
             animate(context);
         }, 20);
 
@@ -178,11 +178,11 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                     >
                         EXIT
                     </button>
-                    <span className='mr-3'>a w s – управление игроком</span>
+                    <span className='mr-3'>&larr; &uarr; &rarr; управление игроком</span>
                 </div>
                 <canvas ref={canvas} width={canvasWidth} height={canvasHeight}></canvas>
                 <div className="flex">
-                    <Rate userToken={userToken} changePlace={changePlace} />
+                    <Rate userToken={userToken} changePlace={changePlace}/>
                     <div className="flex">
                         <span className={css}>barbell (upper left) is {exersicer[0] == 0 ? <>free</> : <>using</>}</span>
                         <span className={css}>elliptical (lower left) is {exersicer[1] == 0 ? <>free</> : <>using</>}</span>
@@ -191,7 +191,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                     </div>
                 </div>
             </div>
-            <Chat userToken={userToken} />
+            <Chat userToken={userToken}/>
         </div>
     );
 };
