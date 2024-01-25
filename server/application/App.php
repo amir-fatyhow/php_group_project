@@ -367,4 +367,16 @@ class App {
         }
         return [false, 4001];
     }
+
+    function getPersonId($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                return $this->game->getPersonId($user->id)->person_id;
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

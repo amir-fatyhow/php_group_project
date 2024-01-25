@@ -103,6 +103,9 @@ function router ($params) {
             // http://server/?method=getGamers&token=
             case 'getGamers' : return $app->getGamers($params);
 
+            // http://server/?method=getPersonId&token=
+            case 'getPersonId' : return $app->getPersonId($params);
+
             default : return array(false, 1002);
         }
     }

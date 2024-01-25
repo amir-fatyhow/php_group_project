@@ -156,4 +156,8 @@ export default class Server {
     async getGamers(token: string) {
         return this.request<TGamer[]>('getGamers', { token });
     }
+
+    async getPersonId(token: string) {
+        return await this.request<number>('getPersonId', { token });
+    }
 }

@@ -4,8 +4,8 @@ class DB {
     private $db;
     function __construct() {
         $host = '127.0.0.1';
-        $port = 4200;
-        //$port = 3306;
+        //$port = 4200;
+        $port = 3306;
         $user = "root";
         $pass = "";
         $db = "gym";
@@ -96,6 +96,10 @@ class DB {
 
     function choosePerson($userId, $personId) {
         $this->post("UPDATE gamers SET person_id=? WHERE user_id=?", [$personId, $userId]);
+    }
+    
+    function getPersonId($id) {
+        return $this->query("SELECT person_id FROM gamers WHERE user_id=?", [$id]);
     }
 
     function deleteGamer($userId) {

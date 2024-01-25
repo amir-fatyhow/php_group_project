@@ -167,4 +167,8 @@ class Game
         $gamers = $this->db->getBestGamers();
         return $gamers;
     }
+
+    function getPersonId($userId) {
+        return $this->db->getPersonId($userId);
+    }
 }

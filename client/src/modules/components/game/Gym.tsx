@@ -9,14 +9,15 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
-    player
+    player1,
+    player2
 } from "../constants";
 import { ServerContext } from "../../../App";
 import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
 
 
-const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
+const Gym = ({ changePlace, userToken, personId }: { changePlace: (param: string, x?: string) => void, userToken: string, personId: string }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
@@ -26,6 +27,10 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     let currentGamerHash = useRef('gamerHash');
     let gamers = useRef<Player[]>([]);
     const [bestPlayers, setBestGamers] = useState<TBestGamers[]>([]);
+    let player = player1;
+    if(personId == '2') {
+        player = player2;
+    }
 
     async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
         let status = await server.getItemStatus(token, value[2]);
@@ -217,7 +222,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             <div className='pt-16 pl-2 flex-col'>
                 <div className='flex p-1'>
                     <button className='mr-2 text-sm font-semibold text-red-800'
-                            onClick={() => changePlace('Menu')}
+                        onClick={() => changePlace('Menu')}
                     >
                         EXIT
                     </button>

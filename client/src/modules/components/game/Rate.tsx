@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ServerContext} from "../../../App";
 
-const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (param : string) => void }) => {
+const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (param : string, x?: string) => void }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const [[score, tiredness], setXP] = useState([1,1]);
     const server = useContext(ServerContext);

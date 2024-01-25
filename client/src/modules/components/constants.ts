@@ -72,7 +72,7 @@ export const makePlatformCollision = () => {
     })
 }
 
-export const player = new Player({
+export const player1 = new Player({
     position: { x: 100, y: 300 },
     canvas: { width: canvasWidth, height: canvasHeight },
     collisionBlocks,
@@ -120,6 +120,59 @@ export const player = new Player({
         JumpLeft: {
             framerate: 2,
             srcFrame: './assets/warrior/JumpLeft.png',
+            framebuffer: 3
+        },
+    }
+});
+
+export const player2 = new Player({
+    position: { x: 100, y: 300 },
+    canvas: { width: canvasWidth, height: canvasHeight },
+    collisionBlocks,
+    platformCollisionBlocks,
+    frameRate: 8,
+    frameBuffer: 4,
+    scale: 0.5,
+    src: './assets/warrior2/Idle.png',
+    animations: {
+        Idle: {
+            framerate: 8,
+            srcFrame: './assets/warrior2/Idle.png',
+            framebuffer: 4
+        },
+        Run: {
+            framerate: 8,
+            srcFrame: './assets/warrior2/Run.png',
+            framebuffer: 5
+        },
+        Jump: {
+            framerate: 2,
+            srcFrame: './assets/warrior2/Jump.png',
+            framebuffer: 3
+        },
+        Fall: {
+            framerate: 2,
+            srcFrame: './assets/warrior2/Fall.png',
+            framebuffer: 3
+        },
+        FallLeft: {
+            framerate: 2,
+            srcFrame: './assets/warrior2/FallLeft.png',
+            framebuffer: 3
+        },
+        RunLeft: {
+            framerate: 8,
+            srcFrame: './assets/warrior2/RunLeft.png',
+            framebuffer: 5
+        },
+        IdleLeft: {
+            framerate: 8,
+            srcFrame: './assets/warrior2/IdleLeft.png',
+            framebuffer: 3
+        },
+        JumpLeft: {
+            framerate: 2,
+            srcFrame: './assets/warrior2/JumpLeft.png',
             framebuffer: 3
         },
     }
