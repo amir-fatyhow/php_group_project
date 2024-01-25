@@ -62,7 +62,7 @@ export default class Server {
     }
 
     async getMessage(token: string, hash: string) {
-        return await this.request<string[] | false>('getMessages', { token, hash });
+        return await this.request<TMessage[] | false>('getMessages', { token, hash });
     }
 
     async choosePerson(token: string, personId: number) {
