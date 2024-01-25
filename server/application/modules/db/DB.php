@@ -191,6 +191,7 @@ class DB {
     }
 
     function getScoreByUserId($userId) {
+        echo "<script>console.log(" . $userId . ");</script>";
         return  $this->query("SELECT score FROM gamers WHERE user_id=?", [$userId]);
     }
 

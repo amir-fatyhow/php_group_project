@@ -18,7 +18,7 @@ import { Player } from './classes/Player';
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
 
     const player = persons[JSON.parse(localStorage.getItem("skin") || '0')];
-    
+
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
@@ -185,6 +185,24 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             case 'f':
                 keys.traid.pressed = true;
                 break;
+
+            case 'ц':
+                if (player.isStand()) {
+                    player.velocity.y = -4;
+                }
+                break;
+            case 'ф':
+                keys.left.pressed = true;
+                break;
+            case 'в':
+                keys.right.pressed = true;
+                break;
+            case 'ы':
+                keys.use.pressed = true;
+                break;
+            case 'а':
+                keys.traid.pressed = true;
+                break;
         }
     }
 
@@ -201,6 +219,20 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 keys.sState.pressed = false;
                 break;
             case 'f':
+                keys.traid.pressed = false;
+                keys.fState.pressed = false;
+                break;
+            case 'ф':
+                keys.left.pressed = false;
+                break;
+            case 'в':
+                keys.right.pressed = false;
+                break;
+            case 'ы':
+                keys.use.pressed = false;
+                keys.sState.pressed = false;
+                break;
+            case 'а':
                 keys.traid.pressed = false;
                 keys.fState.pressed = false;
                 break;
