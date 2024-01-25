@@ -9,7 +9,6 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
-    //player,
     persons
 } from "../constants";
 import { ServerContext } from "../../../App";
@@ -17,7 +16,9 @@ import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
 
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
+
     const player = persons[JSON.parse(localStorage.getItem("skin") || '0')];
+    
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
@@ -70,13 +71,13 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-                let p = createGamer(gamer.x, gamer.y);
+                let p = createGamer(gamer.x, gamer.y, gamer.skin);
                 gamers.current.push(p);
             }
         }
     }
 
-    function createGamer(x: number, y: number) {
+    function createGamer(x: number, y: number, skin: string) {
         return new Player({
             position: { x, y },
             canvas: { width: canvasWidth, height: canvasHeight },
@@ -85,7 +86,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             frameRate: 8,
             frameBuffer: 4,
             scale: 0.5,
-            src: './assets/' + 'slav' + '/Idle.png',
+            src: './assets/' + skin + '/Idle.png',
             animations: {}
         });
     }

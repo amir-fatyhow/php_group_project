@@ -189,11 +189,59 @@ export const persons = [
             },
         },
     }),
+    new Player({
+        position: { x: 100, y: 300 },
+        canvas: { width: canvasWidth, height: canvasHeight },
+        collisionBlocks,
+        platformCollisionBlocks,
+        frameRate: 8,
+        frameBuffer: 4,
+        scale: 0.5,
+        src: './assets/' + 'anon' + '/Idle.png',
+        animations: {
+            Idle: {
+                framerate: 8,
+                srcFrame: './assets/' + 'anon' + '/Idle.png',
+                framebuffer: 4
+            },
+            Run: {
+                framerate: 8,
+                srcFrame: './assets/' + 'anon' + '/Run.png',
+                framebuffer: 5
+            },
+            Jump: {
+                framerate: 2,
+                srcFrame: './assets/' + 'anon' + '/Jump.png',
+                framebuffer: 3
+            },
+            Fall: {
+                framerate: 2,
+                srcFrame: './assets/' + 'anon' + '/Fall.png',
+                framebuffer: 3
+            },
+            FallLeft: {
+                framerate: 2,
+                srcFrame: './assets/' + 'anon' + '/FallLeft.png',
+                framebuffer: 3
+            },
+            RunLeft: {
+                framerate: 8,
+                srcFrame: './assets/' + 'anon' + '/RunLeft.png',
+                framebuffer: 5
+            },
+            IdleLeft: {
+                framerate: 8,
+                srcFrame: './assets/' + 'anon' + '/IdleLeft.png',
+                framebuffer: 3
+            },
+            JumpLeft: {
+                framerate: 2,
+                srcFrame: './assets/' + 'anon' + '/JumpLeft.png',
+                framebuffer: 3
+            },
+        },
+    }),
 ];
-
-export const player = persons[JSON.parse(localStorage.getItem("skin") || '0')];
-
-//export const player = persons[0];
 
 export const camera = {
     position: {
