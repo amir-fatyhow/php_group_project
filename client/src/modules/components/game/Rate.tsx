@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ServerContext} from "../../../App";
+import './Gym.css'
 
 const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (param : string) => void }) => {
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
@@ -36,17 +37,13 @@ const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (p
             {
             tiredness < 2000
             ?
-                score > 20 ? <span className={css}>Ты легенда, как Арни!</span> :
-                score > 14 ? <span className={css}>Остался один шаг до звания Мистер Олимпия </span> :
-                score > 12 ? <span className={css}>Ещё немного, буквально пару десятков лет и ты будешь как Арни</span> :
-                <span className={css}>Тренируйся!</span>
-            :
-                tiredness > 2999 ? <span className={css}>Ты проиграл!</span> :
-                tiredness > 2000 ? <span className={css}>Ты изрядно устал - тебе бы отдохнуть!</span> : <></>
+                score > 20 ? <span className="work">Ты легенда, как Арни!</span> :
+                score > 14 ? <span className="work">Остался один шаг до звания Мистер Олимпия </span> :
+                score > 12 ? <span className="work">Ещё немного, буквально пару десятков лет и ты будешь как Арни</span> :
+                <span className="work">Тренируйся!<p className = "score"> SCORE = {score} TIREDNESS = {tiredness}</p></span>:
+                tiredness > 2999 ? <span className="work">Ты проиграл!</span> :
+                tiredness > 2000 ? <span className="work">Ты изрядно устал - тебе бы отдохнуть!</span> : <></>
             }
-            <span className={css}>
-                SCORE = {score} TIREDNESS = {tiredness}
-            </span>
         </div>
     );
 };
