@@ -15,7 +15,8 @@ body {
   will-change: transform;
 }
 
+/*новый фон сделан в фотошопе*/
 body {
   margin: 0;
-  background: linear-gradient(90deg, #b9deed, #efefef);
+  background: url(https://sun9-57.userapi.com/impg/mweeKTIn2mVRqxjNITr3nz7W3q5XxhYC3mBKnQ/OnB08QHXULE.jpg?size=1004x547&quality=96&sign=71e5215a8e187a4173e6a67e30dd4aac&type=album)no-repeat fixed;-webkit-background-size:cover;background-size: cover;
 }
