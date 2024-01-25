@@ -126,14 +126,14 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function changeHealth($params) {
+    function changeTiredness($params) {
         $points = $params['points'];
         $token = $params['token'];
         //Вызываем метод changeHealth из объекта $this->game, передавая идентификатор пользователя и количество очков здоровья
         if ($points && $token) {
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->changeHealth($user->id, $points);
+                return $this->game->changeTiredness($user->id, $points);
             }
             return [false, 4001];
         }

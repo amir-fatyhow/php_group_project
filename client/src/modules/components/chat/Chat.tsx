@@ -1,31 +1,35 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import './Chat.css';
 import { ServerContext } from "../../../App";
+import { TMessage } from '../../server/types';
 
-const Chat = ({ userToken }) => {
+const Chat = ({ userToken } : {userToken: string}) => {
     let token = useRef(userToken);
-    const message = useRef(null);
-    const formMsg = useRef(null);
-    const [messages, setMessages] = useState([]);
+    const message = useRef<any>(null);
+    const formMsg = useRef<HTMLFormElement>(null);
+    const [messages, setMessages] = useState<TMessage[]>([]);
     const server = useContext(ServerContext);
     let currentChatHash = useRef("hash");
 
-    async function sendMessage(token, msg) {
+    async function sendMessage(token: any, msg: string) {
         if (msg) {
             currentChatHash.current = Math.random().toString();
             await server.changeChatHash(token.current);
-            formMsg.current.reset();
-            await server.sendMessage(token.current, msg);
-            await getMessage(token.current)
+            if (formMsg.current) {
+                formMsg.current?.reset();  //
+                await server.sendMessage(token.current, msg);
+                await getMessage(token.current)
+            }
+            
         }
     }
 
-    async function getMessage(token) {
+    async function getMessage(token: string) {
         let chatHash = await server.getChatHash(token);
         if (chatHash && currentChatHash.current !== chatHash.chat_hash) {
             let data = await server.getMessage(token, currentChatHash.current);
             currentChatHash.current = chatHash.chat_hash;
-            let arr = [];
+            let arr: TMessage[] = [];
             if (data) {
                 for (let el of data) {
                     arr.push(el);
@@ -52,7 +56,7 @@ const Chat = ({ userToken }) => {
                             <div className="chatbox__row chatbox__row_fullheight">
                                 <div className="chatbox__content">
                                     {messages.length !== 0 && messages.map((m) => (
-                                        <div className="message" key={m + Math.random()}>
+                                        <div className="message" key={m.message + Math.random()}>
                                             <div className="message__base">
                                                 <div className="message__textbox">
                                                     <span className="message__text">{m.message}</span>
