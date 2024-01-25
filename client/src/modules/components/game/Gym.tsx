@@ -38,12 +38,17 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         }
     }
 
-    async function weTraining(token: string, value: number[], isUsed: number) {
+    async function weTraining(token: string, value: number[]) {
         let status = await server.getItemStatus(token, value[2]);
         if (status) {
-            await server.training(userToken, value[0]);
-            await server.increaseTiredness(userToken, value[1]);
+            await server.training(token, value[0]);
+            await server.increaseTiredness(token, value[1]);
         }
+    }
+
+    async function traid(token: string) {
+            server.decreaseTiredness(token);
+            server.decreaseScore(token, -1);
     }
 
     async function changeStatusItemToUnuse(token: string, value: number, isUsed: number) {
@@ -67,7 +72,6 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
     async function getGamers(token: string) {
         let answer = await server.getGamers(token);
-        //console.log(answer);
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
@@ -117,7 +121,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 if (keys.use.pressed && !keys.sState.pressed) {
                     console.log('asd');
                     keys.sState.pressed = true;
-                    weTraining(userToken, value, 1);
+                    weTraining(userToken, value);
                 }
             } else if (currentUsingExerciser.current) {
                 changeStatusItemToUnuse(userToken, currentUsingExerciser.current, 0);
@@ -127,7 +131,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             if (keys.traid.pressed && !keys.fState.pressed) {
                 console.log('asdfff');
                 keys.fState.pressed = true;
-                //weTraining(userToken, value, 1);
+                traid(userToken);
             }
 
             player.velocity.x = 0;
@@ -173,6 +177,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             case 'w':
                 if (player.isStand()) {
                     player.velocity.y = -4;
+                    server.increaseTiredness(userToken, 10);
                 }
                 break;
             case 'a':

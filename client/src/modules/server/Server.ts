@@ -70,6 +70,10 @@ export default class Server {
         const answer = await this.request('increaseScore', { token, points })
     }
 
+    async decreaseScore(token: string, points: number) {
+        const answer = await this.request('decreaseScore', { token, points })
+    }
+
     async getItems() {
         return await this.request('getItems');
     }

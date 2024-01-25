@@ -286,13 +286,13 @@ export class Player {
     // [score, tiredness, itemId]
     training() {
         if (this.position.x > -36 && this.position.y > 9 && this.position.x < 4 && this.position.y < 12) // upper left "barbell"
-            return [2, 400, 1];
+            return [2, 100, 1];
         if (this.position.x > 56 && this.position.y > 250 && this.position.x < 100 && this.position.y < 252) // lower left "elliptical"
-            return [1, 390, 2];
+            return [1, 39, 2];
         if (this.position.x > 446 && this.position.y > 9 && this.position.x < 480 && this.position.y < 12) // upper right "treadmill id = 3"
-            return [2, 500, 3];
+            return [2, 50, 3];
         if (this.position.x > 396 && this.position.y > 282 && this.position.x < 438 && this.position.y < 284) // lower right "treadmill id = 4"
-            return [1, 425, 4];
+            return [1, 40, 4];
         return null;
     }
 
