@@ -1,5 +1,5 @@
 // UdSU
-const DOMAIN = 'http://server/';
+const DOMAIN = 'http://localhost';
 const PORT = null;
 
 // dev
