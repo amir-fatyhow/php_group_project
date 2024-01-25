@@ -30,9 +30,8 @@ class Game
         return $this->db->changeScore($userId, $score);  
     }
 
-    function changeHealth($userId, $points) {
-        // метод для изменения состояния здоровья пользователя
-        return $this->db->changeHealth($userId, $points);  
+    function changeTiredness($userId, $points) {
+        return $this->db->changeTiredness($userId, $points);
     }
 
     function getItems() { 
@@ -74,56 +73,40 @@ class Game
 
     // Функция для обновления сцены игры
     function updateScene($userId, $timestamp, $timeout) {
-    $currentTimestamp = time(); 
-    if ($currentTimestamp - $timestamp >= $timeout) { 
-    // Обновляем timestamp в базе данных
-    $this->db->updateTimestamp($currentTimestamp); 
-    // Получаем информацию о пользователе из базы данных
-    $user = $this->db->getGamerById($userId); 
-    if($user->status === 2){ 
-    // Удаляем пользователя из базы данных
-    $this->db->deleteGamer($userId); 
+        $currentTimestamp = time();
+        if ($currentTimestamp - $timestamp >= $timeout) {
+            $this->db->updateTimestamp($currentTimestamp);
+            $user = $this->db->getGamerById($userId);
+            if($user->status === 2){
+                $this->db->deleteGamer($userId);
+            }
+
+            $this->db->changeScore($userId, 2);
+            $user = $this->db->getGamerById($userId);
+            if ($user->tiredness <= 0) {
+                $this->setGamerStatus($userId, 2);
+            }
+
+            $hash = md5('hashMessage'.rand(0, 100000));
+            $this->db->updateGameHash($hash);
+        }
     }
 
-    $this->db->changeScore($userId, 2); 
-    // Получаем обновленную информацию о пользователе из базы данных
-    $user = $this->db->getGamerById($userId); 
-    // Если здоровье пользователя меньше или равно 0
-    if ($user->health <= 0) { 
-        $this->setGamerStatus($userId, 2); 
+    function getScene($userId, $gamersHash, $itemsHash) {
+        $result = array();
+        $game = $this->db->getHashes();
+        $this->updateScene($userId, $game->timestamp, $game->timeout);
+        if ($gamersHash !== $game->gamers_hash) {
+            $result['gamers'] = $this->getGamers();
+            $result['gamersHash'] = $game->gamers_hash;
+        }
+        if ($itemsHash !== $game->items_hash) {
+            $result['items'] = $this->getItems();
+            $result['itemsHash'] = $game->items_hash;
+        }
+        return $result;
     }
-    // Генерируем случайный hash
-    $hash = md5('hashMessage'.rand(0, 100000)); 
-    // Обновляем hash игры в базе данных
-    $this->db->updateGameHash($hash); 
-}
-}
-// Функция для получения сцены игры
-function getScene($userId, $gamersHash, $itemsHash) {
-    // Создаем пустой массив для результата
-    $result = array(); 
-    // Получаем хеши из базы данных
-    $game = $this->db->getHashes(); 
-    // Вызываем функцию обновления сцены игры
-    $this->updateScene($userId, $game->timestamp, $game->timeout);
-    // Если хеш игроков не совпадает с хешем из базы данных
-    if ($gamersHash !== $game->gamers_hash) {
-    // Получаем информацию об игроках
-    $result['gamers'] = $this->getGamers(); 
-    // Добавляем хеш игроков в результат
-    $result['gamersHash'] = $game->gamers_hash; 
-    }
-    // Если хеш предметов не совпадает с хешем из базы данных
-    if ($itemsHash !== $game->items_hash) { 
-    // Получаем информацию о предметах
-    $result['items'] = $this->getItems(); 
-    // Добавляем хеш предметов в результат
-    $result['itemsHash'] = $game->items_hash; 
-    }
-    return $result; 
-    }
-    
-    // Функция для получения статуса предмета по его id
+
     function getStatusOfItem($id) {
     // Получаем статус предмета (используется или нет)
     return $this->db->getStatusOfItem($id)->isUsed; 
@@ -152,8 +135,7 @@ function getScene($userId, $gamersHash, $itemsHash) {
     }
 
     function decreaseTiredness($userId) {
-        // Получаем текущую усталость пользователя по его идентификатору
-        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->tiredness;
         if ($currentTiredness > 10) {
             // Если текущая усталость больше 10, то уменьшаем усталость на 10
             $tiredness = $currentTiredness - 10;
@@ -168,9 +150,7 @@ function getScene($userId, $gamersHash, $itemsHash) {
     }
     
     function increaseTiredness($userId, $points) {
-        // Получаем текущую усталость пользователя по его идентификатору
-        $currentTiredness = $this->db->getTirednessByUserId($userId)->health;
-        // Увеличиваем усталость на заданное количество очков
+        $currentTiredness = $this->db->getTirednessByUserId($userId)->tiredness;
         $tiredness = $currentTiredness + $points;
         // Обновляем значение усталости в базе данных для данного пользователя
         return $this->db->increaseTirednessByUserId($userId, $tiredness);
@@ -178,9 +158,7 @@ function getScene($userId, $gamersHash, $itemsHash) {
     }
     
     function getTirednessByUserId($userId) {
-        // Получаем значение текущей усталости пользователя по его идентификатору
-        return $this->db->getTirednessByUserId($userId)->health;
-        
+        return $this->db->getTirednessByUserId($userId)->tiredness;
     }
     
     function getScoreByUserId($userId) {

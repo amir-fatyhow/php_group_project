@@ -87,11 +87,11 @@ class DB {
     }
 
     function setInitialStateGamer($userId) {
-        $this->post("UPDATE gamers SET score=?, health=?, status=? WHERE user_id=?", [1, 1, 1, $userId]);
+        $this->post("UPDATE gamers SET score=?, tiredness=?, status=? WHERE user_id=?", [1, 1, 1, $userId]);
     }
 
     function setInitialScoreAndTiredness($userId) {
-        $this->post("INSERT INTO gamers(user_id, score, health, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, null, 0, 0, 1, 0, 300]);
+        $this->post("INSERT INTO gamers(user_id, score, tiredness, person_id, x, y, status, timestamp, timeout) VALUES(?,?,?,?,?,?,?,?,?)", [$userId, 1, 1, null, 0, 0, 1, 0, 300]);
     }
 
     function choosePerson($userId, $personId) {
@@ -122,9 +122,9 @@ class DB {
         return $newScore;
     }
 
-    function changeHealth($userId, $health) {
-        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$health, $userId]);
-        return $health;
+    function changeTiredness($userId, $tiredness) {
+        $this->post("UPDATE gamers SET tiredness=? WHERE user_id=? ", [$tiredness, $userId]);
+        return $tiredness;
     }
 
     function updateGamerHash($hash) {
@@ -174,16 +174,16 @@ class DB {
     }
     
     function getTirednessByUserId($userId) {
-        return $this->query("SELECT health FROM gamers WHERE user_id=?", [$userId]);
+        return $this->query("SELECT tiredness FROM gamers WHERE user_id=?", [$userId]);
     }
     
     function decreaseTirednessByUserId($userId, $tiredness) {
-        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
+        $this->post("UPDATE gamers SET tiredness=? WHERE user_id=? ", [$tiredness, $userId]);
         return true;
     }
     
     function increaseTirednessByUserId($userId, $tiredness) {
-        $this->post("UPDATE gamers SET health=? WHERE user_id=? ", [$tiredness, $userId]);
+        $this->post("UPDATE gamers SET tiredness=? WHERE user_id=? ", [$tiredness, $userId]);
         return true;
     }
     
