@@ -34,15 +34,19 @@ const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (p
     return (
         <div>
             {
-            tiredness < 2000
-            ?
-                score > 20 ? <span className="work">Ты легенда, как Арни!</span> :
-                score > 14 ? <span className="work">Остался один шаг до звания Мистер Олимпия </span> :
-                score > 12 ? <span className="work">Ещё немного, буквально пару десятков лет и ты будешь как Арни</span> :
-                <span className="work">Тренируйся!<p className = "score"> SCORE = {score} TIREDNESS = {tiredness}</p></span>:
-                tiredness > 2999 ? <span className="work">Ты проиграл!</span> :
-                tiredness > 2000 ? <span className="work">Ты изрядно устал - тебе бы отдохнуть!</span> : <></>
+                tiredness < 2000
+                    ?
+                    score > 20 ? <span className={css}>Ты легенда, как Арни!</span> :
+                        score > 14 ? <span className={css}>Остался один шаг до звания Мистер Олимпия </span> :
+                            score > 12 ? <span className={css}>Ещё немного, буквально пару десятков лет и ты будешь как Арни</span> :
+                                <span className={css}>Тренируйся!</span>
+                    :
+                    tiredness > 2999 ? <span className={css}>Ты проиграл!</span> :
+                        tiredness > 2000 ? <span className={css}>Ты изрядно устал - тебе бы отдохнуть!</span> : <></>
             }
+            <span className={css}>
+                SCORE = {score} TIREDNESS = {tiredness}
+            </span>
         </div>
     );
 };

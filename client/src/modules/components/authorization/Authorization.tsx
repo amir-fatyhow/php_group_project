@@ -13,8 +13,6 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
     const nameCreate = useRef<HTMLInputElement>(null);
     const surnameCreate = useRef<HTMLInputElement>(null);
     const passwordCreate = useRef<HTMLInputElement>(null);
-    const imageElement = document.createElement('img');
-    imageElement.src = 'drish1.png';
 
     const [error, setError] = useState("");
 
@@ -103,13 +101,13 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
                         type="password"
                         placeholder="password"
                     />
-                    <button 
+                    <button
                         onClick={(event) => login(
                             event,
                             loginCreate.current === null ? '' : loginCreate.current.value,
                             passwordCreate.current === null ? '' :md5(passwordCreate.current.value),
                             setMenu
-                        )}><div className = "wrapper"><a href="#"><span>login</span></a></div></button>
+                        )}>login</button>
                     <p className="message">Not registered? <a onClick={() => handler()}>Create an account</a></p>
                 </form>
             </div>
@@ -122,4 +120,3 @@ export default Authorization;
 const handler = () => {
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 }
-
