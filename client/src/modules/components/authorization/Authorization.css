@@ -17,6 +17,7 @@ a:hover {
 
 /*Логин*/
 .login-page {
+    display: flex;
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
@@ -114,4 +115,3 @@ a:hover {
 .container .info span .fa {
     color: #EF3B3A;
 }
-

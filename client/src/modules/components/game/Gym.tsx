@@ -63,8 +63,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-               let p = createGamer(gamer.x, gamer.y);
-               gamers.current.push(p);
+                let p = createGamer(gamer.x, gamer.y);
+                gamers.current.push(p);
             }
         }
     }
@@ -172,7 +172,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     }
 
     useEffect(() => {
-       getGamers(userToken);
+        getGamers(userToken);
         makeCollision();
         makePlatformCollision();
         window.addEventListener('keydown', (e) => handleKeyDown(e))
@@ -217,7 +217,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             <div className='pt-16 pl-2 flex-col'>
                 <div className='flex p-1'>
                     <button className='mr-2 text-sm font-semibold text-red-800'
-                        onClick={() => changePlace('Menu')}
+                            onClick={() => changePlace('Menu')}
                     >
                         EXIT
                     </button>
