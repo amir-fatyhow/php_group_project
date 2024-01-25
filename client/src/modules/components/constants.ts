@@ -84,164 +84,72 @@ export const makePlatformCollision = () => {
     })
 }
 
-export const persons = [
-    new Player({
-        position: { x: 100, y: 300 },
-        canvas: { width: canvasWidth, height: canvasHeight },
-        collisionBlocks,
-        platformCollisionBlocks,
-        frameRate: 8,
-        frameBuffer: 4,
-        scale: 0.5,
-        src: './assets/' + 'slav' + '/Idle.png',
-        animations: {
-            Idle: {
-                framerate: 8,
-                srcFrame: './assets/' + 'slav' + '/Idle.png',
-                framebuffer: 4
+export const skins = [
+    'slav',
+    'sportyman',
+    'anon',
+]
+
+let persons: Player[] = [];
+
+for (let i = 0; i < skins.length; i++) {
+    persons.push(
+        new Player({
+            position: { x: 100, y: 300 },
+            canvas: { width: canvasWidth, height: canvasHeight },
+            collisionBlocks,
+            platformCollisionBlocks,
+            frameRate: 8,
+            frameBuffer: 4,
+            scale: 0.5,
+            src: './assets/' + skins[i] + '/Idle.png',
+            animations: {
+                Idle: {
+                    framerate: 8,
+                    srcFrame: './assets/' + skins[i] + '/Idle.png',
+                    framebuffer: 4
+                },
+                Run: {
+                    framerate: 8,
+                    srcFrame: './assets/' + skins[i] + '/Run.png',
+                    framebuffer: 5
+                },
+                Jump: {
+                    framerate: 2,
+                    srcFrame: './assets/' + skins[i] + '/Jump.png',
+                    framebuffer: 3
+                },
+                Fall: {
+                    framerate: 2,
+                    srcFrame: './assets/' + skins[i] + '/Fall.png',
+                    framebuffer: 3
+                },
+                FallLeft: {
+                    framerate: 2,
+                    srcFrame: './assets/' + skins[i] + '/FallLeft.png',
+                    framebuffer: 3
+                },
+                RunLeft: {
+                    framerate: 8,
+                    srcFrame: './assets/' + skins[i] + '/RunLeft.png',
+                    framebuffer: 5
+                },
+                IdleLeft: {
+                    framerate: 8,
+                    srcFrame: './assets/' + skins[i] + '/IdleLeft.png',
+                    framebuffer: 3
+                },
+                JumpLeft: {
+                    framerate: 2,
+                    srcFrame: './assets/' + skins[i] + '/JumpLeft.png',
+                    framebuffer: 3
+                },
             },
-            Run: {
-                framerate: 8,
-                srcFrame: './assets/' + 'slav' + '/Run.png',
-                framebuffer: 5
-            },
-            Jump: {
-                framerate: 2,
-                srcFrame: './assets/' + 'slav' + '/Jump.png',
-                framebuffer: 3
-            },
-            Fall: {
-                framerate: 2,
-                srcFrame: './assets/' + 'slav' + '/Fall.png',
-                framebuffer: 3
-            },
-            FallLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'slav' + '/FallLeft.png',
-                framebuffer: 3
-            },
-            RunLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'slav' + '/RunLeft.png',
-                framebuffer: 5
-            },
-            IdleLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'slav' + '/IdleLeft.png',
-                framebuffer: 3
-            },
-            JumpLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'slav' + '/JumpLeft.png',
-                framebuffer: 3
-            },
-        },
-    }),
-    new Player({
-        position: { x: 100, y: 300 },
-        canvas: { width: canvasWidth, height: canvasHeight },
-        collisionBlocks,
-        platformCollisionBlocks,
-        frameRate: 8,
-        frameBuffer: 4,
-        scale: 0.5,
-        src: './assets/' + 'sportyman' + '/Idle.png',
-        animations: {
-            Idle: {
-                framerate: 8,
-                srcFrame: './assets/' + 'sportyman' + '/Idle.png',
-                framebuffer: 4
-            },
-            Run: {
-                framerate: 8,
-                srcFrame: './assets/' + 'sportyman' + '/Run.png',
-                framebuffer: 5
-            },
-            Jump: {
-                framerate: 2,
-                srcFrame: './assets/' + 'sportyman' + '/Jump.png',
-                framebuffer: 3
-            },
-            Fall: {
-                framerate: 2,
-                srcFrame: './assets/' + 'sportyman' + '/Fall.png',
-                framebuffer: 3
-            },
-            FallLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'sportyman' + '/FallLeft.png',
-                framebuffer: 3
-            },
-            RunLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'sportyman' + '/RunLeft.png',
-                framebuffer: 5
-            },
-            IdleLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'sportyman' + '/IdleLeft.png',
-                framebuffer: 3
-            },
-            JumpLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'sportyman' + '/JumpLeft.png',
-                framebuffer: 3
-            },
-        },
-    }),
-    new Player({
-        position: { x: 100, y: 300 },
-        canvas: { width: canvasWidth, height: canvasHeight },
-        collisionBlocks,
-        platformCollisionBlocks,
-        frameRate: 8,
-        frameBuffer: 4,
-        scale: 0.5,
-        src: './assets/' + 'anon' + '/Idle.png',
-        animations: {
-            Idle: {
-                framerate: 8,
-                srcFrame: './assets/' + 'anon' + '/Idle.png',
-                framebuffer: 4
-            },
-            Run: {
-                framerate: 8,
-                srcFrame: './assets/' + 'anon' + '/Run.png',
-                framebuffer: 5
-            },
-            Jump: {
-                framerate: 2,
-                srcFrame: './assets/' + 'anon' + '/Jump.png',
-                framebuffer: 3
-            },
-            Fall: {
-                framerate: 2,
-                srcFrame: './assets/' + 'anon' + '/Fall.png',
-                framebuffer: 3
-            },
-            FallLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'anon' + '/FallLeft.png',
-                framebuffer: 3
-            },
-            RunLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'anon' + '/RunLeft.png',
-                framebuffer: 5
-            },
-            IdleLeft: {
-                framerate: 8,
-                srcFrame: './assets/' + 'anon' + '/IdleLeft.png',
-                framebuffer: 3
-            },
-            JumpLeft: {
-                framerate: 2,
-                srcFrame: './assets/' + 'anon' + '/JumpLeft.png',
-                framebuffer: 3
-            },
-        },
-    }),
-];
+        })
+    )
+};
+
+export { persons };
 
 export const camera = {
     position: {

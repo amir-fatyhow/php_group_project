@@ -9,7 +9,8 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
-    persons
+    persons,
+    skins
 } from "../constants";
 import { ServerContext } from "../../../App";
 import { TGamer, TBestGamers } from '../../server/types';
@@ -41,7 +42,6 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         let status = await server.getItemStatus(token, value[2]);
         if (status) {
             await server.training(userToken, value[0]);
-            console.log(value[1], 'gym')
             await server.increaseTiredness(userToken, value[1]);
         }
     }
@@ -63,21 +63,23 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 setExerciser(arr);
             }
         }
-
     }
 
     async function getGamers(token: string) {
         let answer = await server.getGamers(token);
+        //console.log(answer);
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-                let p = createGamer(gamer.x, gamer.y, gamer.skin);
-                gamers.current.push(p);
+                if(-34 <= gamer.x && gamer.x <= 526 && 347 >= gamer.y && gamer.y >= -64){
+                    let p = createGamer(gamer.x, gamer.y, gamer.person_id);
+                    gamers.current.push(p);
+                }
             }
         }
     }
 
-    function createGamer(x: number, y: number, skin: string) {
+    function createGamer(x: number, y: number, person_id: number) {
         return new Player({
             position: { x, y },
             canvas: { width: canvasWidth, height: canvasHeight },
@@ -86,7 +88,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             frameRate: 8,
             frameBuffer: 4,
             scale: 0.5,
-            src: './assets/' + skin + '/Idle.png',
+            src: './assets/' + skins[person_id-1] + '/Idle.png',
             animations: {}
         });
     }

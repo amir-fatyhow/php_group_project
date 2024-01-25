@@ -31,8 +31,8 @@ function router ($params) {
             // http://server/?method=getMessages&token=&hash=
             case 'getMessages' : return $app->getMessage($params);
 
-            // http://server/?method=getPerson
-            case 'getPerson' : return $app->getPerson($params);
+            // http://server/?method=getPersons
+            case 'getPersons' : return $app->getPersons();
 
             // http://server/?method=chooseSkin&token=&skinId=1
             case 'chooseSkin' : return $app->chooseSkin($params);

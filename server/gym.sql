@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Хост: 127.0.0.1:4200
--- Время создания: Янв 17 2024 г., 23:27
--- Версия сервера: 8.0.30
--- Версия PHP: 7.2.34
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -66,7 +57,7 @@ CREATE TABLE `gamers` (
                           `id` int NOT NULL,
                           `user_id` int DEFAULT NULL,
                           `score` int DEFAULT NULL,
-                          `health` int DEFAULT NULL,
+                          `tiredness` int DEFAULT NULL,
                           `person_id` int DEFAULT NULL,
                           `x` int DEFAULT NULL,
                           `y` int DEFAULT NULL,
@@ -118,7 +109,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`) VALUES
                                                                                            (1, 'barbell', 2, 2, 1, 3, 0, 3),
                                                                                            (2, 'elliptical', 2, 2, 4, 4, 0, 4),
-                                                                                           (3, 'treadmill', 2, 2, 7, 3, 1, 5),
+                                                                                           (3, 'treadmill', 2, 2, 7, 3, 0, 5),
                                                                                            (4, 'treadmill', 2, 2, 9, 3, 0, 2);
 
 -- --------------------------------------------------------

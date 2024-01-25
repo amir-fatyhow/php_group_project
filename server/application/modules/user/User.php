@@ -1,22 +1,26 @@
 <?php
 
 class User {
+    
     private $db;
 
     function __construct($db) {
         $this->db = $db;
     }
-
+// Публичный метод для получения пользователя по токену
     public function getUser($token) {
+        
         return $this->db->getUserByToken($token);
     }
-
+// Публичный метод для получения всех пользователей
     public function getUsers() {
         return $this->db->getUsers();
     }
-
+// Публичный метод для регистрации нового пользователя
     public function registration($login, $hashPass, $name, $surname) {
+      
         $user = $this->db->getUserByLogin($login);
+      
         $token = $this->genToken($login, $hashPass);
         if ($user) {
             return null;
@@ -26,10 +30,12 @@ class User {
         $this->db->setInitialScoreAndTiredness($currentUser->id);
         return $this->db->getToken($currentUser->id)->token;
     }
-
+// Публичный метод для входа пользователя
     public function login($login, $hashPass, $rnd) {
+        // Получает пользователя по логину
         $user = $this->db->getUserByLogin($login);
         if ($user) {
+            // Если пароль пользователя + rnd совпадает с введенным паролем + rnd
             $checker = md5($user->password.$rnd);
             if ($checker === $hashPass) {
                 $token = $this->genToken($login, $hashPass);
@@ -44,7 +50,7 @@ class User {
         }
         return [false, 9000];
     }
-
+// Метод для выхода пользователя
     function logout($token) {
         $user = $this->db->getUserByToken($token);
         if ($user) {
@@ -54,7 +60,7 @@ class User {
         return array(false, 4002);
     }
 
-
+//метод для генерации токена
     private function genToken($login, $hashS) {
         return $token = md5($login.$hashS.rand(0, 100000));
     }

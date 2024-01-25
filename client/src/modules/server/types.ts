@@ -47,5 +47,5 @@ export type TGamer = {
     login: string,
     x: number,
     y: number,
-    skin: string
+    person_id: number
 }
