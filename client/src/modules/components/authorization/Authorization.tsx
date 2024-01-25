@@ -54,8 +54,6 @@ const Authorization = ({ setMenu } : { setMenu: (login: string, token: string | 
 
     return (
         <div className="login-page">
-            <div className='drish'><img src='drish1.png'></img></div>
-            <div className='katch'><img src='kach1.png'></img></div>
             <div className="form">
                 <span className="error-span">{error ? error : ""}</span>
                 <form className="register-form">

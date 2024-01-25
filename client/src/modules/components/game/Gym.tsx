@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Chat from "../chat/Chat";
 import Rate from "./Rate";
-import './Gym.css'
 import {
     background,
     camera,
@@ -64,8 +63,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-               let p = createGamer(gamer.x, gamer.y);
-               gamers.current.push(p);
+                let p = createGamer(gamer.x, gamer.y);
+                gamers.current.push(p);
             }
         }
     }
@@ -173,7 +172,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     }
 
     useEffect(() => {
-       getGamers(userToken);
+        getGamers(userToken);
         makeCollision();
         makePlatformCollision();
         window.addEventListener('keydown', (e) => handleKeyDown(e))
@@ -218,7 +217,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             <div className='pt-16 pl-2 flex-col'>
                 <div className='flex p-1'>
                     <button className='mr-2 text-sm font-semibold text-red-800'
-                        onClick={() => changePlace('Menu')}
+                            onClick={() => changePlace('Menu')}
                     >
                         EXIT
                     </button>
@@ -227,15 +226,11 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 <canvas ref={canvas} width={canvasWidth} height={canvasHeight}></canvas>
                 <div className="flex">
                     <Rate userToken={userToken} changePlace={changePlace} />
-                    <div className="blocks">
-                        <div className ="upper">
-                        <span className="barbell">barbell (upper left) is {exersicer[0] == 0 ? <>free</> : <>using</>}</span>
-                        <span className="elliptical">elliptical (lower left) is {exersicer[1] == 0 ? <>free</> : <>using</>}</span>
-                        </div>
-                        <div className='lower'>
-                        <span className="treadmill">treadmill (upper right) is {exersicer[2] == 0 ? <>free</> : <>using</>}</span>
-                        <span className="treadmill2">treadmill (lower right) is {exersicer[3] == 0 ? <>free</> : <>using</>}</span>
-                        </div>
+                    <div className="flex">
+                        <span className={css}>barbell (upper left) is {exersicer[0] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>elliptical (lower left) is {exersicer[1] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>treadmill (upper right) is {exersicer[2] == 0 ? <>free</> : <>using</>}</span>
+                        <span className={css}>treadmill (lower right) is {exersicer[3] == 0 ? <>free</> : <>using</>}</span>
                     </div>
                 </div>
             </div>
