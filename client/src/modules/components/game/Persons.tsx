@@ -9,6 +9,7 @@ export function Persons({ changePlace, userToken } :
     async function setPerson(event: React.MouseEvent<HTMLButtonElement>, typeId: number) {
         event.preventDefault();
         let answer = await server.chooseSkin(userToken, typeId);
+        localStorage.setItem('skin', JSON.stringify(typeId - 1))
         changePlace("Gym");
     }
 

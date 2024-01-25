@@ -9,15 +9,15 @@ import {
     keys,
     makeCollision,
     makePlatformCollision,
+    //player,
     persons
 } from "../constants";
 import { ServerContext } from "../../../App";
 import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
 
-const skin = 'slav';
-
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
+    const player = persons[JSON.parse(localStorage.getItem("skin") || '0')];
     const css = 'mt-2 inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2';
     const canvas = useRef<HTMLCanvasElement>(document.createElement('canvas'));
     const server = useContext(ServerContext);
@@ -33,8 +33,14 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (!status) {
             await server.changeItemsHash(token);
             await server.changedStatusItem(token, value[2], isUsed);
+        }
+    }
 
+    async function weTraining(token: string, value: number[], isUsed: number) {
+        let status = await server.getItemStatus(token, value[2]);
+        if (status) {
             await server.training(userToken, value[0]);
+            console.log(value[1], 'gym')
             await server.increaseTiredness(userToken, value[1]);
         }
     }
@@ -64,8 +70,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-               let p = createGamer(gamer.x, gamer.y);
-               gamers.current.push(p);
+                let p = createGamer(gamer.x, gamer.y);
+                gamers.current.push(p);
             }
         }
     }
@@ -97,50 +103,62 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 p.drawOnlinePerson(context);
             })
 
-            persons[skin].checkForHorizontalCanvasCollision();
-            persons[skin].update(context);
+            player.checkForHorizontalCanvasCollision();
+            player.update(context);
 
-            let value = persons[skin].training();
+
+            let value = player.training();
             if (value) {
                 currentUsingExerciser.current = value[2];
                 changeStatusItemToUse(userToken, value, 1);
+                if (keys.use.pressed && !keys.sState.pressed) {
+                    console.log('asd');
+                    keys.sState.pressed = true;
+                    weTraining(userToken, value, 1);
+                }
             } else if (currentUsingExerciser.current) {
                 changeStatusItemToUnuse(userToken, currentUsingExerciser.current, 0);
                 currentUsingExerciser.current = 0;
             }
 
-            persons[skin].velocity.x = 0;
-            if (keys.right.pressed) {
-                persons[skin].switchSprite('Run');
-                persons[skin].velocity.x = 2;
-                persons[skin].lastDirection = 'right'
-                persons[skin].shouldPanCameraToTheLeft({ camera });
-            }
-            else if (keys.left.pressed) {
-                persons[skin].switchSprite('RunLeft');
-                persons[skin].velocity.x = -2;
-                persons[skin].lastDirection = 'left'
-                persons[skin].shouldPanCameraToTheRight({ camera });
-            }
-            else if (persons[skin].velocity.y === 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Idle');
-                else
-                    persons[skin].switchSprite('IdleLeft')
+            if (keys.traid.pressed && !keys.fState.pressed) {
+                console.log('asdfff');
+                keys.fState.pressed = true;
+                //weTraining(userToken, value, 1);
             }
 
-            if (persons[skin].velocity.y < 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Jump');
+            player.velocity.x = 0;
+            if (keys.right.pressed) {
+                player.switchSprite('Run');
+                player.velocity.x = 2;
+                player.lastDirection = 'right'
+                player.shouldPanCameraToTheLeft({ camera });
+            }
+            else if (keys.left.pressed) {
+                player.switchSprite('RunLeft');
+                player.velocity.x = -2;
+                player.lastDirection = 'left'
+                player.shouldPanCameraToTheRight({ camera });
+            }
+            else if (player.velocity.y === 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Idle');
                 else
-                    persons[skin].switchSprite('JumpLeft')
-                persons[skin].shouldPanCameraToTheDown({ camera })
-            } else if (persons[skin].velocity.y > 0) {
-                if (persons[skin].lastDirection === 'right')
-                    persons[skin].switchSprite('Fall')
+                    player.switchSprite('IdleLeft')
+            }
+
+            if (player.velocity.y < 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Jump');
                 else
-                    persons[skin].switchSprite('FallLeft')
-                persons[skin].shouldPanCameraToTheUp({ camera })
+                    player.switchSprite('JumpLeft')
+                player.shouldPanCameraToTheDown({ camera })
+            } else if (player.velocity.y > 0) {
+                if (player.lastDirection === 'right')
+                    player.switchSprite('Fall')
+                else
+                    player.switchSprite('FallLeft')
+                player.shouldPanCameraToTheUp({ camera })
             }
 
             context.restore();
@@ -150,8 +168,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     function handleKeyDown(e: KeyboardEvent) {
         switch (e.key) {
             case 'w':
-                if(persons[skin].isStand()){
-                    persons[skin].velocity.y = -4;
+                if (player.isStand()) {
+                    player.velocity.y = -4;
                 }
                 break;
             case 'a':
@@ -159,6 +177,12 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 break;
             case 'd':
                 keys.right.pressed = true;
+                break;
+            case 's':
+                keys.use.pressed = true;
+                break;
+            case 'f':
+                keys.traid.pressed = true;
                 break;
         }
     }
@@ -171,11 +195,19 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             case 'd':
                 keys.right.pressed = false;
                 break;
+            case 's':
+                keys.use.pressed = false;
+                keys.sState.pressed = false;
+                break;
+            case 'f':
+                keys.traid.pressed = false;
+                keys.fState.pressed = false;
+                break;
         }
     }
 
     useEffect(() => {
-       getGamers(userToken);
+        getGamers(userToken);
         makeCollision();
         makePlatformCollision();
         window.addEventListener('keydown', (e) => handleKeyDown(e))
@@ -198,7 +230,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     useEffect(() => {
         const timer = setInterval(() => {
             getItemsHash(userToken);
-            server.decreaseTiredness(userToken);
+            //server.decreaseTiredness(userToken);
         }, 1000);
 
         return () => clearInterval(timer);
@@ -207,7 +239,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     useEffect(() => {
         const timer = setInterval(() => {
             getItemsHash(userToken);
-            server.setPersonPosition(userToken, persons[skin].position.x, persons[skin].position.y);
+            server.setPersonPosition(userToken, player.position.x, player.position.y);
             getGamers(userToken);
         }, 1000);
 

@@ -45,7 +45,7 @@ const Rate = ({ userToken, changePlace } : { userToken: string, changePlace : (p
                 tiredness > 2000 ? <span className={css}>Ты изрядно устал - тебе бы отдохнуть!</span> : <></>
             }
             <span className={css}>
-                SCORE = {score} TIREDNESS = {tiredness}
+                SCORE = {score} TIREDNESS = {tiredness}/3000
             </span>
         </div>
     );

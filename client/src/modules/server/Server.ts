@@ -95,6 +95,7 @@ export default class Server {
     }
 
     async increaseTiredness(token: string, points: number) {
+        console.log(points, 'server');
         await this.request('increaseTiredness', { token, points });
     }
 

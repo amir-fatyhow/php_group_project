@@ -19,7 +19,19 @@ export const keys = {
     },
     left: {
         pressed: false
-    }
+    },
+    use: {
+        pressed: false
+    },
+    sState: {
+        pressed: false
+    },
+    traid: {
+        pressed: false
+    },
+    fState: {
+        pressed: false
+    },
 }
 export const background = new Sprite({
     position: {
@@ -72,60 +84,116 @@ export const makePlatformCollision = () => {
     })
 }
 
-export const persons = {
-    'slav': new Player({
-        position:{ x: 100, y: 300},
-        canvas:{width: canvasWidth, height:canvasHeight},
+export const persons = [
+    new Player({
+        position: { x: 100, y: 300 },
+        canvas: { width: canvasWidth, height: canvasHeight },
         collisionBlocks,
-        platformCollisionBlocks ,
+        platformCollisionBlocks,
         frameRate: 8,
         frameBuffer: 4,
         scale: 0.5,
-        src: './assets/'+'slav'+'/Idle.png',
+        src: './assets/' + 'slav' + '/Idle.png',
         animations: {
             Idle: {
                 framerate: 8,
-                srcFrame: './assets/'+'slav'+'/Idle.png',
+                srcFrame: './assets/' + 'slav' + '/Idle.png',
                 framebuffer: 4
             },
             Run: {
                 framerate: 8,
-                srcFrame: './assets/'+'slav'+'/Run.png',
+                srcFrame: './assets/' + 'slav' + '/Run.png',
                 framebuffer: 5
             },
             Jump: {
                 framerate: 2,
-                srcFrame: './assets/'+'slav'+'/Jump.png',
+                srcFrame: './assets/' + 'slav' + '/Jump.png',
                 framebuffer: 3
             },
             Fall: {
                 framerate: 2,
-                srcFrame: './assets/'+'slav'+'/Fall.png',
+                srcFrame: './assets/' + 'slav' + '/Fall.png',
                 framebuffer: 3
             },
             FallLeft: {
                 framerate: 2,
-                srcFrame: './assets/'+'slav'+'/FallLeft.png',
+                srcFrame: './assets/' + 'slav' + '/FallLeft.png',
                 framebuffer: 3
             },
             RunLeft: {
                 framerate: 8,
-                srcFrame: './assets/'+'slav'+'/RunLeft.png',
+                srcFrame: './assets/' + 'slav' + '/RunLeft.png',
                 framebuffer: 5
             },
             IdleLeft: {
                 framerate: 8,
-                srcFrame: './assets/'+'slav'+'/IdleLeft.png',
+                srcFrame: './assets/' + 'slav' + '/IdleLeft.png',
                 framebuffer: 3
             },
             JumpLeft: {
                 framerate: 2,
-                srcFrame: './assets/'+'slav'+'/JumpLeft.png',
+                srcFrame: './assets/' + 'slav' + '/JumpLeft.png',
                 framebuffer: 3
             },
         },
     }),
-}
+    new Player({
+        position: { x: 100, y: 300 },
+        canvas: { width: canvasWidth, height: canvasHeight },
+        collisionBlocks,
+        platformCollisionBlocks,
+        frameRate: 8,
+        frameBuffer: 4,
+        scale: 0.5,
+        src: './assets/' + 'sportyman' + '/Idle.png',
+        animations: {
+            Idle: {
+                framerate: 8,
+                srcFrame: './assets/' + 'sportyman' + '/Idle.png',
+                framebuffer: 4
+            },
+            Run: {
+                framerate: 8,
+                srcFrame: './assets/' + 'sportyman' + '/Run.png',
+                framebuffer: 5
+            },
+            Jump: {
+                framerate: 2,
+                srcFrame: './assets/' + 'sportyman' + '/Jump.png',
+                framebuffer: 3
+            },
+            Fall: {
+                framerate: 2,
+                srcFrame: './assets/' + 'sportyman' + '/Fall.png',
+                framebuffer: 3
+            },
+            FallLeft: {
+                framerate: 2,
+                srcFrame: './assets/' + 'sportyman' + '/FallLeft.png',
+                framebuffer: 3
+            },
+            RunLeft: {
+                framerate: 8,
+                srcFrame: './assets/' + 'sportyman' + '/RunLeft.png',
+                framebuffer: 5
+            },
+            IdleLeft: {
+                framerate: 8,
+                srcFrame: './assets/' + 'sportyman' + '/IdleLeft.png',
+                framebuffer: 3
+            },
+            JumpLeft: {
+                framerate: 2,
+                srcFrame: './assets/' + 'sportyman' + '/JumpLeft.png',
+                framebuffer: 3
+            },
+        },
+    }),
+];
+
+export const player = persons[JSON.parse(localStorage.getItem("skin") || '0')];
+
+//export const player = persons[0];
 
 export const camera = {
     position: {
