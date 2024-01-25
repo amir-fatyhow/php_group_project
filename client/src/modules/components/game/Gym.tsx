@@ -79,7 +79,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             frameRate: 8,
             frameBuffer: 4,
             scale: 0.5,
-            src: './assets/warrior/Idle.png',
+            src: './assets/' + 'slav' + '/Idle.png',
             animations: {}
         });
     }
