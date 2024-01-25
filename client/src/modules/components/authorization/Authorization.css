@@ -5,6 +5,7 @@ a:hover {
     cursor: pointer;
 }
 
+/*Текс ошибки*/
 .error-span {
     position: absolute;
     top: 5px;
@@ -14,59 +15,70 @@ a:hover {
     font-weight: bold;
 }
 
+/*Логин*/
 .login-page {
     display: flex;
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
 }
+
+/*Форма регистрации*/
 .form {
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
+    background: #ff4427;
     max-width: 360px;
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+/*Иконки логина и пароля*/
 .form input {
     font-family: "Roboto", sans-serif;
     outline: 0;
-    background: #f2f2f2;
+    background: #fbf9f84e;
     width: 100%;
     border: 0;
     margin: 0 0 15px;
     padding: 15px;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 23px;
 }
+
+/*Главная кнопка входа*/
 .form button {
-    font-family: "Roboto", sans-serif;
+    font-family: "FRANKLIN GOTHIC MEDIUM", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: rgb(71,74,89);
+    background: rgb(255, 216, 201, 0.536);
     width: 100%;
     border: 0;
     padding: 15px;
     color: #FFFFFF;
-    font-size: 14px;
+    font-size: 25px;
     -webkit-transition: all 0.3 ease;
     transition: all 0.3 ease;
     cursor: pointer;
 }
+/*Кнопка регистрации*/
 .form button:hover,.form button:active,.form button:focus {
     background: rgb(51, 52, 61);
 }
+/*Уже зарегистрированы надпись*/
 .form .message {
     margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 12px;
+    color: #fffbfb;
+    font-size: 19px;
 }
+/*Войти надпись*/
 .form .message a {
-    color: #4CAF50;
+    font-family: "FRANKLIN GOTHIC MEDIUM", sans-serif;
+    color: #0e0802;
     text-decoration: none;
 }
+/*Форма регистрации*/ 
 .form .register-form {
     display: none;
 }
