@@ -16,3 +16,8 @@
 * экс-Team-lead: Токменинова С.
 * full-stack: Якимова Е., Фатыхов А.
 * и другие
+
+Шестакова Марина
+Задачи:
+- замена термина "health" на "tiredness" в файлах App.php, Game.php, DB.php, gym.sql
+- переписывание chat.jsx на язык TypeScript
