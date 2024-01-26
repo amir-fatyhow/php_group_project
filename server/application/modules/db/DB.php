@@ -129,7 +129,7 @@ class DB {
     }
 
     function updateGamerHash($hash) {
-        $this->post("UPDATE game SET gamers_hash=? WHERE id=?", [$hash, 1]);
+        $this->post("UPDATE game SET game_hash=? WHERE id=?", [$hash, 1]);
         return true;
     }
 
