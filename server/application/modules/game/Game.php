@@ -79,7 +79,7 @@ class Game
         $game = $this->db->getHashes();
         $this->updateScene($userId, $game->timestamp, $game->timeout);
         if ($gamersHash !== $game->gamers_hash) {
-            $result['gamers'] = $this->getGamers();
+            //$result['gamers'] = $this->getGamers();
             $result['gamersHash'] = $game->gamers_hash;
         }
         if ($itemsHash !== $game->items_hash) {
