@@ -15,6 +15,7 @@ import {
 import { ServerContext } from "../../../App";
 import { TGamer, TBestGamers } from '../../server/types';
 import { Player } from './classes/Player';
+import { TItem } from '../../server/types';
 
 const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void, userToken: string }) => {
 
@@ -28,6 +29,9 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     let currentItemsHash = useRef('itemsHash');
     let currentGamerHash = useRef('gamerHash');
     let gamers = useRef<Player[]>([]);
+    let items = useRef<TItem[]>([]);
+    let userVelocity = useRef<any>(2);
+    let isUserFreeze = useRef<boolean>(true);
     const [bestPlayers, setBestGamers] = useState<TBestGamers[]>([]);
 
     async function changeStatusItemToUse(token: string, value: number[], isUsed: number) {
@@ -47,8 +51,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     }
 
     async function traid(token: string) {
-            server.decreaseTiredness(token);
-            server.decreaseScore(token, -1);
+        server.decreaseTiredness(token);
+        server.decreaseScore(token, -1);
     }
 
     async function changeStatusItemToUnuse(token: string, value: number, isUsed: number) {
@@ -75,7 +79,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         if (answer) {
             gamers.current = [];
             for (let gamer of answer) {
-                if(-34 <= gamer.x && gamer.x <= 526 && 347 >= gamer.y && gamer.y >= -64){
+                if (-34 <= gamer.x && gamer.x <= 526 && 347 >= gamer.y && gamer.y >= -64) {
                     let p = createGamer(gamer.x, gamer.y, gamer.person_id);
                     gamers.current.push(p);
                 }
@@ -92,34 +96,65 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             frameRate: 8,
             frameBuffer: 4,
             scale: 0.5,
-            src: './assets/' + skins[person_id-1] + '/Idle.png',
+            src: './assets/' + skins[person_id - 1] + '/Idle.png',
             animations: {}
         });
     }
 
+    async function getItems() {
+        let answer = await server.getItems();
+        if (answer) {
+            items.current = [];
+            for (let item of answer) {
+                items.current.push(item);
+            }
+        }
+    }
+
+    async function getUserVelocity(token: string) {
+        let answer = await server.getUserVelocity(token);
+        //console.log(answer);
+        userVelocity.current = answer;
+    }
+
+    async function isFreeze(token: string) {
+        let answer = await server.isUserFreeze(token);
+        if (answer != null)
+            if (answer.freeze == 0)
+                isUserFreeze.current = true;
+            else
+                isUserFreeze.current = false;
+    }
+
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
-            context.fillStyle = 'white'
+            context.fillStyle = 'green'
             context.fillRect(0, 0, canvasWidth, canvasHeight);
             context.save();
             context.scale(3, 3)
             context.translate(camera.position.x, camera.position.y)
             background.update(context);
 
+            /*
             gamers.current.forEach(p => {
                 p.drawOnlinePerson(context);
+            })
+            */
+
+            getItems();
+            items.current.forEach(i => {
+                context.fillRect(i.x, i.y, i.length, i.width);
             })
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
 
-
-            let value = player.training();
+            isFreeze(userToken);
+            let value = player.training(items);
             if (value) {
                 currentUsingExerciser.current = value[2];
                 changeStatusItemToUse(userToken, value, 1);
                 if (keys.use.pressed && !keys.sState.pressed) {
-                    console.log('asd');
                     keys.sState.pressed = true;
                     weTraining(userToken, value);
                 }
@@ -129,7 +164,6 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             }
 
             if (keys.traid.pressed && !keys.fState.pressed) {
-                console.log('asdfff');
                 keys.fState.pressed = true;
                 traid(userToken);
             }
@@ -137,13 +171,15 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             player.velocity.x = 0;
             if (keys.right.pressed) {
                 player.switchSprite('Run');
-                player.velocity.x = 2;
+                getUserVelocity(userToken);
+                player.velocity.x = userVelocity.current - 0;
                 player.lastDirection = 'right'
                 player.shouldPanCameraToTheLeft({ camera });
             }
             else if (keys.left.pressed) {
                 player.switchSprite('RunLeft');
-                player.velocity.x = -2;
+                getUserVelocity(userToken);
+                player.velocity.x = -userVelocity.current;
                 player.lastDirection = 'left'
                 player.shouldPanCameraToTheRight({ camera });
             }
@@ -173,44 +209,46 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
     }
 
     function handleKeyDown(e: KeyboardEvent) {
-        switch (e.key) {
-            case 'w':
-                if (player.isStand()) {
-                    player.velocity.y = -4;
-                    server.increaseTiredness(userToken, 10);
-                }
-                break;
-            case 'a':
-                keys.left.pressed = true;
-                break;
-            case 'd':
-                keys.right.pressed = true;
-                break;
-            case 's':
-                keys.use.pressed = true;
-                break;
-            case 'f':
-                keys.traid.pressed = true;
-                break;
+        isFreeze(userToken);
+        if (isUserFreeze.current)
+            switch (e.key) {
+                case 'w':
+                    if (player.isStand()) {
+                        player.velocity.y = -4;
+                        server.increaseTiredness(userToken, 10);
+                    }
+                    break;
+                case 'a':
+                    keys.left.pressed = true;
+                    break;
+                case 'd':
+                    keys.right.pressed = true;
+                    break;
+                case 's':
+                    keys.use.pressed = true;
+                    break;
+                case 'f':
+                    keys.traid.pressed = true;
+                    break;
 
-            case 'ц':
-                if (player.isStand()) {
-                    player.velocity.y = -4;
-                }
-                break;
-            case 'ф':
-                keys.left.pressed = true;
-                break;
-            case 'в':
-                keys.right.pressed = true;
-                break;
-            case 'ы':
-                keys.use.pressed = true;
-                break;
-            case 'а':
-                keys.traid.pressed = true;
-                break;
-        }
+                case 'ц':
+                    if (player.isStand()) {
+                        player.velocity.y = -4;
+                    }
+                    break;
+                case 'ф':
+                    keys.left.pressed = true;
+                    break;
+                case 'в':
+                    keys.right.pressed = true;
+                    break;
+                case 'ы':
+                    keys.use.pressed = true;
+                    break;
+                case 'а':
+                    keys.traid.pressed = true;
+                    break;
+            }
     }
 
     function handleKeyUp(e: KeyboardEvent) {

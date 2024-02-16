@@ -183,11 +183,6 @@ class DB {
         return true;
     }
 
-    //Функция возвращает все данные о предметах из таблицы "items"
-    function getItems() {
-        return $this->queryAll("SELECT name, length, width, x, y FROM items");
-    }
-
     //Функция возвращает данные о предмете с указанным идентификатором из таблицы "items"
     function getItem($id) {
         return $this->query("SELECT name, length, width, x, y FROM items WHERE id=?", [$id]);
@@ -280,5 +275,22 @@ class DB {
     // Получает информацию о пользователях и их координатах
     function getGamers($token) {
         return $this->queryAll("SELECT u.login, g.x, g.y, g.person_id FROM gamers AS g JOIN users AS u WHERE u.id = g.user_id AND u.token != ?", [$token]);
+    }
+
+    //Функция возвращает все данные о предметах из таблицы "items"
+    function getItems() {
+        return $this->queryAll("SELECT name, length, width, x, y FROM items");
+    }
+
+    function getVelocity($userId) {
+        return $this->query("SELECT velocity FROM gamers WHERE user_id=?", [$userId]);
+    }
+
+    function getUserIdByToken($token) {
+        return $this->query("SELECT id FROM users WHERE token=?", [$token])->id;
+    }
+
+    function isUserFreeze($userId) {
+        return $this->query("SELECT freeze FROM gamers WHERE user_id=?", [$userId]);
     }
 }

@@ -1,4 +1,4 @@
-import { IChatHash, IItem, IToken, TBestGamers, TMessage, TUser, TGamer } from './types';
+import { IChatHash, IItem, IToken, TBestGamers, TMessage, TUser, TGamer, TItem, TIsFreeze } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -72,10 +72,6 @@ export default class Server {
 
     async decreaseScore(token: string, points: number) {
         const answer = await this.request('decreaseScore', { token, points })
-    }
-
-    async getItems() {
-        return await this.request('getItems');
     }
 
     async getChatHash(token: string) {
@@ -157,5 +153,17 @@ export default class Server {
     async getGamers(token: string) {
         //return null;
         return this.request<TGamer[]>('getGamers', { token });
+    }
+
+    async getUserVelocity(token: string) {
+        return await this.request<number>('getUserVelocity', { token });
+    }
+
+    async getItems() {
+        return await this.request<TItem[]>('getItems');
+    }
+
+    async isUserFreeze(token: string) {
+        return await this.request<TIsFreeze>('isUserFreeze', { token });
     }
 }

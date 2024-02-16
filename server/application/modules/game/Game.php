@@ -232,4 +232,14 @@ class Game
         
         return $gamers;
     }
+
+    function getVelocity($userId) {
+        // Получаем значение текущего счета пользователя по его идентификатору
+        return $this->db->getVelocity($userId);
+    }
+
+    function isUserFreeze($userId) {
+        // Получаем значение текущего счета пользователя по его идентификатору
+        return $this->db->isUserFreeze($userId);
+    }
 }

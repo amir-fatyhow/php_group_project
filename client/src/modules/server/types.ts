@@ -49,3 +49,18 @@ export type TGamer = {
     y: number,
     person_id: number
 }
+
+export type TItem = {
+    id: number,
+    name: string,
+    length: number,
+    width: number,
+    x: number,
+    y: number,
+    isUsed: number,
+    tiredness: number
+}
+
+export type TIsFreeze = {
+    freeze: number
+}

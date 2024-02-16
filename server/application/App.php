@@ -439,4 +439,30 @@ class App {
         }
         return [false, 4001];
     }
+
+    function getUserVelocity($params) {
+        $token = $params['token'];
+        if ($token) {
+            // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
+            $userId = $this->user->getUserId($token);
+            if ($userId) {
+                return $this->game->getVelocity($userId);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function isUserFreeze($params) {
+        $token = $params['token'];
+        if ($token) {
+            // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
+            $userId = $this->user->getUserId($token);
+            if ($userId) {
+                return $this->game->isUserFreeze($userId);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

@@ -109,6 +109,12 @@ function router ($params) {
             // http://server/?method=getGamers&token=
             case 'getGamers' : return $app->getGamers($params);
 
+            // http://server/?method=getUserVelocity&token=
+            case 'getUserVelocity' : return $app->getUserVelocity($params)->velocity;
+
+            // http://server/?method=isUserFreeze&token=
+            case 'isUserFreeze' : return $app->isUserFreeze($params);
+
             default : return array(false, 1002);
         }
     }
