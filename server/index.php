@@ -115,6 +115,12 @@ function router ($params) {
             // http://server/?method=isUserFreeze&token=
             case 'isUserFreeze' : return $app->isUserFreeze($params);
 
+            // http://server/?method=getPersonPosition&token=&x=&y=
+            case 'getPersonPosition': return $app->getPersonPosition($params);
+
+            // http://server/?method=isTeleported&token=&x=&y=
+            case 'isTeleported': return $app->isTeleported($params);
+
             default : return array(false, 1002);
         }
     }

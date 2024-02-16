@@ -465,4 +465,30 @@ class App {
         }
         return [false, 4001];
     }
+
+    function getPersonPosition($params) {
+        $token = $params['token'];
+        if ($token) {
+            $user = $this->user->getUser($token);
+            if ($user) {
+                //Вызываем метод getPersonPosition из объекта $this->game, передавая идентификатор пользователя
+                return $this->game->getPersonPosition($user->id);
+            }
+            return [false, 4001];
+        }
+        return [false, 1002];
+    }
+
+    function isTeleported($params) {
+        $token = $params['token'];
+        if ($token) {
+            // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
+            $userId = $this->user->getUserId($token);
+            if ($userId) {
+                return $this->game->isTeleported($userId);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
 }

@@ -242,4 +242,14 @@ class Game
         // Получаем значение текущего счета пользователя по его идентификатору
         return $this->db->isUserFreeze($userId);
     }
+
+    function getPersonPosition($userId) {
+        // Получаем значение текущего счета пользователя по его идентификатору
+        return $this->db->getPersonPosition($userId);
+    }
+
+    function isTeleported($userId) {
+        // Получаем значение текущего счета пользователя по его идентификатору
+        return $this->db->isTeleported($userId);
+    }
 }

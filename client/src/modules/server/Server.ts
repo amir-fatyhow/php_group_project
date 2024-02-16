@@ -1,4 +1,4 @@
-import { IChatHash, IItem, IToken, TBestGamers, TMessage, TUser, TGamer, TItem, TIsFreeze } from './types';
+import { IChatHash, IItem, IToken, TBestGamers, TMessage, TUser, TGamer, TItem, TIsFreeze, TPlayerCoordinates, TIsTeleported } from './types';
 
 interface IObjectKeys {
     [key: string]: string | number | null;
@@ -165,5 +165,13 @@ export default class Server {
 
     async isUserFreeze(token: string) {
         return await this.request<TIsFreeze>('isUserFreeze', { token });
+    }
+
+    async getPersonPosition(token: string) {
+        return await this.request<TPlayerCoordinates>('getPersonPosition', { token });
+    }
+
+    async isTeleported(token: string) {
+        return await this.request<TIsTeleported>('isTeleported', { token });
     }
 }

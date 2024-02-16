@@ -293,4 +293,12 @@ class DB {
     function isUserFreeze($userId) {
         return $this->query("SELECT freeze FROM gamers WHERE user_id=?", [$userId]);
     }
+
+    function getPersonPosition($userId) {
+        return $this->query("SELECT g.x, g.y FROM gamers AS g WHERE user_id=?", [$userId]);
+    }
+
+    function isTeleported($userId) {
+        return $this->query("SELECT isTeleported FROM gamers WHERE user_id=?", [$userId]);
+    }
 }

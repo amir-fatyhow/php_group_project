@@ -64,3 +64,12 @@ export type TItem = {
 export type TIsFreeze = {
     freeze: number
 }
+
+export type TIsTeleported = {
+    isTeleported: number
+}
+
+export type TPlayerCoordinates = {
+    x: number,
+    y: number
+}

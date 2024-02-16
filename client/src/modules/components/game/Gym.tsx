@@ -126,6 +126,18 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
                 isUserFreeze.current = false;
     }
 
+    async function personTeleport(token: string) {
+        let answer = await server.getPersonPosition(token);
+        let answer2 = await server.isTeleported(token);
+        if(keys.left.pressed == false && keys.right.pressed == false && player.isStand() && answer2?.isTeleported != 0){
+            player.position.x = answer?.x;
+            player.position.y = answer?.y;
+            player.position.x -=0;
+            player.position.y -=0;
+            console.log(player.position, answer);
+        }
+    }
+
     function animate(context: CanvasRenderingContext2D | null) {
         if (context) {
             context.fillStyle = 'green'
@@ -144,7 +156,9 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             getItems();
             items.current.forEach(i => {
                 context.fillRect(i.x, i.y, i.length, i.width);
-            })
+            });
+
+            personTeleport(userToken);
 
             player.checkForHorizontalCanvasCollision();
             player.update(context);
