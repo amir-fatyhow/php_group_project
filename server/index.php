@@ -121,6 +121,12 @@ function router ($params) {
             // http://server/?method=isTeleported&token=&x=&y=
             case 'isTeleported': return $app->isTeleported($params);
 
+            // http://server/?method=killInRadius&r=&x=&y=
+            case 'killInRadius': return $app->killInRadius($params);
+
+            // http://server/?method=moveItem&id=&x=&y=
+            case 'moveItem': return $app->moveItem($params);
+
             default : return array(false, 1002);
         }
     }

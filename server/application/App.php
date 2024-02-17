@@ -491,4 +491,29 @@ class App {
         }
         return [false, 4001];
     }
+
+    function killInRadius($params) {
+        $x = $_GET["x"];
+        $y = $_GET["y"];
+        $r = $_GET["r"];
+        $gamers = $this->game->getAllGamers();
+        if ($gamers) {
+            for ($i = 0; $i < count($gamers); $i++) {
+                if(sqrt(($gamers[$i]['x'] - $x) * ($gamers[$i]['x'] - $x) + ($gamers[$i]['y'] - $y)*($gamers[$i]['y'] - $y)) < $r){
+                    $this->game->increaseTiredness($gamers[$i]['user_id'], 4000);
+                }
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function moveItem($params) {
+        $x = $_GET["x"];
+        $y = $_GET["y"];
+        $id = $_GET["id"];
+        $this->game->moveItem($id, $x, $y);
+            return [false, 4001];
+        return [false, 4001];
+    }
 }

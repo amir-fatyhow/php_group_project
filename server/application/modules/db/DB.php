@@ -301,4 +301,13 @@ class DB {
     function isTeleported($userId) {
         return $this->query("SELECT isTeleported FROM gamers WHERE user_id=?", [$userId]);
     }
+
+    function getAllGamers() {
+        return $this->queryAll("SELECT u.login, g.x, g.y, g.user_id FROM gamers AS g JOIN users AS u WHERE u.id = g.user_id");
+    }
+
+    function moveItem($id, $x, $y) {
+        $this->post("UPDATE items SET x=?, y=? WHERE id=? ", [$x, $y, $id]);
+        return true;
+    }
 }
