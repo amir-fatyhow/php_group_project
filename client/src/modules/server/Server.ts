@@ -174,4 +174,8 @@ export default class Server {
     async isTeleported(token: string) {
         return await this.request<TIsTeleported>('isTeleported', { token });
     }
+
+    async alreadyTeleported(token: string) {
+        return await this.request('alreadyTeleported', { token });
+    }
 }

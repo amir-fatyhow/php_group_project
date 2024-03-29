@@ -253,6 +253,10 @@ class Game
         return $this->db->isTeleported($userId);
     }
 
+    function alreadyTeleported($userId) {
+        return $this->db->alreadyTeleported($userId);
+    }
+
     function getAllGamers() {
         // Получаем значение текущего счета пользователя по его идентификатору
         return $this->db->getAllGamers();
@@ -261,5 +265,27 @@ class Game
     function moveItem($id, $x, $y) {
         // Получаем значение текущего счета пользователя по его идентификатору
         return $this->db->moveItem($id, $x, $y);
+    }
+
+    function getGamerById($id) {
+        return $this->db->getGamerById($id);
+    }
+
+    function setVelocity($id, $velocity) {
+        return $this->db->setVelocity($id, $velocity);
+    }
+
+    function freezeGamer($login, $freeze) {
+        $user_id = $this->db->getUserByLogin($login)->id;
+        return $this->db->freezeGamer($user_id, $freeze);
+    }
+
+    function teleportGamer($login, $x, $y) {
+        $user_id = $this->db->getUserByLogin($login)->id;
+        return $this->db->teleporting($user_id, $x, $y);
+    }
+
+    function increaseScorePointsOfItem($id, $scorePoints) {
+        return $this->db->increaseScorePointsOfItem($id, $scorePoints);
     }
 }

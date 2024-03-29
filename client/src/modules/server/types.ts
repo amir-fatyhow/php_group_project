@@ -58,7 +58,8 @@ export type TItem = {
     x: number,
     y: number,
     isUsed: number,
-    tiredness: number
+    tiredness: number,
+    scorePoints: number
 }
 
 export type TIsFreeze = {
@@ -70,6 +71,6 @@ export type TIsTeleported = {
 }
 
 export type TPlayerCoordinates = {
-    x: number,
-    y: number
+    x: number | undefined,
+    y: number | undefined
 }

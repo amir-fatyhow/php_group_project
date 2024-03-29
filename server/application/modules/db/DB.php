@@ -72,8 +72,7 @@ class DB {
     // Метод для регистрации нового пользователя 
     function registration($login, $hashPass, $name, $surname, $token) {
         // Выполнение запроса к базе данных с использованием подстановки параметров 
-        $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)",
-            [$login, $hashPass, $name, $surname, $token]);
+        $this->post("INSERT INTO users(login, password, name, surname, token) VALUES(?,?,?,?,?)", [$login, $hashPass, $name, $surname, $token]);
     }
 
     // Метод для получения токена пользователя 
@@ -89,22 +88,12 @@ class DB {
 
     // Метод для отправки сообщения пользователю 
     function sendMessage($userId, $message) {
-        $this->post("INSERT INTO 
-            messages(user_id, message, created) 
-            VALUES (?, ?, now())",
-            [$userId, $message]);
+        $this->post("INSERT INTO messages(user_id, message, created) VALUES (?, ?, now())", [$userId, $message]);
     }
 
     // Метод для получения всех сообщений из чата 
     function getMessages() {
-        return $this->queryAll("SELECT 
-                m.message AS message,
-                u.name AS name,
-                u.surname AS surname
-            FROM messages AS m
-            INNER JOIN users AS u
-            ON u.id=m.user_id
-            ORDER BY m.created DESC");
+        return $this->queryAll("SELECT m.message AS message, u.name AS name, u.surname AS surname FROM messages AS m INNER JOIN users AS u ON u.id=m.user_id ORDER BY m.created DESC");
     }
 
     // Метод для получения всех персон 
@@ -279,7 +268,7 @@ class DB {
 
     //Функция возвращает все данные о предметах из таблицы "items"
     function getItems() {
-        return $this->queryAll("SELECT name, length, width, x, y FROM items");
+        return $this->queryAll("SELECT name, length, width, x, y, isUsed, tiredness, scorePoints FROM items");
     }
 
     function getVelocity($userId) {
@@ -308,6 +297,31 @@ class DB {
 
     function moveItem($id, $x, $y) {
         $this->post("UPDATE items SET x=?, y=? WHERE id=? ", [$x, $y, $id]);
+        return true;
+    }
+
+    function setVelocity($userId, $velocity) {
+        $this->post("UPDATE gamers SET velocity=? WHERE user_id=? ", [$velocity, $userId]);
+        return true;
+    }
+
+    function freezeGamer($userId, $freeze) {
+        $this->post("UPDATE gamers SET freeze=? WHERE user_id=? ", [$freeze, $userId]);
+        return true;
+    }
+
+    function teleporting($userId, $x, $y) {
+        $this->post("UPDATE gamers SET isTeleported=1, x=?, y=? WHERE user_id=? ", [$x, $y, $userId]);
+        return true;
+    }
+
+    function alreadyTeleported($userId) {
+        $this->post("UPDATE gamers SET isTeleported=0 WHERE user_id=? ", [$userId]);
+        return true;
+    }
+
+    function increaseScorePointsOfItem($id, $scorePoints) {
+        $this->post("UPDATE items SET scorePoints=? WHERE id=? ", [$scorePoints, $id]);
         return true;
     }
 }

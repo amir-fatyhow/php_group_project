@@ -44,7 +44,7 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
 
     async function weTraining(token: string, value: number[]) {
         let status = await server.getItemStatus(token, value[2]);
-        if (status) {
+        if (status == 1) {
             await server.training(token, value[0]);
             await server.increaseTiredness(token, value[1]);
         }
@@ -134,7 +134,16 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
             player.position.y = answer?.y;
             player.position.x -=0;
             player.position.y -=0;
-            console.log(player.position, answer);
+
+            let x : any = player.position.x * -234 / 560;
+            let y : any = player.position.y * -237 / 335;
+
+            camera.position.x = x;
+            camera.position.y = y;
+
+            console.log(camera.position, answer);
+
+            await server.alreadyTeleported(token);
         }
     }
 

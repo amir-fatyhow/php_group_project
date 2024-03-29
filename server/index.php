@@ -118,14 +118,49 @@ function router ($params) {
             // http://server/?method=getPersonPosition&token=&x=&y=
             case 'getPersonPosition': return $app->getPersonPosition($params);
 
-            // http://server/?method=isTeleported&token=&x=&y=
+            // http://server/?method=isTeleported&token=
             case 'isTeleported': return $app->isTeleported($params);
 
+            // http://server/?method=alreadyTeleported&token=
+            case 'alreadyTeleported': return $app->alreadyTeleported($params);
+
+            
+
+
+
+
+            // http://server/?method=setImmortal&id=&state=
+            case 'setImmortal': return $app->setImmortal($params);
+            
             // http://server/?method=killInRadius&r=&x=&y=
             case 'killInRadius': return $app->killInRadius($params);
 
+            // http://server/?method=setVelocity&id=&velocity=
+            case 'setVelocity': return $app->setVelocity($params);
+
+            // http://server/?method=blockItem&id=&value=
+            case 'blockItem': return $app->blockItem($params);
+
+            // http://server/?method=freezeGamer&login=&freeze=
+            case 'freezeGamer': return $app->freezeGamer($params);
+
             // http://server/?method=moveItem&id=&x=&y=
             case 'moveItem': return $app->moveItem($params);
+
+            // http://server/?method=teleportGamer&login=&x=&y=
+            case 'teleportGamer': return $app->teleportGamer($params);
+
+            // http://server/?method=freezeItemByTime&id=&time=
+            case 'freezeItemByTime': return $app->freezeItemByTime($params);
+
+            // http://server/?method=freezeGamerByTime&login=&time=
+            case 'freezeGamerByTime': return $app->freezeGamerByTime($params);
+
+            // http://server/?method=freezeItemsByTime&time=
+            case 'freezeItemsByTime': return $app->freezeItemsByTime($params);
+
+            // http://server/?method=increaseScorePointsOfItem&id=&scorePoints=
+            case 'increaseScorePointsOfItem': return $app->increaseScorePointsOfItem($params);
 
             default : return array(false, 1002);
         }

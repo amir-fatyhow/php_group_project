@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:4200
--- Время создания: Фев 16 2024 г., 22:20
+-- Время создания: Мар 29 2024 г., 22:45
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -39,7 +39,8 @@ CREATE TABLE `best_gamers` (
 
 INSERT INTO `best_gamers` (`id`, `user_id`, `score`) VALUES
 (47, 65, 15),
-(48, 62, 19);
+(49, 63, 1),
+(50, 62, 286);
 
 -- --------------------------------------------------------
 
@@ -62,7 +63,7 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`id`, `version`, `chat_hash`, `gamers_hash`, `items_hash`, `timestamp`, `timeout`) VALUES
-(1, 1, '4e1500d8b80df3f99cdfcd44af016127', '26e3e87611339cb7a1d668bcd3848e2c', 'ecb4a377e71dc7f877cba63d1f824af6', 1704921710, 300);
+(1, 1, '4e1500d8b80df3f99cdfcd44af016127', '037c4ef26fedddbd66c0553baad02907', '3f5b979a33fd0ddb24e4d3e4300ec745', 1704921710, 300);
 
 -- --------------------------------------------------------
 
@@ -92,8 +93,8 @@ CREATE TABLE `gamers` (
 
 INSERT INTO `gamers` (`id`, `user_id`, `score`, `tiredness`, `person_id`, `x`, `y`, `status`, `timestamp`, `timeout`, `velocity`, `freeze`, `isTeleported`) VALUES
 (458, 61, 1, 1, NULL, 0, 0, 1, 0, 300, 2, 0, 0),
-(459, 62, 7, 2145, 1, 306, 347, 1, 0, 300, 2, 0, 0),
-(460, 63, 1, 1, 2, 100, 347, 1, 0, 300, 2, 0, 0),
+(459, 62, 901, 1530, 1, 100, 347, 1, 0, 300, 2, 0, 0),
+(460, 63, 1, 141, 1, 193, 91, 1, 0, 300, 2, 0, 0),
 (461, 64, 1, 1, NULL, 0, 0, 1, 0, 300, 2, 0, 0),
 (462, 65, 1, 1, 3, 450, -33, 1, 0, 300, 2, 0, 0),
 (463, 66, 1, 1, NULL, 0, 0, 1, 0, 300, 2, 0, 0);
@@ -115,7 +116,8 @@ CREATE TABLE `gamer_status` (
 
 INSERT INTO `gamer_status` (`id`, `status`) VALUES
 (1, 'alive'),
-(2, 'dead');
+(2, 'dead'),
+(3, 'immortal');
 
 -- --------------------------------------------------------
 
@@ -131,18 +133,19 @@ CREATE TABLE `items` (
   `x` int DEFAULT NULL,
   `y` int DEFAULT NULL,
   `isUsed` int DEFAULT NULL,
-  `tiredness` int DEFAULT NULL
+  `tiredness` int DEFAULT NULL,
+  `scorePoints` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`) VALUES
-(1, 'barbell', 40, 56, 4, 9, 0, 3),
-(2, 'elliptical', 44, 55, 100, 250, 0, 4),
-(3, 'treadmill', 34, 56, 480, 9, 0, 5),
-(4, 'treadmill2', 42, 55, 438, 282, 0, 2);
+INSERT INTO `items` (`id`, `name`, `length`, `width`, `x`, `y`, `isUsed`, `tiredness`, `scorePoints`) VALUES
+(1, 'barbell', 40, 56, 4, 9, 0, 3, 300),
+(2, 'elliptical', 44, 55, 100, 250, 0, 4, 2),
+(3, 'treadmill', 34, 56, 480, 9, 0, 5, 4),
+(4, 'treadmill2', 42, 55, 438, 282, 0, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -205,8 +208,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `name`, `surname`, `token`) VALUES
-(62, 'aaa', '0b4e7a0e5fe84ad35fb5f95b9ceeac79', 'aaa', 'aaa', '2f90a0ce38c366546f2651438556c8e5'),
-(63, 'sss', 'af15d5fdacd5fdfea300e88a8e253e82', 'sss', 'sss', '8711057ed5f21bcfa28990ba0257d1d6'),
+(62, 'aaa', '0b4e7a0e5fe84ad35fb5f95b9ceeac79', 'aaa', 'aaa', '7401b06bbde0fb1535f4f36340464a81'),
+(63, 'sss', 'af15d5fdacd5fdfea300e88a8e253e82', 'sss', 'sss', NULL),
 (64, 'ccc', 'c1f68ec06b490b3ecb4066b1b13a9ee9', 'ccc', 'ccc', NULL),
 (65, 'zzz', 'f3abb86bd34cf4d52698f14c0da1dc60', 'zzz', 'zzz', '4b3f7a7224245a4ef4f630b739bc5508'),
 (66, 'rrr', NULL, 'rrr', 'rrr', '6b0c20124c744dbce599a3bb7b59373f');
@@ -266,7 +269,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `best_gamers`
 --
 ALTER TABLE `best_gamers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT для таблицы `game`

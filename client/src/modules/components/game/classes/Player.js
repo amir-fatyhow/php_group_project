@@ -288,23 +288,28 @@ export class Player {
         
         if (items.current.length != 0) {
             if (this.position.x > items.current[0].x - 0 - items.current[0].length && this.position.y > items.current[0].y - 0 && this.position.x < items.current[0].x - 0 && this.position.y < (items.current[0].y - 53) + (items.current[0].width - 0)) // upper left "barbell"
-                return [2, 100, 1];
+                return [items.current[0].scorePoints - 0, items.current[0].tiredness - 0, 1];
+
             if (this.position.x > items.current[1].x - 0 - items.current[1].length && this.position.y > items.current[1].y - 0 && this.position.x < items.current[1].x - 0 && this.position.y < (items.current[1].y - 53) + (items.current[1].width - 0)) // lower left "elliptical"
-                return [1, 39, 2];
+                return [items.current[1].scorePoints - 0, items.current[1].tiredness - 0, 2];
+
             if (this.position.x > items.current[2].x - 0 - items.current[2].length && this.position.y > items.current[2].y - 0 && this.position.x < items.current[2].x - 0 && this.position.y < (items.current[2].y - 53) + (items.current[2].width - 0)) // upper right "treadmill id = 3"
-                return [2, 50, 3];
+                return [items.current[2].scorePoints - 0, items.current[2].tiredness - 0, 3];
+
             if (this.position.x > items.current[3].x - 0 - items.current[3].length && this.position.y > items.current[3].y - 0 && this.position.x < items.current[3].x - 0 && this.position.y < (items.current[3].y - 53) + (items.current[3].width - 0)) // lower right "treadmill id = 4"
-                return [1, 40, 4];
+                return [items.current[3].scorePoints - 0, items.current[3].tiredness - 0, 4];
         }
         else {
             if (this.position.x > -36 && this.position.y > 9 && this.position.x < 4 && this.position.y < 12) // upper left "barbell"
-                return [2, 100, 1];
+                return [items.current[0].scorePoints - 0, items.current[0].tiredness - 0, 1];
+
             if (this.position.x > 56 && this.position.y > 250 && this.position.x < 100 && this.position.y < 252) // lower left "elliptical"
-                return [1, 39, 2];
+                return [items.current[1].scorePoints - 0, items.current[1].tiredness - 0, 1];
             if (this.position.x > 446 && this.position.y > 9 && this.position.x < 480 && this.position.y < 12) // upper right "treadmill id = 3"
-                return [2, 50, 3];
+                return [items.current[2].scorePoints - 0, items.current[2].tiredness - 0, 1];
+
             if (this.position.x > 396 && this.position.y > 282 && this.position.x < 438 && this.position.y < 284) // lower right "treadmill id = 4"
-                return [1, 40, 4];
+                return [items.current[3].scorePoints - 0, items.current[3].tiredness - 0, 1];
         }
         return null;
     }

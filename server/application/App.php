@@ -272,29 +272,6 @@ class App {
         return [false, 4001];
     }
 
-    // Функция изменяет статус предмета
-    function changeStatusOfItem($params) {
-        $token = $params['token'];
-        $isUsed = $params['isUsed'];
-        $itemId = $params['itemId'];
-        // Если токен существует
-        if ($token) {
-            $user = $this->user->getUser($token);
-            $item = $this->game->getItem($itemId);
-            $currentStatusOfItem = $this->game->getStatusOfItem($itemId);
-            // Если текущий статус предмета отличается от запрошенного статуса
-            if ($currentStatusOfItem->isUsed != $isUsed) {
-                if ($user && $item) {
-                    $this->game->updateItemsHash();
-                    // Изменяем статус предмета и возвращаем результат
-                    return $this->game->changeStatusOfItem($isUsed, $itemId);
-                }
-            }
-            return [false, 4001];
-        }
-        return [false, 4001];
-    }
-
     // Функция уменьшает усталость пользователя
     function decreaseTiredness($params) {
         $token = $params['token'];
@@ -319,7 +296,11 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 // Увеличиваем усталость пользователя на заданное количество очков и возвращаем результат
-                return $this->game->increaseTiredness($user->id, $points);
+                $gamer = $this->game->getGamerById($user->id);
+                if($gamer->status == 3)
+                    return $this->game->increaseTiredness($user->id, 0);
+                else
+                    return $this->game->increaseTiredness($user->id, $points);
             }
             return [false, 4001];
         }
@@ -362,7 +343,34 @@ class App {
             // Если пользователь найден, возвращается состояние предмета. Если пользователя не найдено, возвращается ошибка с кодом 4001.
             $user = $this->user->getUser($token);
             if ($user) {
-                return $this->game->getStatusOfItem($itemId);
+                $status = $this->game->getStatusOfItem($itemId);
+                if($status == 2)
+                    return 0;
+                else
+                    return $status;
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    // Функция изменяет статус предмета
+    function changeStatusOfItem($params) {
+        $token = $params['token'];
+        $isUsed = $params['isUsed'];
+        $itemId = $params['itemId'];
+        // Если токен существует
+        if ($token) {
+            $user = $this->user->getUser($token);
+            $item = $this->game->getItem($itemId);
+            $currentStatusOfItem = $this->game->getStatusOfItem($itemId);
+            // Если текущий статус предмета отличается от запрошенного статуса
+            if ($currentStatusOfItem->isUsed != $isUsed && $currentStatusOfItem != 2) {
+                if ($user && $item) {
+                    $this->game->updateItemsHash();
+                    // Изменяем статус предмета и возвращаем результат
+                    return $this->game->changeStatusOfItem($isUsed, $itemId);
+                }
             }
             return [false, 4001];
         }
@@ -492,6 +500,26 @@ class App {
         return [false, 4001];
     }
 
+    function alreadyTeleported($params) {
+        $token = $params['token'];
+        if ($token) {
+            $userId = $this->user->getUserId($token);
+            if ($userId) {
+                return $this->game->alreadyTeleported($userId);
+            }
+            return [false, 4001];
+        }
+        return [false, 4001];
+    }
+
+    function setImmortal($params) {
+        $id = $_GET["id"];
+        $state = $_GET["state"];
+        $this->game->setGamerStatus($id, $state);
+            return [false, 4001];
+        return [false, 4001];
+    }
+
     function killInRadius($params) {
         $x = $_GET["x"];
         $y = $_GET["y"];
@@ -508,6 +536,26 @@ class App {
         return [false, 4001];
     }
 
+    function setVelocity($params) {
+        $id = $_GET["id"];
+        $velocity = $_GET["velocity"];
+        $this->game->setVelocity($id, $velocity);
+            return [false, 4001];
+        return [false, 4001];
+    }
+
+    function blockItem($params) {
+        $id = $_GET["id"];
+        $value = $_GET["value"];
+        return $this->game->changeStatusOfItem($value, $id);
+    }
+
+    function freezeGamer($params) {
+        $login = $_GET["login"];
+        $freeze = $_GET["freeze"];
+        return $this->game->freezeGamer($login, $freeze);
+    }
+
     function moveItem($params) {
         $x = $_GET["x"];
         $y = $_GET["y"];
@@ -515,5 +563,50 @@ class App {
         $this->game->moveItem($id, $x, $y);
             return [false, 4001];
         return [false, 4001];
+    }
+
+    function teleportGamer($params) {
+        $login = $_GET["login"];
+        $x = $_GET["x"];
+        $y = $_GET["y"];
+        return $this->game->teleportGamer($login, $x, $y);
+    }
+
+    function freezeItemByTime($params) {
+        $id = $_GET["id"];
+        $time = $_GET["time"] + microtime(true);
+
+        while(microtime(true) <= $time){
+            $this->game->changeStatusOfItem(0, $id);
+        }
+    }
+
+    function freezeGamerByTime($params) {
+        $login = $_GET["login"];
+        $time = $_GET["time"] + microtime(true);
+
+        while(microtime(true) <= $time){
+            $this->game->freezeGamer($login, 1);
+        }
+        $this->game->freezeGamer($login, 0);
+    }
+
+    function freezeItemsByTime($params) {
+        $time = $_GET["time"] + microtime(true);
+
+        while(microtime(true) <= $time){
+            $this->game->changeStatusOfItem(0, 1);
+            $this->game->changeStatusOfItem(0, 2);
+            $this->game->changeStatusOfItem(0, 3);
+            $this->game->changeStatusOfItem(0, 4);
+        }
+    }
+
+    function increaseScorePointsOfItem($params) {
+        $id = $_GET["id"];
+        $scorePoints = $_GET["scorePoints"];
+
+        return $this->game->increaseScorePointsOfItem($id, $scorePoints);
+
     }
 }
