@@ -6,14 +6,16 @@ require_once('modules/chat/Chat.php');
 require_once('modules/game/Game.php');
 
 //Объявление класса App с приватными свойствами для работы с базой данных, пользователями, чатом и игрой
-class App {
+class App
+{
     private $db;
     private $user;
     private $chat;
     private $game;
 
     //В конструкторе создаются экземпляры объектов для работы с базой данных, пользователями, чатом и игрой
-    function __construct() {
+    function __construct()
+    {
         $this->db = new DB();
         $this->user = new User($this->db);
         $this->chat = new Chat($this->db);
@@ -21,12 +23,14 @@ class App {
     }
 
     //Возвращает список пользователей, используя метод getUsers объекта $this->user
-    function getUsers() {
+    function getUsers()
+    {
         return $this->user->getUsers();
     }
 
     //Проверяет наличие необходимых параметров (логин, пароль, хэш) и вызывает метод login объекта $this->user
-    function login($params) {
+    function login($params)
+    {
         $login = $params['login'];
         $hashPass = $params['hashPass'];
         $rnd = $params['rnd'];
@@ -37,21 +41,23 @@ class App {
     }
 
     //Параметры этой функции передаются в ассоциативном массиве params.
-    function registration($params) {
+    function registration($params)
+    {
         $login = $params['login'];
         $hashPass = $params['hashPass'];
         $name = $params['name'];
         $surname = $params['surname'];
-        if($login && $name && $surname) {
+        if ($login && $name && $surname) {
             return $this->user->registration($login, $hashPass, $name, $surname);
         }
         return array(false, 2003);
     }
 
     //Если token имеет значение, вызывается метод logout объекта user с передачей token в качестве параметра. Возвращается результат этого вызова.
-    function logout($params) {
+    function logout($params)
+    {
         $token = $params['token'];
-        if($token){
+        if ($token) {
             return $this->user->logout($token);
         }
         return array(false, 4001);
@@ -59,7 +65,8 @@ class App {
 
     //Если token и message имеют значения, вызывается метод getUser объекта user с передачей token в качестве параметра.
     //Если пользователь существует, вызывается метод sendMessage объекта chat с передачей user->id и message в качестве параметров. Возвращается результат этого вызова.
-    function sendMessage($params) {
+    function sendMessage($params)
+    {
         $token = $params['token'];
         $message = $params['message'];
         if ($token && $message) {
@@ -74,7 +81,8 @@ class App {
 
     // Если token и hash имеют значения, вызывается метод getUser объекта user с передачей token в качестве параметра.
     //Если пользователь существует, вызывается метод getMessages объекта chat с передачей hash в качестве параметра. Возвращается результат этого вызова.
-    function getMessage($params) {
+    function getMessage($params)
+    {
         $token = $params['token'];
         $hash = $params['hash'];
 
@@ -88,13 +96,15 @@ class App {
     }
 
     //Функция getPersons возвращает результат вызова метода getPersons объекта game.
-    function getPersons() {
+    function getPersons()
+    {
         return $this->game->getPersons();
     }
 
     //Если token и personId имеют значения, вызывается метод getUser объекта user с передачей token в качестве параметра.
     //Если пользователь существует, вызывается метод choosePerson объекта game с передачей user->id и personId в качестве параметров. Возвращается результат этого вызова
-    function chooseSkin($params) {
+    function chooseSkin($params)
+    {
         $token = $params['token'];
         $skinId = $params['skinId'];
         if ($token && $skinId) {
@@ -107,7 +117,8 @@ class App {
         return [false, 1002];
     }
 
-    function setSkin($params) {
+    function setSkin($params)
+    {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
@@ -120,7 +131,8 @@ class App {
     }
 
     //Функция принимает массив параметров $params
-    function changeScore($params) {
+    function changeScore($params)
+    {
         //Получаем значения $points и $token из массива $params
         $points = $params['points'];
         $token = $params['token'];
@@ -137,7 +149,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function changeTiredness($params) {
+    function changeTiredness($params)
+    {
         $points = $params['points'];
         $token = $params['token'];
         //Вызываем метод changeHealth из объекта $this->game, передавая идентификатор пользователя и количество очков здоровья
@@ -152,12 +165,14 @@ class App {
     }
 
     //Функция просто вызывает метод getItems из объекта $this->game и возвращает его результат
-    function getItems() {
+    function getItems()
+    {
         return $this->game->getItems();
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function changeChatHash($params) {
+    function changeChatHash($params)
+    {
         $token = $params['token'];
         if ($token) {
             //Вызываем метод changeChatHash из объекта $this->chat
@@ -170,7 +185,8 @@ class App {
         return [false, 1002];
     }
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function changeGamerHash($params) {
+    function changeGamerHash($params)
+    {
         $token = $params['token'];
         if ($token) {
             //Вызываем метод changeGamerHash из объекта $this->game
@@ -184,7 +200,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function changeItemsHash($params) {
+    function changeItemsHash($params)
+    {
         $token = $params['token'];
         if ($token) {
             //Вызываем метод changeItemsHash из объекта $this->game
@@ -198,7 +215,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function getChatHash($params) {
+    function getChatHash($params)
+    {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
@@ -210,7 +228,8 @@ class App {
         return [false, 1002];
     }
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function getItemsHash($params) {
+    function getItemsHash($params)
+    {
         $token = $params['token'];
         //Вызываем метод getItemsHash из объекта $this->game
         if ($token) {
@@ -224,7 +243,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function setPersonPosition($params) {
+    function setPersonPosition($params)
+    {
         $token = $params['token'];
         $x = $params['x'];
         $y = $params['y'];
@@ -234,7 +254,7 @@ class App {
                 //Вызываем метод updateGameHash из объекта $this->game
                 $this->game->updateGameHash();
                 //Вызываем метод setPersonPosition из объекта $this->game, передавая идентификатор пользователя
-                return $this->game->setPersonPosition($user->id ,$x, $y);
+                return $this->game->setPersonPosition($user->id, $x, $y);
             }
             return [false, 4001];
         }
@@ -242,7 +262,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function setGamerStatus($params) {
+    function setGamerStatus($params)
+    {
         $token = $params['token'];
         $statusId = $params['statusId'];
         if ($token) {
@@ -257,7 +278,8 @@ class App {
     }
 
     //Получаем пользователя по токену, используя метод getUser из объекта $this->user
-    function getScene($params) {
+    function getScene($params)
+    {
         $token = $params['token'];
         $gamersHash = $params['gamersHash'];
         $itemsHash = $params['itemsHash'];
@@ -273,7 +295,8 @@ class App {
     }
 
     // Функция уменьшает усталость пользователя
-    function decreaseTiredness($params) {
+    function decreaseTiredness($params)
+    {
         $token = $params['token'];
         // Если токен существует
         if ($token) {
@@ -288,7 +311,8 @@ class App {
     }
 
     // Функция увеличивает усталость пользователя
-    function increaseTiredness($params) {
+    function increaseTiredness($params)
+    {
         $token = $params['token'];
         $points = $params['points'];
         if ($token) {
@@ -297,7 +321,7 @@ class App {
             if ($user) {
                 // Увеличиваем усталость пользователя на заданное количество очков и возвращаем результат
                 $gamer = $this->game->getGamerById($user->id);
-                if($gamer->status == 3)
+                if ($gamer->status == 3)
                     return $this->game->increaseTiredness($user->id, 0);
                 else
                     return $this->game->increaseTiredness($user->id, $points);
@@ -308,7 +332,8 @@ class App {
     }
 
     // Функция получает значение усталости пользователя
-    function getTiredness($params) {
+    function getTiredness($params)
+    {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
@@ -322,7 +347,8 @@ class App {
     }
 
     // Функция getScore принимает параметры и возвращает счет пользователя по его идентификатору
-    function getScore($params) {
+    function getScore($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользоватль найден, возвращается его счет. Если пользователя не найдено, возвращается ошибка с кодом 4001.
@@ -336,7 +362,8 @@ class App {
     }
 
     // Функция getStatusOfItem принимает параметры, включая токен и идентификатор предмета.
-    function getStatusOfItem($params) {
+    function getStatusOfItem($params)
+    {
         $token = $params['token'];
         $itemId = $params['itemId'];
         if ($token) {
@@ -344,7 +371,7 @@ class App {
             $user = $this->user->getUser($token);
             if ($user) {
                 $status = $this->game->getStatusOfItem($itemId);
-                if($status == 2)
+                if ($status == 2)
                     return 0;
                 else
                     return $status;
@@ -355,7 +382,8 @@ class App {
     }
 
     // Функция изменяет статус предмета
-    function changeStatusOfItem($params) {
+    function changeStatusOfItem($params)
+    {
         $token = $params['token'];
         $isUsed = $params['isUsed'];
         $itemId = $params['itemId'];
@@ -378,7 +406,8 @@ class App {
     }
 
     // Функция getStatusAllItems принимает параметры и возвращает состояние всех предметов.
-    function getStatusAllItems($params) {
+    function getStatusAllItems($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, возвращается состояние всех предметов. Если пользователя не найдено, возвращается ошибка с кодом 4001.
@@ -392,7 +421,8 @@ class App {
     }
 
     // Функция setBestGamers принимает параметры, включая токен и количество очков.
-    function setBestGamers($params) {
+    function setBestGamers($params)
+    {
         $token = $params['token'];
         $points = $params['score'];
         if ($token && $points) {
@@ -407,7 +437,8 @@ class App {
     }
 
     // Функция setInitialStateGamer принимает параметры, включая токен.
-    function setInitialStateGamer($params) {
+    function setInitialStateGamer($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, его начальное состояние игрока обновляется. Если пользователя не найдено, возвращается ошибка с кодом 4001.
@@ -421,7 +452,8 @@ class App {
     }
 
     // Функция getBestGamers принимает параметры и возвращает лучших игроков.
-    function getBestGamers($params) {
+    function getBestGamers($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, возвращается список лучших игроков. Если пользователя не найдено, возвращается ошибка с кодом 4001.
@@ -435,7 +467,8 @@ class App {
     }
 
     // Функция getGamers принимает параметры и возвращает всех игроков.
-    function getGamers($params) {
+    function getGamers($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
@@ -448,7 +481,8 @@ class App {
         return [false, 4001];
     }
 
-    function getUserVelocity($params) {
+    function getUserVelocity($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
@@ -461,7 +495,8 @@ class App {
         return [false, 4001];
     }
 
-    function isUserFreeze($params) {
+    function isUserFreeze($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
@@ -474,7 +509,8 @@ class App {
         return [false, 4001];
     }
 
-    function getPersonPosition($params) {
+    function getPersonPosition($params)
+    {
         $token = $params['token'];
         if ($token) {
             $user = $this->user->getUser($token);
@@ -487,7 +523,8 @@ class App {
         return [false, 1002];
     }
 
-    function isTeleported($params) {
+    function isTeleported($params)
+    {
         $token = $params['token'];
         if ($token) {
             // Если пользователь найден, вызывается метод getGamers объекта game, передавая ему токен пользователя.
@@ -500,7 +537,8 @@ class App {
         return [false, 4001];
     }
 
-    function alreadyTeleported($params) {
+    function alreadyTeleported($params)
+    {
         $token = $params['token'];
         if ($token) {
             $userId = $this->user->getUserId($token);
@@ -512,22 +550,24 @@ class App {
         return [false, 4001];
     }
 
-    function setImmortal($params) {
+    function setImmortal($params)
+    {
         $id = $_GET["id"];
         $state = $_GET["state"];
         $this->game->setGamerStatus($id, $state);
-            return [false, 4001];
+        return [false, 4001];
         return [false, 4001];
     }
 
-    function killInRadius($params) {
+    function killInRadius($params)
+    {
         $x = $_GET["x"];
         $y = $_GET["y"];
         $r = $_GET["r"];
         $gamers = $this->game->getAllGamers();
         if ($gamers) {
             for ($i = 0; $i < count($gamers); $i++) {
-                if(sqrt(($gamers[$i]['x'] - $x) * ($gamers[$i]['x'] - $x) + ($gamers[$i]['y'] - $y)*($gamers[$i]['y'] - $y)) < $r){
+                if (sqrt(($gamers[$i]['x'] - $x) * ($gamers[$i]['x'] - $x) + ($gamers[$i]['y'] - $y) * ($gamers[$i]['y'] - $y)) < $r) {
                     $this->game->increaseTiredness($gamers[$i]['user_id'], 4000);
                 }
             }
@@ -536,65 +576,73 @@ class App {
         return [false, 4001];
     }
 
-    function setVelocity($params) {
+    function setVelocity($params)
+    {
         $id = $_GET["id"];
         $velocity = $_GET["velocity"];
         $this->game->setVelocity($id, $velocity);
-            return [false, 4001];
+        return [false, 4001];
         return [false, 4001];
     }
 
-    function blockItem($params) {
+    function blockItem($params)
+    {
         $id = $_GET["id"];
         $value = $_GET["value"];
         return $this->game->changeStatusOfItem($value, $id);
     }
 
-    function freezeGamer($params) {
+    function freezeGamer($params)
+    {
         $login = $_GET["login"];
         $freeze = $_GET["freeze"];
         return $this->game->freezeGamer($login, $freeze);
     }
 
-    function moveItem($params) {
+    function moveItem($params)
+    {
         $x = $_GET["x"];
         $y = $_GET["y"];
         $id = $_GET["id"];
         $this->game->moveItem($id, $x, $y);
-            return [false, 4001];
+        return [false, 4001];
         return [false, 4001];
     }
 
-    function teleportGamer($params) {
+    function teleportGamer($params)
+    {
         $login = $_GET["login"];
         $x = $_GET["x"];
         $y = $_GET["y"];
         return $this->game->teleportGamer($login, $x, $y);
     }
 
-    function freezeItemByTime($params) {
+    function freezeItemByTime($params)
+    {
         $id = $_GET["id"];
         $time = $_GET["time"] + microtime(true);
 
-        while(microtime(true) <= $time){
+        while (microtime(true) <= $time) {
             $this->game->changeStatusOfItem(0, $id);
         }
     }
 
-    function freezeGamerByTime($params) {
+    function freezeGamerByTime($params)
+    {
         $login = $_GET["login"];
         $time = $_GET["time"] + microtime(true);
 
-        while(microtime(true) <= $time){
+        while (microtime(true) <= $time) {
             $this->game->freezeGamer($login, 1);
         }
         $this->game->freezeGamer($login, 0);
     }
 
-    function freezeItemsByTime($params) {
+    function freezeItemsByTime($params)
+    {
         $time = $_GET["time"] + microtime(true);
 
-        while(microtime(true) <= $time){
+        while (microtime(true) <= $time) {
             $this->game->changeStatusOfItem(0, 1);
             $this->game->changeStatusOfItem(0, 2);
             $this->game->changeStatusOfItem(0, 3);
@@ -602,11 +650,31 @@ class App {
         }
     }
 
-    function increaseScorePointsOfItem($params) {
+    function increaseScorePointsOfItem($params)
+    {
         $id = $_GET["id"];
         $scorePoints = $_GET["scorePoints"];
 
         return $this->game->increaseScorePointsOfItem($id, $scorePoints);
+    }
 
+    function shuffleItems($params)
+    {
+
+
+        $numbers = [1 => 1, 2 => 2, 3 => 3, 4 => 4];
+
+        shuffle($numbers);
+
+        $items = $this->game->getItems();
+        for ($i = 0; $i <= 3; $i++) {
+            $this->game->moveItem($i + 1, $items[$numbers[$i] - 1]['x'], $items[$numbers[$i] - 1]['y']);
+        }
+        echo("1 - ".$numbers[0]);
+        echo("2 - ".$numbers[1]);
+        echo("3 - ".$numbers[2]);
+        echo("4 - ".$numbers[3]);
+
+        return 0;
     }
 }

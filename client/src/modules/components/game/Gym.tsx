@@ -46,7 +46,8 @@ const Gym = ({ changePlace, userToken }: { changePlace: (param: string) => void,
         let status = await server.getItemStatus(token, value[2]);
         if (status == 1) {
             await server.training(token, value[0]);
-            await server.increaseTiredness(token, value[1]);
+            let extra = await server.getExtraTiredness(token);
+            await server.increaseTiredness(token, value[1] + 0);
         }
     }
 

@@ -178,4 +178,8 @@ export default class Server {
     async alreadyTeleported(token: string) {
         return await this.request('alreadyTeleported', { token });
     }
+
+    async getExtraTiredness(token: string) {
+        return await this.request<number>('getExtraTiredness', { token });
+    }
 }

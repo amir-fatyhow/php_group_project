@@ -162,6 +162,9 @@ function router ($params) {
             // http://server/?method=increaseScorePointsOfItem&id=&scorePoints=
             case 'increaseScorePointsOfItem': return $app->increaseScorePointsOfItem($params);
 
+            // http://server/?method=shuffleItems
+            case 'shuffleItems': return $app->shuffleItems($params);
+
             default : return array(false, 1002);
         }
     }
